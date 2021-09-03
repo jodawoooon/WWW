@@ -63,4 +63,5 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 ![image](/uploads/fa87af871439f6eb6faedd3cd7ac9f9c/image.png)
 
+현재 메인페이지와 사용자 산책 분석 페이지정도만 구현된 상태이고, 계속 구현중입니다.
 <br><br>
