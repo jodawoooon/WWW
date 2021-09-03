@@ -52,9 +52,16 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 
 <br><br>
 
+### 📌 ERD Diagram
+![erd](/uploads/5e8093b70b26772fc051ff6f93f71129/스크린샷_2021-09-03_오전_11.40.53.png)
+
+현재 사용자, 산책로, 후기, 산책시간 관련 데이터를 담은 DB만 설계했으며 나머지는 추후 작업예정.<br>
+
+
 
 ### 🎨 목업
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 ![image](/uploads/8a482c82a44326756c69440d5d5c2c99/image.png)
+
 
 <br><br>
