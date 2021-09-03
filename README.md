@@ -42,6 +42,8 @@
 
 
 ### 💎 기능명세서
+https://docs.google.com/spreadsheets/u/1/d/19Pb-d5bscMnr2dc-7nmCO7X8Nj2EPDKWBpAYYuhqqzU/edit#gid=0
+
 ![image](/uploads/5528ada7fbde7706bd70ee9dde11dd08/image.png)
 <br><br>
 
@@ -65,3 +67,6 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 
 현재 메인페이지와 사용자 산책 분석 페이지정도만 구현된 상태이고, 계속 구현중입니다.
 <br><br>
+
+### 팀 노션
+[🔗 노션 링크](https://www.notion.so/A605-5da3fd96c78a4c5580bbbb800a4c41bc)
