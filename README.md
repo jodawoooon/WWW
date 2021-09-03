@@ -20,43 +20,41 @@
 <br><br>
 
 ## 💡 프로젝트 소개
+### 프로젝트 명 : 산책 메이트 (가제)
+혼자 산책하는 당신의 친구가 되어드릴게요!
+오늘부터 산책 메이트(가제)와 함께 걸어보세요 🏃‍🏃‍
 
+
+
+### 🔔 타겟 및 목표
+#### 서비스 타겟 : 
+- 혼자 산책하는 사람
+- 색다른 산책 코스를 찾고 싶은 사람
+- 산책 기록을 정리해서 관리하고 싶은 사람
 <br>
+
+#### 서비스 목표 :
+- 산책로 정보 제공
+- 사용자 산책 기록 관리 및 분석
+
+<br><br>
+
 
 
 ### 💎 기능명세서
-
-<br>
+![image](/uploads/5528ada7fbde7706bd70ee9dde11dd08/image.png)
+<br><br>
 
 ### 📖 와이어프레임
 figma.com/file/A3bdz10b9lIgVysqhM6w07/산책?node-id=0%3A1
 
 ![image](/uploads/a000c423df7df284a3211ea4f8191dd8/image.png)
-<br>
+
+<br><br>
 
 
 ### 🎨 목업
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 ![image](/uploads/8a482c82a44326756c69440d5d5c2c99/image.png)
-<br>
 
-
-### 🔔 타겟 및 목표
-
-<br>
-
-### 💻 개발 환경
-
-<br>
-
-### 🔨 기술 스택
-
-<br>
-
-### 🎈 서버 아키텍처
-
-<br>
-
-### 🔍 ERD
-
-<br>
+<br><br>
