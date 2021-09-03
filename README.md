@@ -24,17 +24,19 @@
 <br>
 
 
-
-### 📖 와이어프레임
-![image](/uploads/a000c423df7df284a3211ea4f8191dd8/image.png)
-<br>
-
 ### 💎 기능명세서
 
 <br>
 
+### 📖 와이어프레임
+figma.com/file/A3bdz10b9lIgVysqhM6w07/산책?node-id=0%3A1
+
+![image](/uploads/a000c423df7df284a3211ea4f8191dd8/image.png)
+<br>
+
 
 ### 🎨 목업
+https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 ![image](/uploads/8a482c82a44326756c69440d5d5c2c99/image.png)
 <br>
 
