@@ -24,7 +24,7 @@
 혼자 산책하는 당신의 친구가 되어드릴게요!
 오늘부터 산책 메이트(가제)와 함께 걸어보세요 🏃‍🏃‍
 
-
+<br>
 
 ### 🔔 타겟 및 목표
 #### 서비스 타겟 : 
@@ -46,7 +46,7 @@
 <br><br>
 
 ### 📖 와이어프레임
-figma.com/file/A3bdz10b9lIgVysqhM6w07/산책?node-id=0%3A1
+https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 
 ![image](/uploads/a000c423df7df284a3211ea4f8191dd8/image.png)
 
