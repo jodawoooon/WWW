@@ -61,7 +61,6 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 
 ### 🎨 목업
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
-![image](/uploads/8a482c82a44326756c69440d5d5c2c99/image.png)
-
+![image](/uploads/fa87af871439f6eb6faedd3cd7ac9f9c/image.png)
 
 <br><br>
