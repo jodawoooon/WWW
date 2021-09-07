@@ -40,18 +40,25 @@ public class Course {
 
     @Column(length = 50)
     private String level;
+
     @Column(length = 50)
     private String time;
+
     @Column(length = 50)
-    private String option;
+    private String courseOption;
+
     @Column(length = 50)
     private String toilet;
+
     @Column(length = 50)
     private String conveient;
+
     @Column
     private float latitude;
+
     @Column
     private float lontutude;
+
     @Column(length = 50)
     private String address;
 
