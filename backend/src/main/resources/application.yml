@@ -1,5 +1,54 @@
+
+build:
+  date: '@build.date@'
+
+pringfox:
+  documentation:
+    swagger:
+      use-model-v3: false
+
+http-server:
+  http:
+    port: 8080
+
+spa:
+  default-file: /dist/index.html
+
+
 spring:
+  oauth2:
+
   data:
     web:
       pageable:
         one-indexed-parameters: true
+
+  devtools:
+    livereload:
+      enabled: true
+
+  jpa:
+    show-sql : true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql : true
+        format_sql : true
+        use_sql_comment: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  resources:
+    add-mappings: false
+    static-locations: classpath:/dist/
+
+  datasource:
+    include:
+      - db
+>>>>>>> feat-1/config
