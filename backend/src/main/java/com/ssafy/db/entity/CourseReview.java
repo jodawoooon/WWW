@@ -1,40 +1,36 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.key.CommonKey;
+import com.ssafy.db.BaseTimeEntity;
+import com.ssafy.db.key.CoursePK;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@IdClass(CoursePK.class)
 @Table(name="course_review")
-@IdClass(CommonKey.class)
-public class CourseReview {
+public class CourseReview extends BaseTimeEntity {
 
     @Id
-    private String userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Id
     private String courseId;
 
-
     @Column
     private int score;
-
-    @Column
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
-
 
 }

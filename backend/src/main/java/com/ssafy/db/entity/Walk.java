@@ -1,7 +1,9 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.key.WalkKey;
+import com.ssafy.db.BaseTimeEntity;
+import com.ssafy.db.key.CoursePK;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -9,23 +11,24 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@IdClass(CoursePK.class)
 @Table(name="walk")
-@IdClass(WalkKey.class)
-public class Walk {
+public class Walk extends BaseTimeEntity {
 
     @Id
-    private int walkId;
-
-    @Id
-    private String userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Id
     private String courseId;
@@ -38,11 +41,5 @@ public class Walk {
 
     @Column
     private int calorie;
-
-    @Column
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
-
 
 }
