@@ -1,22 +1,21 @@
+buildscript {
+	ext {
+		queryDslVersion = "4.4.0"
+	}
+}
+
 plugins {
-	id 'org.springframework.boot' version '2.5.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-
-
-	//querydsl 추가
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id 'idea'
+	id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group = 'com.ssafy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+
 
 repositories {
 	mavenCentral()
@@ -28,34 +27,36 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
 
-	//querydsl 추가
-	implementation 'com.querydsl:querydsl-jpa'
+
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor(
+			"javax.persistence:javax.persistence-api",
+			"javax.annotation:javax.annotation-api",
+			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+
 }
 
-//querydsl 추가
-def querydslDir = 'src/main/generated'
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
+// QueryDSL
 sourceSets {
-	main.java.srcDir querydslDir
+	main {
+		java {
+			srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+		}
+	}
 }
-configurations {
-	querydsl.extendsFrom compileClasspath
-}
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
+
 
 test {
 	useJUnitPlatform()
