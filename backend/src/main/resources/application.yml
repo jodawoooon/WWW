@@ -16,6 +16,10 @@ spa:
 
 
 spring:
+  profiles:
+    include:
+      - db
+
   oauth2:
 
   data:
@@ -48,6 +52,3 @@ spring:
     add-mappings: false
     static-locations: classpath:/dist/
 
-  datasource:
-    include:
-      - db
