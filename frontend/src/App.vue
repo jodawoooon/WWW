@@ -63,7 +63,7 @@ export default {
   margin: 0 auto;
   position: fixed;
   bottom: 0;
-  background: #e1eedd;
+  background: #49AB76;
 }
 
 </style>
