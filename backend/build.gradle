@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
 	ext {
 		queryDslVersion = "4.4.0"
@@ -8,21 +10,77 @@ plugins {
 	id 'java'
 	id 'idea'
 	id 'org.springframework.boot' version '2.4.5'
+	id "com.github.node-gradle.node" version "3.1.0"
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
+
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url "https://repo.spring.io/release" }
+	maven { url "https://repo.maven.apache.org/maven2" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases" }
+}
+
+
 
 group = 'com.ssafy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 
-
-repositories {
-	mavenCentral()
+node {
+	download = true
+	version = '14.17.0'
+	// Set the work directory where node_modules should be located
+	nodeModulesDir = file("${project.projectDir}/../frontend")
 }
+
+
+configurations {
+	providedRuntime
+}
+
+task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+	args = ['run','build']
+}
+
+
+// processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
+processResources.dependsOn 'webpack'
+
+//set build time and inject value to application.properties
+def buildTime() {
+	def date = new Date()
+	def formattedDate = date.format('yyyyMMdd_HHmm')
+	return formattedDate
+}
+
+project.ext.set("build.date", buildTime())
+
+processResources {
+	with copySpec {
+		from "src/main/resources"
+		include "**/application*.yml"
+		include "**/application*.yaml"
+		include "**/application*.properties"
+		project.properties.findAll().each {
+			prop ->
+				if (prop.value != null) {
+					filter(ReplaceTokens, tokens: [(prop.key): String.valueOf(prop.value)])
+					filter(ReplaceTokens, tokens: [ ('project.' + prop.key): String.valueOf(prop.value)])
+					filter(ReplaceTokens, tokens: [ ('project.ext.' + prop.key): String.valueOf(prop.value)])
+				}
+		}
+	}
+}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
