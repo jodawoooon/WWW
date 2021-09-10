@@ -1,15 +1,21 @@
 <template>
     <footer>
         <div id="flex-container">
-      <router-link to="/main">home</router-link>
-      <router-link to="/feed">menu</router-link>
-      <router-link to="/user/mileage">savings</router-link>
-      <router-link :to="`/user/profile/${nickname}`">person</router-link>
+      <router-link to="/main"><i class="material-icons" style="font-size: 30px">home</i></router-link>
+      <router-link to="/course"><i class="material-icons" style="font-size: 30px">map</i></router-link>
+      <router-link to="/user/walk"><i class="material-icons" style="font-size: 30px"><span class="material-icons-outlined">
+insert_chart_outlined
+</span></i></router-link>
+      <router-link to="/login"><i class="material-icons" style="font-size: 30px"><span class="material-icons-outlined">
+card_giftcard
+</span></i></router-link>
     </div>
     </footer>
 </template>
 
 <script>
+
+
 export default {
     name: "Footer"
 }
@@ -21,14 +27,14 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  box-shadow: 0 0 20px -9px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 20px -9px rgba(245, 244, 244, 0.945);
   }
 
 #flex-container a {
   flex: auto;
   width: 20%;
   padding: 7px;
-  color: #a0a0a0;
+  color: #FFFFFF;
   text-align: center;
   font-size: small;
   text-decoration: none;
