@@ -8,7 +8,6 @@ import com.ssafy.db.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
@@ -71,7 +70,6 @@ public class UserRepositoryTest {
         // course_like 테이블의 외래키인 user_id로 조인 가능한지 테스트
         String userIdCheck = courseLikeCheck.get().getUser().getUserId();
         then(user.getUserId()).isEqualTo(userIdCheck);
-        System.out.println(userList.size() + "\n\n\n\n\n\n\n\n");
     }
 
 }
