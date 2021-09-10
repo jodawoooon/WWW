@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
+//DB table 수정 부탁
 @SpringBootTest
 public class UserRepositoryTest {
 
