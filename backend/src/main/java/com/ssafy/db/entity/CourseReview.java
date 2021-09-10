@@ -28,6 +28,7 @@ public class CourseReview extends BaseTimeEntity {
     private User user;
 
     @Id
+    @Column(length = 50, name = "course_id")
     private String courseId;
 
     @Column

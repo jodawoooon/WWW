@@ -21,11 +21,11 @@ import java.util.List;
 @Table(name="user")
 public class User {
     @Id
-    @Column(length = 50)
+    @Column(length = 50, name = "user_id")
     private String userId;
 
     @Column(length = 50)
-    private String nickName;
+    private String nickname;
 
     @Column(length = 50)
     private String name;

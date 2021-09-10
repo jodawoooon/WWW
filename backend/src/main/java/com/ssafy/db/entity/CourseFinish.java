@@ -29,6 +29,7 @@ public class CourseFinish extends BaseTimeEntity {
     private User user;
 
     @Id
+    @Column(length = 50, name = "course_id")
     private String courseId;
 
 }
