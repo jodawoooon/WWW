@@ -1,61 +1,106 @@
-plugins {
-	id 'org.springframework.boot' version '2.5.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+import org.apache.tools.ant.filters.ReplaceTokens
 
-
-	//querydsl 추가
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+buildscript {
+	ext {
+		queryDslVersion = "4.4.0"
+	}
 }
+
+plugins {
+	id 'java'
+	id 'idea'
+	id 'org.springframework.boot' version '2.4.5'
+	id "com.github.node-gradle.node" version "3.1.0"
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url "https://repo.spring.io/release" }
+	maven { url "https://repo.maven.apache.org/maven2" }
+	maven { url "https://build.shibboleth.net/nexus/content/repositories/releases" }
+}
+
+
 
 group = 'com.ssafy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+
+node {
+	download = true
+	version = '14.17.0'
+	// Set the work directory where node_modules should be located
+	nodeModulesDir = file("${project.projectDir}/../frontend")
 }
 
-repositories {
-	mavenCentral()
+
+configurations {
+	providedRuntime
 }
+
+task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+	args = ['run','build']
+}
+
+
+// processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
+processResources.dependsOn 'webpack'
+
+//set build time and inject value to application.properties
+def buildTime() {
+	def date = new Date()
+	def formattedDate = date.format('yyyyMMdd_HHmm')
+	return formattedDate
+}
+
+project.ext.set("build.date", buildTime())
+
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	implementation("io.springfox:springfox-swagger2:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("io.springfox:springfox-data-rest:3.0.0")
+	implementation("io.springfox:springfox-bean-validators:3.0.0")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
 
-	//querydsl 추가
-	implementation 'com.querydsl:querydsl-jpa'
+	// Redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// QueryDSL
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	annotationProcessor(
+			"javax.persistence:javax.persistence-api",
+			"javax.annotation:javax.annotation-api",
+			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+
 }
 
-//querydsl 추가
-def querydslDir = 'src/main/generated'
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
+// QueryDSL
 sourceSets {
-	main.java.srcDir querydslDir
+	main {
+		java {
+			srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+		}
+	}
 }
-configurations {
-	querydsl.extendsFrom compileClasspath
-}
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
+
 
 test {
 	useJUnitPlatform()
