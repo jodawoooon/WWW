@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 public class WalkServerApplication {
 
 	public static void main(String[] args) {
+		System.out.println("imjihyeon");
 		SpringApplication.run(WalkServerApplication.class, args);
 	}
 	@Bean
