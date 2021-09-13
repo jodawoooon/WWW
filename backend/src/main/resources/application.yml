@@ -22,6 +22,12 @@ spring:
 
   oauth2:
 
+  hadoop:
+    fsUri: hdfs://cluster2.p.ssafy.io:8999
+
+  datasource:
+    hive
+
   data:
     web:
       pageable:
