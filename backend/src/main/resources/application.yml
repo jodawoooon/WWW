@@ -9,7 +9,7 @@ pringfox:
 
 http-server:
   http:
-    port: 8081
+    port: 8088
 
 spa:
   default-file: /dist/index.html
