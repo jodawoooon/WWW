@@ -27,7 +27,7 @@ public class MainServiceImpl implements MainService {
     public boolean finishRecord(){
         return false;
     }
-//test for build
+    //test for build2
     @Override
     public List<String> getRecommendList(){
         return null;
