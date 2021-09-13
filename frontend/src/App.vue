@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <div id="app-wrap">
-      <navBar id="navBar"/>
+      <navBar id="navBar" />
       <router-view />
-      <Footer id="footer"/>
+      <Footer id="footer" />
     </div>
-    
   </div>
 </template>
 
@@ -14,13 +13,13 @@ import navBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     navBar,
-    Footer
-  }
-}
+    Footer,
+  },
+};
 </script>
 
 <style>
@@ -44,7 +43,7 @@ export default {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-#navBar{
+#navBar {
   position: fixed;
   width: 100%;
   max-width: 425px;
@@ -63,7 +62,6 @@ export default {
   margin: 0 auto;
   position: fixed;
   bottom: 0;
-  background: #49AB76;
+  background: #e1eedd;
 }
-
 </style>
