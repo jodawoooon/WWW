@@ -5,7 +5,7 @@
                 <span>다운님</span>
             </div>
             <div class="comment">
-                <span>OOO</span> <span>과 함께 산책해보세요</span>
+                <span>OOO1</span> <span>과 함께 산책해보세요</span>
             </div>
         </div>
     </div>
