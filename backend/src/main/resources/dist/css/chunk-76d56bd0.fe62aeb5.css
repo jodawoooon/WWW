@@ -1,0 +1,1 @@
+.main-greeting{position:fixed;width:100%;max-width:425px;left:0;right:0;margin:0 auto;height:150px;padding:10px 25px 50px;text-align:left;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-evenly}.main-greeting .nickname span{font-family:GongGothicBold;font-size:1.8em}.main-greeting .comment{font-size:1.2em}
