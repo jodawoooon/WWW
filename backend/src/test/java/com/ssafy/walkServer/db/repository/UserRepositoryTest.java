@@ -1,16 +1,21 @@
 package com.ssafy.walkServer.db.repository;
 
+import com.querydsl.core.Tuple;
 import com.ssafy.db.entity.CourseLike;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.key.CoursePK;
 import com.ssafy.db.repository.CourseLikeRepository;
 import com.ssafy.db.repository.UserRepository;
+import com.ssafy.db.repository.WalkQueryRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +29,9 @@ public class UserRepositoryTest {
 
     @Autowired
     private CourseLikeRepository courseLikeRepository;
+
+    @Autowired
+    private WalkQueryRepository walkQueryRepository;
 
     @AfterEach
     public void cleanup() {
@@ -59,17 +67,37 @@ public class UserRepositoryTest {
         then(userId).isEqualTo(user.getUserId());
 
         // 외래키인 userId 컬럼은 User 객체를 사용
-        CourseLike courseLike = new CourseLike();
-        courseLike.setCourseId("테스트 코스");
-        courseLike.setUser(user);
+        // 코스 좋아요 정보 20개 삽입
+        List<CourseLike> saveCourseLikeList = new ArrayList<>();
+        for (int i=1; i<=20; i++) {
+            CourseLike courseLike = new CourseLike();
+            courseLike.setCourseId("테스트 코스"+i);
+            courseLike.setUser(user);
+            saveCourseLikeList.add(courseLike);
+        }
 
-        courseLikeRepository.save(courseLike);
-        CoursePK id = new CoursePK(user.getUserId(), "테스트 코스");
+        courseLikeRepository.saveAll(saveCourseLikeList);
+        CoursePK id = new CoursePK(user.getUserId(), "테스트 코스1");
         Optional<CourseLike> courseLikeCheck = courseLikeRepository.findById(id);
 
         // course_like 테이블의 외래키인 user_id로 조인 가능한지 테스트
         String userIdCheck = courseLikeCheck.get().getUser().getUserId();
         then(user.getUserId()).isEqualTo(userIdCheck);
+
+        // course_like 테이블의 count 조회 테스트
+        int likes = courseLikeRepository.countByCourseId(saveCourseLikeList.get(0).getCourseId());
+        then(1).isEqualTo(likes);
+
+        // course_like 테이블 사용자 기준 조회
+        int page = 1; int size = 10;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<CourseLike> courseLikePage = courseLikeRepository.findByUserOrderByCourseId(user, pageRequest);
+//        System.out.println(courseLikePage.getPageable());
+//        System.out.println(courseLikePage.getContent());
+
+        // 걸은 거리 기준 유저 랭킹 3위까지 조회
+//        List<Tuple> walkRanking = walkQueryRepository.findTop3UserByDistance();
+//        System.out.println(walkRanking);
     }
 
 }
