@@ -3,6 +3,7 @@ package com.ssafy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,13 +11,10 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.nio.charset.Charset;
 
+@EnableJpaAuditing
 @CrossOrigin(origins = "*")
 @SpringBootApplication
 public class WalkServerApplication {
-
-	static {
-		System.setProperty("spring.config.location", "classpath:/application.yml,classpath:/application-db.yml");
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(WalkServerApplication.class, args);

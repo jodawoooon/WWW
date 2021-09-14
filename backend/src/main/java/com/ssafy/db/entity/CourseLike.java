@@ -1,9 +1,7 @@
 package com.ssafy.db.entity;
 
-import com.ssafy.db.entity.key.CommonKey;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.ssafy.db.key.CoursePK;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,17 +9,22 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@IdClass(CoursePK.class)
 @Table(name="course_like")
-@IdClass(CommonKey.class)
 public class CourseLike {
 
     @Id
-    private String userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Id
+    @Column(length = 50, name = "course_id")
     private String courseId;
+
 }
