@@ -15,7 +15,7 @@ public interface CourseFinishRepository extends JpaRepository<CourseFinish, Cour
     public List<CourseFinish> findByUser(User user);
 
     // (페이징) 사용자가 완주한 코스 전체 리스트
-    public Page<CourseFinish> findByUserOrderByCourseId(
+    public Page<CourseFinish> findByUserOrderByCourse(
             User user, Pageable pageable);
 
 }
