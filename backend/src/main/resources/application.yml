@@ -19,14 +19,13 @@ spring:
   redis:
     host: localhost
     port: 6379
+
   profiles:
     include:
       - db
 
   oauth2:
 
-  hadoop:
-    fsUri: hdfs://cluster2.p.ssafy.io:9000
 
   data:
     web:
@@ -57,4 +56,7 @@ spring:
   resources:
     add-mappings: false
     static-locations: classpath:/dist/
-
+hdfs:
+  configuration:
+    server: hdfs://cluster2.p.ssafy.io:9000
+    user: j5a605
