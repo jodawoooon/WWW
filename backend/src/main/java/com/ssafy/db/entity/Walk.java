@@ -31,11 +31,12 @@ public class Walk extends BaseTimeEntity {
     private User user;
 
     @Id
-    @Column(length = 50, name = "course_id")
-    private String courseId;
+    @ManyToOne(targetEntity = Course.class)
+    @JoinColumn(name="course_id")
+    private Course course;
 
     @Column
-    private float distance;
+    private double distance;
 
     @Column
     private int time;
