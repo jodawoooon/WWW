@@ -3,13 +3,13 @@ package com.ssafy.api.service;
 import com.ssafy.common.model.response.BaseResponseBody;
 
 public interface UserService {
-    public BaseResponseBody readUserInfo(int userId);
+    public BaseResponseBody readUserInfo(String userId);
 
-    public BaseResponseBody readRecentCourse(int userId);
+    public BaseResponseBody readRecentCourse(String userId);
 
-    public BaseResponseBody readWishCourse(int userId);
+    public BaseResponseBody readWishCourse(String userId);
 
-    public BaseResponseBody readTotalTime(int userId);
+    public BaseResponseBody readTotalTime(String userId);
 
-    public BaseResponseBody readTime(int userId, String date, String type);
+    public BaseResponseBody readTime(String userId, String type);
 }
