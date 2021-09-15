@@ -17,7 +17,7 @@ spa:
 
 spring:
   redis:
-    host: localhost
+    host: j5a605.p.ssafy.io
     port: 8000
   profiles:
     include:

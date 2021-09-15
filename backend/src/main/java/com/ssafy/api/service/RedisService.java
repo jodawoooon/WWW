@@ -11,6 +11,8 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 public class RedisService {
+    //public final static long TOKEN_VALIDATION_SECOND = 1000L * 10;
+    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;     // 2주
 
     private final RedisTemplate redisTemplate;
 
@@ -29,6 +31,7 @@ public class RedisService {
     }
 
     public void setDataExpire(String key,String value,long duration){
+        System.out.println("Redis start!");
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key,value,expireDuration);

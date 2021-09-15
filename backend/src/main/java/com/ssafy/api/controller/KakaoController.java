@@ -2,7 +2,10 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.KakaoAPI;
+import com.ssafy.api.service.RedisService;
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.Util.CookieUtil;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -14,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
+import static java.util.Objects.isNull;
+
 
 @CrossOrigin(origins={"*"}, maxAge=6000)
 @RestController
@@ -23,13 +28,37 @@ public class KakaoController {
     private KakaoAPI kakaoAPI;
     @Autowired
     UserService userService;
+    @Autowired
+    CookieUtil cookieUtil;
 
     @RequestMapping(value="/login")
     public ResponseEntity<UserLoginPostRes> login(@RequestParam("code") String code, HttpSession session) {
-        String access_Token = kakaoAPI.getAccessToken(code);
-        HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(access_Token);
+        HashMap<String,Object> Token = kakaoAPI.getAccessToken(code);
+        // Token 정보를 <String, 객체>로 생성
+        String accessToken = (String) Token.get("accessToken");
+        String refreshToken = (String) Token.get("refreshToken");
+        Long accessTokenExpire = Long.parseLong(Token.get("accessTokenExpire").toString());
+        Long refreshTokenExpire = Long.parseLong(Token.get("refreshTokenExpire").toString());
+
+        HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(accessToken);
 
         System.out.println("login Controller : " + userInfo);
+
+        // 해당 회원이 존재하는지 확인
+        String userId = (String) userInfo.get("userId");
+        User user = userService.getUserId(userId);
+
+        // 회원가입이 되어있는 경우
+        if(!isNull(user)){
+            // 쿠키로 할 경우
+            //Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
+            //Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
+            session.setAttribute("userId", userInfo.get("userId"));
+            session.setAttribute("access_Token", accessToken);
+            return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
+        }
+        // 없는 경우 유저 생성
+        userService.createUser(Token,userInfo);
 
         return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", userInfo));
     }

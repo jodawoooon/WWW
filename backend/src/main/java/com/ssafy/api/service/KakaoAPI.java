@@ -17,9 +17,11 @@ public class KakaoAPI {
     @Autowired
     RedisService redisService;
 
-    public String getAccessToken(String authorize_code){
+    public HashMap<String, Object> getAccessToken(String authorize_code){
         String access_Token = "";
         String refresh_Token = "";
+        String access_Token_expire = "";
+        String refresh_Token_expire = "";
 
         HashMap<String, Object> Token = new HashMap<>();
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -37,7 +39,7 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=1e31c0b3e807829e950f0236c26efec6");
-            sb.append("&redirect_uri=http://localhost:8080/kakao/login");
+            sb.append("&redirect_uri=http://localhost:8080/api/kakao/login");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -62,16 +64,20 @@ public class KakaoAPI {
 
             access_Token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            access_Token_expire = element.getAsJsonObject().get("expires_in").getAsString();
+            refresh_Token_expire = element.getAsJsonObject().get("refresh_token_expires_in").getAsString();
 
             Token.put("accessToken",access_Token);
             Token.put("refreshToken",refresh_Token);
+            Token.put("accessTokenExpire",access_Token_expire);
+            Token.put("refreshTokenExpire",refresh_Token_expire);
 
             br.close();
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return access_Token;
+        return Token;
     }
 
     // UserInfo를 받아오는 메소드(userId, email)

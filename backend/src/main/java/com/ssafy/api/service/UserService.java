@@ -8,7 +8,7 @@ import java.util.HashMap;
 public interface UserService {
     User getUserId(String userId);
 
-    User createUser(String accessToken, String refreshToken, HashMap<String,Object> userInfo);
+    User createUser(HashMap<String,Object> Token, HashMap<String,Object> userInfo);
 
 
     public BaseResponseBody readUserInfo(int userId);
