@@ -77,8 +77,7 @@ public class KakaoController {
             return ResponseEntity.ok("토큰이 유효하지 않습니다.");
         }
         kakaoAPI.Logout(access_Token);
-        session.removeAttribute("access_Token");
-        session.removeAttribute("userId");
+        session.invalidate();
         return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 
