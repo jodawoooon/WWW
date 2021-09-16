@@ -10,6 +10,8 @@ public class HdfsConfig {
     @Value("${hdfs.configuration.server}") String hdfsServer;
     @Value("${hdfs.configuration.user}") String hdfsUser;
 
+
+
     @Bean
     public org.apache.hadoop.conf.Configuration config(){
         System.setProperty("HADOOP_USER_NAME", hdfsUser);
