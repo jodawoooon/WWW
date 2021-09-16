@@ -91,6 +91,10 @@ dependencies {
 
 	// H2 Database
 	runtimeOnly 'com.h2database:h2:1.4.197'
+
+	// Jsoup
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
+
 }
 
 // QueryDSL
