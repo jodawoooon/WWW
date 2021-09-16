@@ -5,7 +5,7 @@ import VueRouter from "vue-router";
 import Main from "@/views/Main";
 
 // 코스 정보
-import CourseList from "@/views/course/CourseList";
+import Course from "@/views/course/Course";
 
 // 유저 산책 정보
 import MyWalk from "@/views/user/Walk";
@@ -23,7 +23,7 @@ const routes = [
   {path: '/main', name: 'Main', component: Main},
 
   // 동네 코스 목록
-  {path : '/course', component : CourseList},
+  {path : '/course', component : Course},
 
   // 나의 산책 분석
   {path : '/user/walk', component : MyWalk},
