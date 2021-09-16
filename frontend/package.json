@@ -34,4 +34,5 @@
     "prettier": "^2.2.1",
     "vue-template-compiler": "^2.6.11"
   }
+
 }
