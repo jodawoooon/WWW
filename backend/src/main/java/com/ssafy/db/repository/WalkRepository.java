@@ -26,7 +26,6 @@ public interface WalkRepository extends JpaRepository<Walk, CoursePK> {
 
     // 오늘날짜 코스별 걸은 기록 개수 조회
     // 추후 동적 쿼리로 변경 예정
-    public int countByCourseIdAndDateAfter(String courseId, LocalDateTime today);
 
     public List<Walk> findByUserAndDateAfter(User user, LocalDateTime today);
 

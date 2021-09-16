@@ -1,9 +1,7 @@
-package com.ssafy.common.model.response.user;
+package com.ssafy.api.response.user;
 
 import com.ssafy.common.model.response.BaseResponseBody;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class UserResponseBody extends BaseResponseBody {

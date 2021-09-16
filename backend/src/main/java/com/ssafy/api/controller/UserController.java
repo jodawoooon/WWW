@@ -25,17 +25,14 @@ public class UserController {
     //recent course list
     @GetMapping("/mypage/recent")
     public ResponseEntity<BaseResponseBody> readRecentCourse(@RequestParam String userId){
-        userService.readRecentCourse(userId);
 
-        return null;
+        return new ResponseEntity<BaseResponseBody>(userService.readRecentCourse(userId), HttpStatus.OK);
     }
 
     //wish course list
     @GetMapping("/mypage/wish")
     public ResponseEntity<BaseResponseBody> readWishCourse(@RequestParam String userId){
-        userService.readWishCourse(userId);
-
-        return null;
+        return new ResponseEntity<BaseResponseBody>(userService.readWishCourse(userId), HttpStatus.OK);
     }
 
     //total time

@@ -1,14 +1,11 @@
 package com.ssafy.api.service;
 
+import com.querydsl.core.Tuple;
+import com.ssafy.api.response.user.*;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.common.model.response.user.TimeResponseBody;
-import com.ssafy.common.model.response.user.TotalTimeResponseBody;
-import com.ssafy.common.model.response.user.UserResponseBody;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.Walk;
-import com.ssafy.db.repository.UserRepository;
-import com.ssafy.db.repository.WalkQueryRepository;
-import com.ssafy.db.repository.WalkRepository;
+import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +26,16 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CourseLikeQueryRepository courseLikeQueryRepository;
+
+    @Autowired
+    CourseQueryRepository courseQueryRepository;
+
+    @Autowired
+    CourseReviewQueryRepository courseReviewQueryRepository;
+
 
     @Override
     public BaseResponseBody readUserInfo(String userId) {
@@ -74,13 +81,74 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public BaseResponseBody readRecentCourse(String userId) {
-        return null;
+
+        List<Tuple> result = courseQueryRepository.findRecentList(userId);
+        CourseResponseBody courseResponseBody = new CourseResponseBody();
+
+        try {
+            courseResponseBody.setMessage("OK");
+            courseResponseBody.setStatusCode(200);
+
+            for (Tuple t : result) {
+
+                List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
+                double score;
+                System.out.println(scoreL);
+                System.out.println(scoreL.get(0));
+                if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
+                    score=0;
+                }else{
+                    score=scoreL.get(0);
+                }
+
+                System.out.println(score);
+                System.out.println(t);
+
+                CourseBody courseBody = new CourseBody();
+                courseBody.setCourseId(t.get(0, Integer.class));
+                courseBody.setCourseName(t.get(1, String.class));
+                courseBody.setAddress(t.get(2, String.class));
+                courseBody.setCourseCnt(score);
+                courseBody.setCourseLength(t.get(3, Double.class));
+                courseResponseBody.getCourseList().add(courseBody);
+            }
+
+            return courseResponseBody;
+        }catch (Exception e){
+            e.printStackTrace();
+            courseResponseBody.setMessage("Not Found");
+            courseResponseBody.setStatusCode(404);
+            return courseResponseBody;
+        }
     }
 
     @Override
     public BaseResponseBody readWishCourse(String userId) {
 
-        return null;
+        List<Tuple> result = courseLikeQueryRepository.findWishList(userId);
+        CourseResponseBody courseResponseBody = new CourseResponseBody();
+        try {
+            courseResponseBody.setMessage("OK");
+            courseResponseBody.setStatusCode(200);
+            for (Tuple t : result) {
+                System.out.println(t);
+
+                CourseBody courseBody = new CourseBody();
+                courseBody.setCourseId(t.get(0, Integer.class));
+                courseBody.setCourseName(t.get(1, String.class));
+                courseBody.setAddress(t.get(2, String.class));
+                courseBody.setCourseCnt(0.0);
+                courseBody.setCourseLength(t.get(3, Double.class));
+                courseResponseBody.getCourseList().add(courseBody);
+            }
+
+            return courseResponseBody;
+        }catch (Exception e){
+            e.printStackTrace();
+            courseResponseBody.setMessage("Not Found");
+            courseResponseBody.setStatusCode(404);
+            return courseResponseBody;
+        }
     }
 
     @Override
