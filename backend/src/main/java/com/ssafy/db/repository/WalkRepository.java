@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface WalkRepository extends JpaRepository<Walk, CoursePK> {
+public interface WalkRepository extends JpaRepository<Walk, Integer> {
 
     // 사용자가 걸은 기록 전체 리스트
     public List<Walk> findByUser(User user);
