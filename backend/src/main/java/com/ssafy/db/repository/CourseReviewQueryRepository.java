@@ -18,7 +18,7 @@ public class CourseReviewQueryRepository {
     public List<Double> findAvgScoreByCourseId(String courseId) {
         return queryFactory.select(courseReview.score.avg().as("score"))
                 .from(courseReview)
-                .where(courseReview.courseId.eq(courseId))
+                .where(courseReview.course.courseId.eq(courseId))
                 .fetch();
     }
 }

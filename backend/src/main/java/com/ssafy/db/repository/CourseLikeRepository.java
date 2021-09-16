@@ -1,5 +1,6 @@
 package com.ssafy.db.repository;
 
+import com.ssafy.db.entity.Course;
 import com.ssafy.db.entity.CourseLike;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.key.CoursePK;
@@ -12,13 +13,13 @@ import java.util.List;
 public interface CourseLikeRepository extends JpaRepository<CourseLike, CoursePK> {
 
     // 코스별 좋아요 개수 조회
-    public int countByCourseId(String courseId);
+    public int countByCourse(Course course);
 
     // 사용자가 좋아요 한 코스 전체 리스트
     public List<CourseLike> findByUser(User user);
 
     // (페이징) 사용자가 좋아요 한 코스 전체 리스트
-    public Page<CourseLike> findByUserOrderByCourseId(
+    public Page<CourseLike> findByUserOrderByCourse(
             User user, Pageable pageable);
 
 }
