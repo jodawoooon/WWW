@@ -10,7 +10,7 @@ import ComponentNav from "@/components/common/ComponentNav";
 
 
 export default {
-    name: 'CourseList',
+    name: 'Course',
     components: {
         ComponentNav
     },

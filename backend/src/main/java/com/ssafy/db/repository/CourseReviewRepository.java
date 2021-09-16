@@ -15,7 +15,7 @@ public interface CourseReviewRepository extends JpaRepository<CourseReview, Cour
     public List<CourseReview> findByUser(User user);
 
     // (페이징) 사용자가 리뷰한 코스 전체 리스트
-    public Page<CourseReview> findByUserOrderByCourseId(
+    public Page<CourseReview> findByUserOrderByCourse(
             User user, Pageable pageable);
 
 }

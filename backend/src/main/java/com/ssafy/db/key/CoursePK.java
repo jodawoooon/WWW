@@ -22,5 +22,5 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CoursePK implements Serializable {
     private String user;    // 외래키로 사용시 @JoinColumn(name="user_id") 설정
-    private String courseId;
+    private int course;
 }
