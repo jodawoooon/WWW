@@ -17,45 +17,41 @@ public class UserController {
 
     //user info
     @GetMapping("/mypage")
-    public ResponseEntity<BaseResponseBody> readUserInfo(@RequestParam int userId){
-        userService.readUserInfo(userId);
-        return null;
+    public ResponseEntity<BaseResponseBody> readUserInfo(@RequestParam String userId){
+
+        return new ResponseEntity<BaseResponseBody>(userService.readUserInfo(userId), HttpStatus.OK);
     }
 
     //recent course list
     @GetMapping("/mypage/recent")
-    public ResponseEntity<BaseResponseBody> readRecentCourse(@RequestParam int userId){
-        userService.readRecentCourse(userId);
+    public ResponseEntity<BaseResponseBody> readRecentCourse(@RequestParam String userId){
 
-        return null;
+        return new ResponseEntity<BaseResponseBody>(userService.readRecentCourse(userId), HttpStatus.OK);
     }
 
     //wish course list
     @GetMapping("/mypage/wish")
-    public ResponseEntity<BaseResponseBody> readWishCourse(@RequestParam int userId){
-        userService.readWishCourse(userId);
-
-        return null;
+    public ResponseEntity<BaseResponseBody> readWishCourse(@RequestParam String userId){
+        return new ResponseEntity<BaseResponseBody>(userService.readWishCourse(userId), HttpStatus.OK);
     }
 
     //total time
     @GetMapping("/totaltime")
-    public ResponseEntity<BaseResponseBody> readTotalTime(@RequestParam int userId){
-        userService.readTotalTime(userId);
-
-        return null;
+    public ResponseEntity<BaseResponseBody> readTotalTime(@RequestParam String userId){
+        BaseResponseBody baseResponseBody = userService.readTotalTime(userId);
+        if(baseResponseBody!=null) {
+            return new ResponseEntity<BaseResponseBody>(baseResponseBody, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<BaseResponseBody>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //월간/주간
     @GetMapping("/time")
-    public ResponseEntity<BaseResponseBody> readTime(@RequestParam int userId,
-                                                          @RequestParam String date, @RequestParam String type){
-        //date
-        //type : "month / week"
-
-        userService.readTime(userId,date,type);
-
-        return new ResponseEntity<BaseResponseBody>(new BaseResponseBody(200, "msg"), HttpStatus.OK);
+    public ResponseEntity<BaseResponseBody> readTime(@RequestParam String userId,
+                                                         @RequestParam String type){
+        return new ResponseEntity<BaseResponseBody>( userService.readTime(userId,type), HttpStatus.OK);
     }
 
 }

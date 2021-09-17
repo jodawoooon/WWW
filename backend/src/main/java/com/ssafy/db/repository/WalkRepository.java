@@ -9,9 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-public interface WalkRepository extends JpaRepository<Walk, CoursePK> {
+public interface WalkRepository extends JpaRepository<Walk, Integer> {
 
     // 사용자가 걸은 기록 전체 리스트
     public List<Walk> findByUser(User user);
@@ -25,5 +26,8 @@ public interface WalkRepository extends JpaRepository<Walk, CoursePK> {
 
     // 오늘날짜 코스별 걸은 기록 개수 조회
     // 추후 동적 쿼리로 변경 예정
+
+    public List<Walk> findByUserAndDateAfter(User user, LocalDateTime today);
+
     public int countByCourseAndDateAfter(Course course, LocalDateTime today);
 }

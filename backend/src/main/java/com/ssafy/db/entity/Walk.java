@@ -21,16 +21,18 @@ import java.util.Date;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@IdClass(CoursePK.class)
 @Table(name="walk")
 public class Walk extends BaseTimeEntity {
 
     @Id
+    @Column(name = "walk_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int walk_id;
+
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name="user_id")
     private User user;
 
-    @Id
     @ManyToOne(targetEntity = Course.class)
     @JoinColumn(name="course_id")
     private Course course;
