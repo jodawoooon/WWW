@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
         // redis에 refreshToken 저장
-        redisService.setDataExpire(refreshToken, id, refreshTokenExpire);
+        redisService.setDataExpire(refreshToken,id,refreshTokenExpire);
 
         return user;
     }

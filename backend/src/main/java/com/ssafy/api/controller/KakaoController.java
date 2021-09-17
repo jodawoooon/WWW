@@ -51,10 +51,10 @@ public class KakaoController {
         // 회원가입이 되어있는 경우
         if(!isNull(user)){
             // 쿠키로 할 경우
-            //Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
-            //Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
-            session.setAttribute("userId", userInfo.get("userId"));
-            session.setAttribute("access_Token", accessToken);
+            Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
+            Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
+            //session.setAttribute("userId", userInfo.get("userId"));
+            //session.setAttribute("access_Token", accessToken);
             return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
         }
         // 없는 경우 유저 생성

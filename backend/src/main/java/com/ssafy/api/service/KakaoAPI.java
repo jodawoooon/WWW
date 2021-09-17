@@ -125,6 +125,70 @@ public class KakaoAPI {
         return userInfo;
     }
 
+    public HashMap<String, Object> renewAccessToken(String refreshToken){
+        String renew_accessToken = "";
+        String renew_refreshToken = "";
+        String renew_accessToken_expire = "";
+        String renew_refreshToken_expire = "";
+
+        HashMap<String, Object> Token = new HashMap<>();
+        String reqURL = "https://kauth.kakao.com/oauth/token";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            // POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            // POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=1e31c0b3e807829e950f0236c26efec6");
+            sb.append("&refresh_token=" + refreshToken);
+            bw.write(sb.toString());
+            bw.flush();
+
+            // 결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+            // 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            System.out.println("response body : " + result);
+
+            // Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            renew_accessToken = element.getAsJsonObject().get("access_token").getAsString();
+            renew_accessToken_expire = element.getAsJsonObject().get("expires_in").getAsString();
+            renew_refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+            renew_refreshToken_expire = element.getAsJsonObject().get("refresh_token_expires_in").getAsString();
+
+            Token.put("accessToken",renew_accessToken);
+            Token.put("refreshToken",renew_refreshToken);
+            Token.put("accessTokenExpire",renew_accessToken_expire);
+            Token.put("refreshTokenExpire",renew_refreshToken_expire);
+
+
+
+            br.close();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Token;
+    }
+
 
     public void Logout(String access_Token) {
         String reqURL = "https://kapi.kakao.com/v1/user/logout";

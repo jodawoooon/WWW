@@ -31,7 +31,6 @@ public class RedisService {
     }
 
     public void setDataExpire(String key,String value,long duration){
-        System.out.println("Redis start!");
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key,value,expireDuration);
