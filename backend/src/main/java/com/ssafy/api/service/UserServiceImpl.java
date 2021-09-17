@@ -93,16 +93,12 @@ public class UserServiceImpl implements UserService{
 
                 List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
                 double score;
-                System.out.println(scoreL);
-                System.out.println(scoreL.get(0));
+
                 if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
                     score=0;
                 }else{
                     score=scoreL.get(0);
                 }
-
-                System.out.println(score);
-                System.out.println(t);
 
                 CourseBody courseBody = new CourseBody();
                 courseBody.setCourseId(t.get(0, Integer.class));
