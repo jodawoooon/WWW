@@ -1,6 +1,7 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,4 +28,13 @@ public class WalkQueryRepository {
                 .limit(3)
                 .fetch();
     }
+
+    //총 걸은 시간
+    public List<Integer> TotalWalkTime(String userId){
+        return queryFactory.select(walk.time.sum().as("totalTime"))
+                .from(walk)
+                .where(walk.user.userId.eq(userId))
+                .fetch();
+    }
+
 }

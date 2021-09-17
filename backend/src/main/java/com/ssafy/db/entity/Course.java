@@ -44,7 +44,7 @@ public class Course {
     @Column(length = 4000)
     private String detail;
 
-    @Column(length = 500)
+    @Column(length = 500, name="`option`")
     private String option;
 
     @Column(length = 500)
