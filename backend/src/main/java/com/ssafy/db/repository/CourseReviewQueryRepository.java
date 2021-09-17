@@ -2,6 +2,7 @@ package com.ssafy.db.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.Course;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
