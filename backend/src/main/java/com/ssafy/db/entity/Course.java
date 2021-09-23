@@ -78,7 +78,7 @@ public class Course {
 
     // 126.6168424
     @Column
-    private double longtitude;
+    private double longitude;
 
     // 충남 홍성군 구항면 내현리 353-1
     // (서울, 대전, 광주, 대구 등) 특별시, 광역시를 제외하고 (서울, 대전)처럼 이름만 넣어서 검색 필요

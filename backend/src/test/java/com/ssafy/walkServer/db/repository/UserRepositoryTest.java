@@ -86,7 +86,7 @@ public class UserRepositoryTest {
                 .toilet("전통체험관, 마을화장실")
                 .address("충남 홍성군 구항면 내현리 353-1")
                 .latitude(36.5714867)
-                .longtitude(126.6168424)
+                .longitude(126.6168424)
                 .build();
 
         courseRepository.save(course);

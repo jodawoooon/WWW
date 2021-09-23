@@ -6,8 +6,17 @@ import lombok.Data;
 @Data
 public class CourseBody{
     int courseId;
+    String courseFlagName;
     String courseName;
     String address;
     double courseCnt;
-    double courseLength;
+    double courseLength;    // KM 단위 코스 길이
+    String time;
+    double latitude;
+    double longitude;
+    int likes;  // 코스의 좋아요 개수
+    int myLike; // 로그인 사용자의 좋아요 여부 (0, 1)
+    double score;  // 코스의 평균 점수 : 0~10을 별 5개로 표시
+    int myScore;
+    Double geoDistance; // 사용자와 산책로 떨어진 거리 KM 단위
 }
