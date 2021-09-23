@@ -8,5 +8,9 @@ import java.util.List;
 
 
 public interface CourseService {
+    // 코스 목록 조회
     public BaseResponseBody getCourseList(CourseReq courseReq);
+
+    // 코스 상세정보 조회
+    public BaseResponseBody getCourseDetail(int courseId, String userId);
 }

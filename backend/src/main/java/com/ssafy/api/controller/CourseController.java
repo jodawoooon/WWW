@@ -27,10 +27,19 @@ public class CourseController {
     @Autowired
     CourseService courseService;
 
-    @GetMapping("/")
+    @PostMapping("/")
     @ApiOperation(value = "산책로 리스트", notes = "산책로 리스트를 가져온다")
     public ResponseEntity<BaseResponseBody> readCourseList(@RequestBody CourseReq courseReq){
 
         return new ResponseEntity<BaseResponseBody>(courseService.getCourseList(courseReq), HttpStatus.OK);
     }
+
+    @GetMapping("/")
+    @ApiOperation(value = "산책로 상세 내용", notes = "선택한 산책로의 상세 내용을 가져온다")
+    public ResponseEntity<BaseResponseBody> readCourseDetail(@RequestParam(defaultValue = "0") int courseId,
+                                                              @RequestParam(defaultValue = "0") String userId){
+
+        return new ResponseEntity<BaseResponseBody>(courseService.getCourseDetail(courseId, userId), HttpStatus.OK);
+    }
+
 }

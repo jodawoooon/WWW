@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.CourseDataGetRes;
 import com.ssafy.api.response.user.CourseBody;
+import com.ssafy.api.response.user.CourseDetailResponseBody;
 import com.ssafy.api.response.user.CourseResponseBody;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.repository.CourseQueryRepository;
@@ -69,4 +70,35 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
+    public BaseResponseBody getCourseDetail(int courseId, String userId) {
+        CourseDetailResponseBody courseDetailResponseBody = courseQueryRepository.findCourseById(courseId, userId);
+
+        try {
+            courseDetailResponseBody.setMessage("OK");
+            courseDetailResponseBody.setStatusCode(200);
+
+            List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(courseId);
+            Integer myScore = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
+
+            double score;
+
+            if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
+                score=0;
+            }else{
+                score=scoreL.get(0);
+            }
+
+            courseDetailResponseBody.setScore(score);
+            courseDetailResponseBody.setMyScore(myScore);
+
+            return  courseDetailResponseBody;
+        }catch (Exception e){
+            e.printStackTrace();
+            courseDetailResponseBody.setMessage("Not Found");
+            courseDetailResponseBody.setStatusCode(404);
+            return courseDetailResponseBody;
+        }
+
+    }
 }
