@@ -126,6 +126,26 @@ public class KakaoAPI {
         return userInfo;
     }
 
+    // Token 정보 보기 (토큰 만료 여부)
+    public int checkAccessToken(String accessToken, String refreshToken) {
+        int responseCode = -1;
+        String reqURL = "https://kapi.kakao.com/v1/user/access_token_info";
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+
+            responseCode = conn.getResponseCode();
+            System.out.println("responseCode : " + responseCode);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return responseCode;
+    }
+
+
     public HashMap<String, Object> renewAccessToken(String refreshToken){
         String renew_accessToken = "";
         String renew_refreshToken = "";

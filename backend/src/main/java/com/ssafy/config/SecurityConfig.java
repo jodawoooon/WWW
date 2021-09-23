@@ -1,7 +1,6 @@
 package com.ssafy.config;
 
-import com.ssafy.common.Filter.TokenFilter;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-import javax.servlet.Filter;
 
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
@@ -18,11 +16,6 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    public TokenFilter tokenFilter() {
-        return new TokenFilter();
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //.addFilter(new TokenFilter(authenticationManager())) //HTTP 요청에 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
-                .antMatchers("/api/users/**").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
+                //.antMatchers("/api/users/**").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
                 .anyRequest().permitAll()
                 .and().cors();
     }
