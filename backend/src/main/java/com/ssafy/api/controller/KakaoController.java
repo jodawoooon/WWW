@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
@@ -32,7 +33,7 @@ public class KakaoController {
     CookieUtil cookieUtil;
 
     @RequestMapping(value="/login")
-    public ResponseEntity<UserLoginPostRes> login(@RequestParam("code") String code, HttpSession session) {
+    public ResponseEntity<UserLoginPostRes> login(@RequestParam("code") String code, HttpSession session, HttpServletResponse response) {
         HashMap<String,Object> Token = kakaoAPI.getAccessToken(code);
         // Token 정보를 <String, 객체>로 생성
         String accessToken = (String) Token.get("accessToken");
@@ -53,8 +54,9 @@ public class KakaoController {
             // 쿠키로 할 경우
             Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
             Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
-            //session.setAttribute("userId", userInfo.get("userId"));
-            //session.setAttribute("access_Token", accessToken);
+            //Cookie userIdCookie = cookieUtil.createCookie("userId",null, user.getUserId());
+            response.addCookie(accessTokenCookie);
+            response.addCookie(refreshTokenCookie);
             return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
         }
         // 없는 경우 유저 생성

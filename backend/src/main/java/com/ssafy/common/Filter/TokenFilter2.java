@@ -1,11 +1,5 @@
 package com.ssafy.common.Filter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.ssafy.api.service.KakaoAPI;
 import com.ssafy.api.service.RedisService;
 import com.ssafy.common.Util.CookieUtil;
@@ -19,13 +13,16 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 
-
-public class TokenFilter extends OncePerRequestFilter {
+public class TokenFilter2 extends BasicAuthenticationFilter {
 
     @Autowired
     KakaoAPI kakaoAPI;
@@ -36,19 +33,17 @@ public class TokenFilter extends OncePerRequestFilter {
     @Autowired
     CookieUtil cookieUtil;
 
-//    public TokenFilter(AuthenticationManager authenticationManager) {
-//        super(authenticationManager);
-//    }
+    public TokenFilter2(AuthenticationManager authenticationManager) {
+        super(authenticationManager);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         System.out.println("Filter on===============");
+        String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        Cookie accessTokenCookie = cookieUtil.getCookie(request,"accessToken");
-        String accessToken = accessTokenCookie.getValue();
-        System.out.println("deFilter : " + accessToken);
-        //String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("accessToken : "+ accessToken);
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -56,6 +51,7 @@ public class TokenFilter extends OncePerRequestFilter {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(headers);
+        System.out.println("tokenRequest : "+ tokenRequest);
         ResponseEntity<String> tokenResponse = null;
 
         try {

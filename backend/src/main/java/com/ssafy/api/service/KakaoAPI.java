@@ -72,6 +72,7 @@ public class KakaoAPI {
             Token.put("accessTokenExpire",access_Token_expire);
             Token.put("refreshTokenExpire",refresh_Token_expire);
 
+            System.out.println("Token: " + Token);
             br.close();
             bw.close();
         } catch (IOException e) {

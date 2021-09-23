@@ -16,6 +16,11 @@ spa:
 
 
 spring:
+  security:
+    user:
+      name: "ssafy"
+      password: "ssafy"
+
   redis:
     host: j5a605.p.ssafy.io
     port: 8000
