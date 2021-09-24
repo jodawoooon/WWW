@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <div id="app-wrap">
       <navBar id="navBar"/>
       <router-view />
       <Footer id="footer"/>
     </div>
     
-  </div>
+  </v-app>
 </template>
 
 <script>

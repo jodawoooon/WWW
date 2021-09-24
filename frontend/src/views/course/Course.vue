@@ -12,7 +12,7 @@ import ComponentNav from "@/components/common/ComponentNav";
 export default {
     name: 'Course',
     components: {
-        ComponentNav
+        ComponentNav 
     },
 }
 </script>
