@@ -10,7 +10,9 @@ import org.apache.hadoop.fs.*;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.io.compress.*;
 import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.input.MultipleInputs;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 
@@ -21,11 +23,13 @@ public class TopKSearch {
         public static class Conv implements Comparable<Conv> {
 
 			public double dist;
-            public int id;
+            public String data;
+			public String id;
 
-            public Conv(double d, int id) {
+            public Conv(double d, String id, String data) {
                 this.dist = d;
-                this.id = id;
+				this.id = id;
+                this.data = data;
             }
 
             @Override
@@ -42,7 +46,7 @@ public class TopKSearch {
 	public static class MapClass1 extends Mapper<Object, Text, Text, Text> {
 
 		private int numOfPartitions = 4;
-        private String walkTable;
+
 		private Text emitkey = new Text ();
 		private Text emitval = new Text ();
 
@@ -58,12 +62,14 @@ public class TopKSearch {
 		public void map (Object key, Text value, Context context) throws IOException, InterruptedException
 		{
 			String arr[] = value.toString().split (",");
+			StringBuilder sb = new StringBuilder();
+			
 			// id, 위,경도
-			int id = Integer.parseInt (arr[0]);
-			int partId = id % numOfPartitions;
+			// int id = Integer.parseInt (arr[0]);
+			// int partId = id % numOfPartitions;
 
-			emitkey.set(Integer.toString(partId));
-			context.write(emitkey, value);
+			// emitkey.set(Integer.toString(partId));
+			context.write(new Text("test"), new Text("W,"+value));
 		}
 	}
 
@@ -78,12 +84,6 @@ public class TopKSearch {
 		private Text emitkey = new Text ();
 		private Text emitval = new Text ();
 
-		public void setup (Mapper.Context context)
-		{
-			Configuration conf = context.getConfiguration ();
-			numOfPartitions = conf.getInt ("numberOfPartitions", 2);
-
-		}
 
 		// CSV 파일 읽기
 		// --> format = <point id> , <latitude> , <longitude>
@@ -91,11 +91,11 @@ public class TopKSearch {
 		{
 			String arr[] = value.toString().split (",");
 			// id, 위,경도
-			int id = Integer.parseInt (arr[0]);
-			int partId = id % numOfPartitions;
+			// int id = Integer.parseInt (arr[0]);
+			// int partId = id % numOfPartitions;
 
-			emitkey.set(Integer.toString(partId));
-			context.write(emitkey, value);
+			// emitkey.set(Integer.toString(partId));
+			context.write(new Text("test"), new Text("C,"+value));
 		}
 	}
 
@@ -115,55 +115,84 @@ public class TopKSearch {
 		public void setup (Reducer.Context context)
 		{
 			Configuration conf = context.getConfiguration ();
-			numOfPartitions = conf.getInt ("numberOfPartitions", 2);
 			K = conf.getInt ("K", 2);
-			query =  conf.get ("queryPoint", "");
 		}
 
 		public void reduce(Text key, Iterable<Text> values, Context context) 
 			throws IOException, InterruptedException
 		{
+			StringBuilder sb = new StringBuilder();
+			ArrayList<String[]> walkFileValues = new ArrayList<>();
+			ArrayList<String[]> convFileValues = new ArrayList<>();
+			String[] stringValues;
 
-			String[] keyarr = key.toString().split (",");
 			double dist;
-            PriorityQueue<Conv> queue = new PriorityQueue<Conv>();
+           
 
 			for(Text p : values){
-				dist = dist(query, p.toString());
+				stringValues = p.toString().split(",");
 
-				if(dist>1000) continue; //거리가 1KM 초과 시 continue
-                int id = Integer.parseInt(p.toString().split(",")[0]);
+				if("W".equals(stringValues[0])){
+					walkFileValues.add(Arrays.copyOf(stringValues, stringValues.length));
+				}
+				if("C".equals(stringValues[0])){
+					convFileValues.add(Arrays.copyOf(stringValues, stringValues.length));
+				}
 
-				Conv mt = new Conv(dist, id);
-				if(queue.size() < K) queue.add(mt);
-				else {
-					if((queue.peek()).dist > dist){
-						queue.remove();
-						queue.add(mt);
+			}
+
+			if(walkFileValues.size()>0){
+				for(String[] walk : walkFileValues){
+					
+					PriorityQueue<Conv> queue = new PriorityQueue<Conv>();
+					String walkId = walk[1];
+					String walkLng = walk[2];
+					String walkLat = walk[3];
+					for(String[] conv : convFileValues){
+						String convAddress = conv[1];
+						String convName = conv[2];
+						String convLat = conv[3];
+						String convLng = conv[4];
+
+						dist = dist(walkLat, walkLng, convLat, convLng);
+						if(dist>1000) continue; //거리가 1KM 초과 시 continue
+
+						Conv mt = new Conv(dist, walkId, convAddress+","+convName+","+convLat+","+convLng+","+dist);
+
+						if(queue.size() < K) {
+							queue.add(mt);
+						}
+						else {
+							if((queue.peek()).dist > dist){
+								queue.remove();
+								queue.add(mt);
+							}
+						}
+					}
+
+
+					//Max Heap에 담긴 편의점 데이터 context에 쓰기
+					while(!queue.isEmpty()){
+						Conv mt = queue.poll();
+
+						emitkey.set(mt.id);
+						emitval.set(mt.data);
+						context.write(emitkey, emitval);
 					}
 				}
 			}
 
 
-			while(!queue.isEmpty()){
-				Conv mt = queue.poll();
-				emitkey.set(Integer.toString(mt.id));
-				emitval.set(Double.toString(mt.dist));
-				context.write(emitkey, emitval);
-			}
 
 		}
 
 		//위-경도 간 거리 구하기
-	    public static double dist(String sp1, String sp2) {
-             // parse string
-            String[] strarr1 = sp1.split(",");
-            String[] strarr2 = sp2.split(",");
+	    public static double dist(String walkLat, String walkLng, String convLat, String convLng) {
 
-			double lat1 = Double.parseDouble(strarr1[2]); 
-			double lat2 = Double.parseDouble(strarr2[2]); 
-			double lng1 = Double.parseDouble(strarr1[3); 
-			double lng2 = Double.parseDouble(strarr2[3]); 
+			double lat1 = Double.parseDouble(walkLat); 
+			double lat2 = Double.parseDouble(convLat); 
+			double lng1 = Double.parseDouble(walkLng); 
+			double lng2 = Double.parseDouble(convLng); 
             double theta = lng1 -lng2;
             double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
          
@@ -190,7 +219,8 @@ public class TopKSearch {
 
 	public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
 		Configuration conf = new Configuration ();
-    		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
+    		
+            String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
             if (otherArgs.length != 5) {
                 System.out.println ("usage: <numberOfPartitions> <WalkData> <K> <in> <out>");
                 System.exit(1);
@@ -213,19 +243,22 @@ public class TopKSearch {
             // 사용할 jar library를 설정
 			job.setJarByClass(TopKSearch.class);
 
+             // 파일입력포맷 지정
+            MultipleInputs.addInputPath(job, new Path(otherArgs[1]), TextInputFormat.class, MapClass1.class);
+			MultipleInputs.addInputPath(job, new Path(otherArgs[3]), TextInputFormat.class, MapClass2.class);
+			
+
             // 각 클래스 지정
 			job.setNumReduceTasks (2);
-			job.setMapperClass(MapClass1.class);
+			//job.setMapperClass(MapClass1.class);
 			job.setReducerClass(ReduceClass1.class);
 
             // 출력 Key, Value타입 지정
 			job.setOutputKeyClass(Text.class);
 			job.setOutputValueClass(Text.class);
 
-            // 파일입력포맷와 파일출력포맷 지정
-            MultipleInputs.addInputPath(job, new Path(otherArgs[1]));
-			MultipleInputs.addInputPath(job, new Path(otherArgs[3]));
-			FileOutputFormat.setOutputPath(job, output1);
+            //파일출력포맷 지정
+            FileOutputFormat.setOutputPath(job, output1);
 
              //하둡 분산 프로그램 실행
 			if (! job.waitForCompletion(true))
