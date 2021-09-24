@@ -26,6 +26,7 @@ public class HdfsApiService {
         this.conf = conf;
     }
 
+
     public String read(String fileName) {
         System.out.println(1);
 
@@ -36,7 +37,7 @@ public class HdfsApiService {
             Path folderPath = new Path(hdfs.getHomeDirectory().toString());
             System.out.println(folderPath);
 
-            Path filePath = new Path(folderPath + "/" + fileName);
+            Path filePath = new Path(folderPath + "/wordcount_test_out/" + fileName);
             if (hdfs.exists(filePath)) {
 
                 System.out.println(filePath);

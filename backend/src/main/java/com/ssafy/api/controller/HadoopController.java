@@ -41,7 +41,7 @@ public class HadoopController {
 
         else if(action.equals("get")){
             System.out.println("get");
-            result=dao.read("a.txt");
+            result=dao.read("part-r-00000");
         }
 
 //        else if(action.equals("delete"))

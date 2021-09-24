@@ -106,6 +106,16 @@ dependencies {
 // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	implementation("com.googlecode.json-simple:json-simple:1.1.1")
 
+	// https://mvnrepository.com/artifact/org.apache.hive/hive-jdbc
+	implementation("org.apache.hive:hive-jdbc:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.hive/hive-exec
+	implementation("org.apache.hive:hive-exec:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.spark/spark-hive
+	compileOnly("org.apache.spark:spark-hive_2.12:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.hive/hive-common
+	implementation("org.apache.hive:hive-common:3.1.2")
+
+
 
 //	implementation("org.apache.hadoop:hadoop-core:1.2.1")
 	// H2 Database

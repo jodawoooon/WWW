@@ -58,5 +58,5 @@ spring:
     static-locations: classpath:/dist/
 hdfs:
   configuration:
-    server: hdfs://cluster2.p.ssafy.io:9000
-    user: j5a605
+    server: hdfs://j5a605.p.ssafy.io:9000
+    user: ubuntu

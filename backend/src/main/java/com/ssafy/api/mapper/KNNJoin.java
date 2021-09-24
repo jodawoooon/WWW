@@ -20,7 +20,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 
 
-public class KNN {
+public class KNNJoin {
 
     public static class Conv implements WritableComparable<Conv>
     {
@@ -194,7 +194,7 @@ public class KNN {
         public static void main(String[] args) throws Exception {
             Configuration conf = new Configuration();
             Job job = Job.getInstance(conf, "KNN");
-            job.setJarByClass(KNN.class);
+            job.setJarByClass(KNNJoin.class);
             job.setMapperClass(KnnMapper.class);
             //job.setNumReduceTasks(0);
             job.setReducerClass(KnnReducer.class);
