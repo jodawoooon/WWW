@@ -3,6 +3,7 @@ package com.ssafy.common.Interceptor;
 import com.ssafy.api.service.KakaoAPI;
 import com.ssafy.api.service.RedisService;
 import com.ssafy.common.Util.CookieUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -29,7 +30,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
-        String uri = request.getRequestURI();
         String accessToken = null;
         String refreshToken = null;
 
@@ -52,15 +52,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         KakaoAPI kakaoAPI = new KakaoAPI();
         int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
-        System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken);
+        System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
         // accessToken이 만료되어 401 Error 발생
         if(responseCode == 401){
-            Cookie refreshTokenCookie = cookieUtil.getCookie(request, "refreshToken");
+            //Cookie refreshTokenCookie = cookieUtil.getCookie(request, "refreshToken");
             // 새로운 토큰 갱신
-            HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshTokenCookie.getValue());
-
+            HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshToken);
+            System.out.println(Token);
             String newAceessToken = (String) Token.get("accessToken");
             Long newAceessTokenExpire = Long.parseLong((String) Token.get("accessTokenExpire"));
+
             // 새로운 accessToken에 대한 cookie값 설정
             Cookie newAccessTokenCookie = cookieUtil.createCookie("accessToken", newAceessTokenExpire, newAceessToken);
             response.addCookie(newAccessTokenCookie);
@@ -69,11 +70,11 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (Token.get("refreshToken") != null && Token.get("refreshTokenExpire") != null) {
                 String newRefreshToken = (String) Token.get("refreshToken");
                 Long newRefreshTokenExpire = Long.parseLong((String) Token.get("refreshTokenExpire"));
-                String userId = redisService.getData(refreshTokenCookie.getValue());
+                String userId = redisService.getData(refreshToken);
                 // redis에 저장된 refreshToken이 만료되지 않은 경우
                 if (userId != null) {
                     // 유효기간이 1개월 미만인 refreshToken 삭제 후 새로운 refreshToken 발급
-                    redisService.deleteData(refreshTokenCookie.getValue());
+                    redisService.deleteData(refreshToken);
                 }
                 // redis에 새로운 refreshToken값 저장
                 redisService.setDataExpire(newRefreshToken, userId, newRefreshTokenExpire);

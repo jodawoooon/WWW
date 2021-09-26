@@ -166,7 +166,7 @@ public class KakaoAPI {
             // POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
-            sb.append("grant_type=authorization_code");
+            sb.append("grant_type=refresh_token");
             sb.append("&client_id=1e31c0b3e807829e950f0236c26efec6");
             sb.append("&refresh_token=" + refreshToken);
             bw.write(sb.toString());
@@ -192,15 +192,17 @@ public class KakaoAPI {
 
             renew_accessToken = element.getAsJsonObject().get("access_token").getAsString();
             renew_accessToken_expire = element.getAsJsonObject().get("expires_in").getAsString();
-            renew_refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-            renew_refreshToken_expire = element.getAsJsonObject().get("refresh_token_expires_in").getAsString();
+
 
             Token.put("accessToken",renew_accessToken);
-            Token.put("refreshToken",renew_refreshToken);
             Token.put("accessTokenExpire",renew_accessToken_expire);
-            Token.put("refreshTokenExpire",renew_refreshToken_expire);
 
-
+            if(element.equals("refresh_Token")){
+                renew_refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+                renew_refreshToken_expire = element.getAsJsonObject().get("refresh_token_expires_in").getAsString();
+                Token.put("refreshToken",renew_refreshToken);
+                Token.put("refreshTokenExpire",renew_refreshToken_expire);
+            }
 
             br.close();
             bw.close();
