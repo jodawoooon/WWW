@@ -1,8 +1,10 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.CourseReviewReq;
 import com.ssafy.api.service.ReviewService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,32 +16,22 @@ public class ReviewController {
     @Autowired
     ReviewService reviewService;
 
-    @GetMapping("/{courseId}")
-    public ResponseEntity<BaseResponseBody> readReviewAverage(@PathVariable int courseId){
-        reviewService.readReviewAverage(courseId);
+    @PostMapping("/")
+    public ResponseEntity<BaseResponseBody> createReview(@RequestBody CourseReviewReq courseReviewReq){
 
-        return null;
-    }
-
-    @PostMapping
-    public ResponseEntity<BaseResponseBody> createReview(){
-        reviewService.createReview();
-
-        return null;
+        return new ResponseEntity<BaseResponseBody>(reviewService.createReview(courseReviewReq), HttpStatus.CREATED);
     }
 
 
-    @PutMapping
-    public ResponseEntity<BaseResponseBody> updateReview(){
-        reviewService.updateReview();
+    @PutMapping("/")
+    public ResponseEntity<BaseResponseBody> updateReview(@RequestBody CourseReviewReq courseReviewReq){
 
-        return null;
+        return new ResponseEntity<BaseResponseBody>(reviewService.updateReview(courseReviewReq), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{courseId}")
-    public ResponseEntity<BaseResponseBody> deleteReview(@PathVariable int courseId){
-        reviewService.deleteReview(courseId);
+    @DeleteMapping("/")
+    public ResponseEntity<BaseResponseBody> deleteReview(@RequestBody CourseReviewReq courseReviewReq){
 
-        return null;
+        return new ResponseEntity<BaseResponseBody>(reviewService.deleteReview(courseReviewReq), HttpStatus.OK);
     }
 }

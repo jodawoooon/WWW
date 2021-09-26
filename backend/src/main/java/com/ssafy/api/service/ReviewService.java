@@ -1,14 +1,13 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.CourseReviewReq;
 import com.ssafy.common.model.response.BaseResponseBody;
 
 public interface ReviewService {
-    public BaseResponseBody readReviewAverage(int courseId);
 
-    public BaseResponseBody createReview();
+    public BaseResponseBody createReview(CourseReviewReq courseReviewReq);
 
+    public BaseResponseBody updateReview(CourseReviewReq courseReviewReq);
 
-    public BaseResponseBody updateReview();
-
-    public BaseResponseBody deleteReview(int courseId);
+    public BaseResponseBody deleteReview(CourseReviewReq courseReviewReq);
 }

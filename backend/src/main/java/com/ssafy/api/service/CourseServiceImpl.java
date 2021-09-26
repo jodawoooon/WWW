@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service("courseService")
@@ -39,7 +40,8 @@ public class CourseServiceImpl implements CourseService {
     UserRepository userRepository;
 
     @Override
-    public BaseResponseBody getCourseList(CourseReq courseReq) {
+    @Transactional
+    public BaseResponseBody readCourseList(CourseReq courseReq) {
         PageRequest pageRequest = PageRequest.of(courseReq.getPage(), courseReq.getSize());
         Page<CourseBody> result = courseQueryRepository.findCourseList(courseReq, pageRequest);
 
@@ -78,7 +80,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public BaseResponseBody getCourseDetail(int courseId, String userId) {
+    @Transactional
+    public BaseResponseBody readCourseDetail(int courseId, String userId) {
         CourseDetailResponseBody courseDetailResponseBody = courseQueryRepository.findCourseById(courseId, userId);
 
         try {
@@ -110,7 +113,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public BaseResponseBody postCourseLike(CourseLikeReq courseLikeReq) {
+    @Transactional
+    public BaseResponseBody createCourseLike(CourseLikeReq courseLikeReq) {
         BaseResponseBody baseResponseBody = new BaseResponseBody();
 
         CourseLike courseLike = CourseLike.builder()
@@ -127,13 +131,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public BaseResponseBody deleteCourseLike(CourseLikeReq courseLikeReq) {
         BaseResponseBody baseResponseBody = new BaseResponseBody();
 
-        CourseLike courseLike = CourseLike.builder()
-                .user(userRepository.findByUserId(courseLikeReq.getUserId()))
-                .course(courseRepository.findByCourseId(courseLikeReq.getCourseId()))
+        CoursePK coursePK = CoursePK.builder()
+                .course(courseLikeReq.getCourseId())
+                .user(courseLikeReq.getUserId())
                 .build();
+
+        CourseLike courseLike = courseLikeRepository.findById(coursePK).get();
 
         courseLikeRepository.delete(courseLike);
 
