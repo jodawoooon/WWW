@@ -2,15 +2,16 @@ package com.ssafy.api.service;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
+import com.ssafy.api.request.CourseLikeReq;
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.CourseDataGetRes;
 import com.ssafy.api.response.user.CourseBody;
 import com.ssafy.api.response.user.CourseDetailResponseBody;
 import com.ssafy.api.response.user.CourseResponseBody;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.repository.CourseQueryRepository;
-import com.ssafy.db.repository.CourseRepository;
-import com.ssafy.db.repository.CourseReviewQueryRepository;
+import com.ssafy.db.entity.CourseLike;
+import com.ssafy.db.key.CoursePK;
+import com.ssafy.db.repository.*;
 import com.sun.istack.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
+
+    @Autowired
+    CourseLikeRepository courseLikeRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public BaseResponseBody getCourseList(CourseReq courseReq) {
@@ -100,5 +107,39 @@ public class CourseServiceImpl implements CourseService {
             return courseDetailResponseBody;
         }
 
+    }
+
+    @Override
+    public BaseResponseBody postCourseLike(CourseLikeReq courseLikeReq) {
+        BaseResponseBody baseResponseBody = new BaseResponseBody();
+
+        CourseLike courseLike = CourseLike.builder()
+                .user(userRepository.findByUserId(courseLikeReq.getUserId()))
+                .course(courseRepository.findByCourseId(courseLikeReq.getCourseId()))
+                .build();
+
+        courseLikeRepository.save(courseLike);
+
+        baseResponseBody.setMessage("OK");
+        baseResponseBody.setStatusCode(201);
+
+        return baseResponseBody;
+    }
+
+    @Override
+    public BaseResponseBody deleteCourseLike(CourseLikeReq courseLikeReq) {
+        BaseResponseBody baseResponseBody = new BaseResponseBody();
+
+        CourseLike courseLike = CourseLike.builder()
+                .user(userRepository.findByUserId(courseLikeReq.getUserId()))
+                .course(courseRepository.findByCourseId(courseLikeReq.getCourseId()))
+                .build();
+
+        courseLikeRepository.delete(courseLike);
+
+        baseResponseBody.setMessage("OK");
+        baseResponseBody.setStatusCode(200);
+
+        return baseResponseBody;
     }
 }

@@ -2,6 +2,7 @@ package com.ssafy.db.key;
 
 import com.ssafy.db.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import java.io.Serializable;
         Walk walk = walkRepository.findById(id);
  */
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

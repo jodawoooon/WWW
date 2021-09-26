@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.CourseLikeReq;
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.CourseDataGetRes;
 import com.ssafy.api.response.CourseListGetRes;
@@ -40,6 +41,20 @@ public class CourseController {
                                                               @RequestParam(defaultValue = "0") String userId){
 
         return new ResponseEntity<BaseResponseBody>(courseService.getCourseDetail(courseId, userId), HttpStatus.OK);
+    }
+
+    @PostMapping("/like")
+    @ApiOperation(value = "코스 좋아요 등록", notes = "코스 좋아요 등록")
+    public ResponseEntity<BaseResponseBody> createCourseLike(@RequestBody CourseLikeReq courseLikeReq) {
+
+        return new ResponseEntity<BaseResponseBody>(courseService.postCourseLike(courseLikeReq), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/like")
+    @ApiOperation(value = "코스 좋아요 삭제", notes = "코스 좋아요 삭제")
+    public ResponseEntity<BaseResponseBody> deleteCourseLike(@RequestBody CourseLikeReq courseLikeReq) {
+
+        return new ResponseEntity<BaseResponseBody>(courseService.deleteCourseLike(courseLikeReq), HttpStatus.OK);
     }
 
 }
