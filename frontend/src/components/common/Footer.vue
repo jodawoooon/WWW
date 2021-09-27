@@ -10,7 +10,7 @@
       <router-link to="/user/walk"
         ><i class="el-icon-data-line" style="font-size: 23px"></i
       ></router-link>
-      <router-link to="/user"
+      <router-link to="/user/mycourse"
         ><i class="el-icon-collection" style="font-size: 23px"></i
       ></router-link>
     </div>

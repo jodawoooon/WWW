@@ -4,65 +4,90 @@
     <div id="space"></div>
 
     <p style="text-align: left; margin-left: 25px">
-      <b>{{ userInfo.nickName }}</b
-      >님이 <br />(서비스 이름)와 함께 걸은 시간
+      <b>{{ userInfo.nickName }}</b>
+      님이 <br>(서비스 이름)와 함께 걸은 시간
     </p>
+    
+    <br>
+
     <p
-      class="font-weight-bold"
+      class="font-weight-black"
       style="font-size: 35px; text-align: left; margin-left: 25px"
     >
-      {{ totalTime }}
+      <b>{{ totalTime }}</b>
     </p>
 
-    <br />
-    <v-card>
+    <br /><br/>
+    <v-card >
       <v-tabs centered fixed-tabs slider-color="red">
-        <v-tab v-on:click="init('week')">이번주</v-tab>
-        <v-tab v-on:click="init('month')">이번달</v-tab>
+        <v-tab v-on:click="init('week')" style="font-size:20px;color:gray;font-weight:bold;">주간</v-tab>
+        <v-tab v-on:click="init('month')" style="font-size:20px;color:gray;font-weight:bold;">월간</v-tab>
       </v-tabs>
     </v-card>
     <br /><br />
 
-    <div v-if="curType == 'week'">
-      <b>이번주</b><br />{{ prevDay }} ~ {{ curDay }}
-    </div>
-    <div v-if="curType == 'month'">
-      <b>이번달</b><br />{{ prevDay }} ~ {{ curDay }}
+    <div style="font-size:20px;">
+        <div v-if="curType == 'week'">
+            <b>이번주</b><br />{{ prevDay }} ~ {{ curDay }}
+        </div>
+        <div v-if="curType == 'month'">
+            <b>이번달</b><br />{{ prevDay }} ~ {{ curDay }}
+        </div>
     </div>
     <br />
-    <div v-if="curType == 'week'">
-      <span style="float: left; margin-left: 35px">주간 누적</span>
-      <span style="float: right; margin-right: 35px">{{
-        userData.sumTime
-      }}</span>
+
+    <div class="data">
+        <div v-if="curType == 'week'" >
+            <b style="float: left; margin-left: 35px">주간 누적</b>
+            <span style="float: right; margin-right: 35px">{{
+                sumTimeText
+            }}</span>
+            <br>
+        </div>
+
+        <div v-if="curType == 'month'" >
+            <b style="float: left; margin-left: 35px">월간 누적</b>
+            <span style="float: right; margin-right: 35px">{{
+                sumTimeText
+            }}</span>
+            <br>
+        </div>
+
+        <div>
+            <b style="float: left; margin-left: 35px">하루 평균</b>
+            <span style="float: right; margin-right: 35px">{{
+                avgTimeText
+            }}</span>
+            <br>
+        </div>
+
+    </div>
+    <br>
+    <div>
+        총 소모 칼로리 :
+        <b style="font-size:25px;"> {{
+            userData.sumCalorie
+        }} </b>kCal
+        <br>
     </div>
 
-    <div v-if="curType == 'month'">
-      <span style="float: left; margin-left: 35px">월간 누적</span>
-      <span style="float: right; margin-right: 35px">{{
-        userData.sumTime
-      }}</span>
+    <div style="font-size:20px;">
+        <br>
+        <img v-if="timeDiff < 0" src="https://cdn-icons-png.flaticon.com/512/599/599426.png" alt="" width="80px">
+        <img v-if="timeDiff >= 0" src="https://cdn-icons-png.flaticon.com/512/983/983079.png" alt="" width="80px">
+        <br><br>
+
+        <div v-if="curType == 'week'">
+            <b>이번 주</b> 평균 산책 시간은<br /><b>저번 주</b> 평균 산책 시간보다
+        </div>
+        <div v-if="curType == 'month'">
+            <b>이번 달</b> 평균 산책 시간은<br /><b>저번 달</b> 평균 산책 시간보다
+        </div>
+        <span class="font-weight-black">{{ timeDiffText }}</span>
+        <span v-if="timeDiff < 0"> 만큼 덜 걸었습니다</span>
+        <span v-if="timeDiff >= 0"> 만큼 더 걸었습니다</span>
     </div>
 
-    <div>하루 평균 : {{ Math.round(userData.avgTime) }}</div>
-    <div>총 소모 칼로리 : {{ userData.sumCalorie }}</div>
-
-    <br />
-    <div v-if="curType == 'week'">
-      이번주 일일 평균 산책 시간은<br />저번주 평균 산책 시간보다
-    </div>
-    <div v-if="curType == 'month'">
-      이번달 일일 평균 산책 시간은<br />저번달 평균 산책 시간보다
-    </div>
-    <div v-if="timeDiff < 0">{{ timeDiffStr }} 만큼 덜 걸었습니다</div>
-    <div v-if="timeDiff >= 0">{{ timeDiffStr }} 만큼 더 걸었습니다</div>
-
-    <div id="space"></div>
-    <div>userInfo:{{ userInfo }}</div>
-    <br />
-    <div>totalTime:{{ totalTime }}</div>
-    <br />
-    <div>userData:{{ userData }}</div>
   </div>
 </template>
 
@@ -83,9 +108,13 @@ export default {
       totalTime: 0,
       userData: [],
       timeDiff: 0,
-      timeDiffStr: "",
       prevDay: "",
       curDay: "",
+      
+        timeDiffText: "",
+        avgTimeText:"",
+        sumTimeText:"",
+      
     };
   },
   created() {
@@ -145,13 +174,32 @@ export default {
 
       this.timeDiff = this.userData.avgTime - this.userData.prevAvgTime;
       if (this.timeDiff < 0) this.timeDiff *= -1;
-      this.timeDiffStr =
+      this.timeDiffText =
         parseInt(this.timeDiff / 3600) +
         "시간 " +
         parseInt((this.timeDiff % 3600) / 60) +
         "분 " +
         parseInt((this.timeDiff % 3600) % 60) +
         "초";
+
+        this.sumTimeText =
+        parseInt(this.userData.sumTime / 3600) +
+        "시간 " +
+        parseInt((this.userData.sumTime % 3600) / 60) +
+        "분 " +
+        parseInt((this.userData.sumTime % 3600) % 60) +
+        "초";
+
+        this.avgTimeText =
+        parseInt(this.userData.avgTime / 3600) +
+        "시간 " +
+        parseInt((this.userData.avgTime % 3600) / 60) +
+        "분 " +
+        parseInt((this.userData.avgTime % 3600) % 60) +
+        "초";
+        
+        this.timeDiff = this.userData.avgTime - this.userData.prevAvgTime;
+        
     },
 
     getDateStr(myDate) {
@@ -170,7 +218,7 @@ export default {
 
 <style scoped>
 #space {
-  height: 120px;
+  height: 80px;
 }
 
 #main {
@@ -183,5 +231,13 @@ export default {
   position: fixed;
   bottom: 0;
   background: #cccccc;
+}
+
+.data{
+    font-size: 25px;
+}
+.data div{
+    margin: 10px 0 0 10px;
+    
 }
 </style>
