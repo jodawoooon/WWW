@@ -1,17 +1,31 @@
 <template>
   <div class="card">
-    <p
-      class="title"
-      style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
-    >
-      {{ $props.title }}
-    </p>
-    <p class="content">
-      <i class="el-icon-location" style="color: #ee684a" />{{ $props.address }}
-    </p>
-    <p class="content">
-      {{ $props.km }}km | {{ $props.min }}분 | {{ $props.kcal }}Kcal
-    </p>
+    <el-row style="display: flex; align-items: center">
+      <el-col :span="20">
+        <p
+          class="title"
+          style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+        >
+          {{ $props.title }}
+        </p>
+        <p class="content">
+          <i class="el-icon-location" style="color: #ee684a" />{{
+            $props.address
+          }}
+        </p>
+        <p class="content">
+          {{ $props.km }}km | {{ $props.min }}분 | {{ $props.kcal }}Kcal
+        </p>
+      </el-col>
+      <el-col :span="4" style="text-align: center">
+        <i
+          :class="[
+            $props.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
+          ]"
+          style="font-size: 25pt; color: #ee684a"
+        />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -38,6 +52,10 @@ export default {
     kcal: {
       type: Number,
       default: 0,
+    },
+    isBookmarked: {
+      type: Boolean,
+      default: false,
     },
   },
 };

@@ -7,6 +7,7 @@
       :km="5"
       :min="120"
       :kcal="100"
+      :isBookmarked="true"
     />
   </div>
 </template>
