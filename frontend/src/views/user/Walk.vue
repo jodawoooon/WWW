@@ -1,27 +1,40 @@
 <template>
-    <div>
+    <div id="main">
         
         <ComponentNav title="나의 산책 분석"></ComponentNav>
         <div id="space"></div>
-        <div><strong>{{userInfo.nickName}}</strong>님이<br>
-        xx와 함께 걸은 시간</div>
-        <div>{{totalTime}}</div>
-        <br>
-        <v-btn elevation="2">ee</v-btn>
-        <v-btn elevation="2">ee</v-btn>
-        <form action="">
-            <button type="button">asdf</button>
-        </form>
-
-        <div v-if="curType=='week'">이번주<br>{{prevDay}} ~ {{curDay}}</div>
-        <div v-if="curType=='month'">이번달<br>{{prevDay}} ~ {{curDay}}</div>
-        <br>
-
-        <div v-if="curType=='week'">주간 누적 : {{userData.sumTime}}</div>
-        <div v-if="curType=='month'">월간 누적 : {{userData.sumTime}}</div>
         
-        <div>하루 평균 : {{userData.avgTime}}</div>
-        <div>총 소모 칼로리 : {{userData.sumCalorie}}</div>
+        <p style="text-align:left;margin-left:25px;">
+            <b>{{userInfo.nickName}}</b>님이
+            <br>(서비스 이름)와 함께 걸은 시간
+        </p>
+        <p class="font-weight-bold" style="font-size:35px;text-align:left;margin-left:25px;">{{totalTime}}</p>
+
+        <br>
+        <v-card>
+            <v-tabs centered fixed-tabs
+          slider-color="red">
+                <v-tab v-on:click="init('week')">이번주</v-tab>
+                <v-tab v-on:click="init('month')">이번달</v-tab>
+            </v-tabs>
+        </v-card>
+        <br><br>
+
+        <div v-if="curType=='week'"><b>이번주</b><br>{{prevDay}} ~ {{curDay}}</div>
+        <div v-if="curType=='month'"><b>이번달</b><br>{{prevDay}} ~ {{curDay}}</div>
+        <br>
+        <div v-if="curType=='week'">
+            <span style="float:left;margin-left:35px;">주간 누적</span>
+            <span style="float:right;margin-right:35px;">{{userData.sumTime}}</span>
+        </div>
+
+        <div v-if="curType=='month'">
+            <span style="float:left;margin-left:35px;">월간 누적</span>
+            <span style="float:right;margin-right:35px;">{{userData.sumTime}}</span>
+        </div>
+        
+        <div>하루 평균 : {{ Math.round(userData.avgTime) }}</div>
+        <div>총 소모 칼로리 : {{ userData.sumCalorie }}</div>
 
         <br>
         <div v-if="curType=='week'">이번주 일일 평균 산책 시간은<br>저번주 평균 산책 시간보다</div>
@@ -61,27 +74,28 @@ export default {
         }
     },
     created(){
-        this.init();
-        this.getUserInfo(this.userId);
-        this.getTotalTime(this.userId);
-        this.getUserData(this.userId, this.curType);
+        this.userId = "test"; // for test
+        this.curType = "week"
+        this.init(this.curType);
     },
     methods:{
-        init(){
-            this.userId = "test"; // for test
+        init(type){
+            this.curType=type;
 
-            this.curType="week";
             let today = new Date();
             this.curDay = this.getDateStr(today);
 
-            if(this.curType == "week"){
+            if(type == "week"){
                 today.setDate(today.getDate() - today.getDay() +1);
                 this.prevDay = this.getDateStr(today);
             }
             else{
                 today.setDate(1);
                 this.prevDay = this.getDateStr(today);
-            }
+                }
+            this.getUserInfo(this.userId);
+            this.getTotalTime(this.userId);
+            this.getUserData(this.userId, type);
         },
 
         async getUserInfo(userId) {
@@ -99,8 +113,12 @@ export default {
                 userId : userId,
             }
             let totalTime = await userApi.getWalkData(data,{});
-            this.totalTime = parseInt(totalTime.time/3600) + "시간 "
-            +parseInt( (totalTime.time%3600)/60 ) +"분 " + parseInt( (totalTime.time%3600)%60 ) + "초";
+            this.totalTime = parseInt(totalTime.time/3600)
+            + "시간 " +
+            parseInt( (totalTime.time%3600)/60 )
+            + "분 " +
+            parseInt( (totalTime.time%3600)%60 )
+            + "초";
             
         },
 
@@ -111,11 +129,15 @@ export default {
                 returnType : returnType,
             }
             this.userData = await userApi.getWalkData(data,{});
-
+            
             this.timeDiff = this.userData.avgTime - this.userData.prevAvgTime;
-            this.timeDiffStr = parseInt(this.timeDiff/3600) + "시간 " +
-            parseInt( (this.timeDiff%3600)/60 ) + "분 " +
-            parseInt( (this.timeDiff%3600)%60 ) + "초";
+            if(this.timeDiff<0)this.timeDiff*=-1;
+            this.timeDiffStr = parseInt(this.timeDiff/3600)
+            + "시간 " +
+            parseInt( (this.timeDiff%3600)/60 )
+            + "분 " +
+            parseInt( (this.timeDiff%3600)%60 )
+            + "초";
         },
 
         getDateStr(myDate){
@@ -135,5 +157,17 @@ export default {
 <style scoped>
 #space{
     height:120px;
+}
+
+#main {
+  width: 100%;
+  max-width: 425px;
+  top:0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  position: fixed;
+  bottom: 0;
+  background: #CCCCCC;
 }
 </style>
