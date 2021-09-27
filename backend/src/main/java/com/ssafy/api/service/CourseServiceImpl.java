@@ -2,20 +2,23 @@ package com.ssafy.api.service;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
+import com.ssafy.api.request.CourseLikeReq;
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.CourseDataGetRes;
 import com.ssafy.api.response.user.CourseBody;
+import com.ssafy.api.response.user.CourseDetailResponseBody;
 import com.ssafy.api.response.user.CourseResponseBody;
 import com.ssafy.common.model.response.BaseResponseBody;
-import com.ssafy.db.repository.CourseQueryRepository;
-import com.ssafy.db.repository.CourseRepository;
-import com.ssafy.db.repository.CourseReviewQueryRepository;
+import com.ssafy.db.entity.CourseLike;
+import com.ssafy.db.key.CoursePK;
+import com.ssafy.db.repository.*;
 import com.sun.istack.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service("courseService")
@@ -30,8 +33,15 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
 
+    @Autowired
+    CourseLikeRepository courseLikeRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     @Override
-    public BaseResponseBody getCourseList(CourseReq courseReq) {
+    @Transactional
+    public BaseResponseBody readCourseList(CourseReq courseReq) {
         PageRequest pageRequest = PageRequest.of(courseReq.getPage(), courseReq.getSize());
         Page<CourseBody> result = courseQueryRepository.findCourseList(courseReq, pageRequest);
 
@@ -69,4 +79,74 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
+    @Transactional
+    public BaseResponseBody readCourseDetail(int courseId, String userId) {
+        CourseDetailResponseBody courseDetailResponseBody = courseQueryRepository.findCourseById(courseId, userId);
+
+        try {
+            courseDetailResponseBody.setMessage("OK");
+            courseDetailResponseBody.setStatusCode(200);
+
+            List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(courseId);
+            Integer myScore = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
+
+            double score;
+
+            if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
+                score=0;
+            }else{
+                score=scoreL.get(0);
+            }
+
+            courseDetailResponseBody.setScore(score);
+            courseDetailResponseBody.setMyScore(myScore);
+
+            return  courseDetailResponseBody;
+        }catch (Exception e){
+            e.printStackTrace();
+            courseDetailResponseBody.setMessage("Not Found");
+            courseDetailResponseBody.setStatusCode(404);
+            return courseDetailResponseBody;
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public BaseResponseBody createCourseLike(CourseLikeReq courseLikeReq) {
+        BaseResponseBody baseResponseBody = new BaseResponseBody();
+
+        CourseLike courseLike = CourseLike.builder()
+                .user(userRepository.findByUserId(courseLikeReq.getUserId()))
+                .course(courseRepository.findByCourseId(courseLikeReq.getCourseId()))
+                .build();
+
+        courseLikeRepository.save(courseLike);
+
+        baseResponseBody.setMessage("OK");
+        baseResponseBody.setStatusCode(201);
+
+        return baseResponseBody;
+    }
+
+    @Override
+    @Transactional
+    public BaseResponseBody deleteCourseLike(CourseLikeReq courseLikeReq) {
+        BaseResponseBody baseResponseBody = new BaseResponseBody();
+
+        CoursePK coursePK = CoursePK.builder()
+                .course(courseLikeReq.getCourseId())
+                .user(courseLikeReq.getUserId())
+                .build();
+
+        CourseLike courseLike = courseLikeRepository.findById(coursePK).get();
+
+        courseLikeRepository.delete(courseLike);
+
+        baseResponseBody.setMessage("OK");
+        baseResponseBody.setStatusCode(200);
+
+        return baseResponseBody;
+    }
 }
