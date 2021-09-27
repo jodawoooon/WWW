@@ -1,10 +1,15 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <div id="app-wrap">
       <router-view />
       <Footer id="footer" />
     </div>
+<<<<<<< HEAD
   </div>
+=======
+    
+  </v-app>
+>>>>>>> feat-14/userAPI
 </template>
 
 <script>

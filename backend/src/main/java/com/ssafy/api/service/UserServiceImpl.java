@@ -8,6 +8,8 @@ import com.ssafy.db.entity.Walk;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +33,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     WalkRepository walkRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     CourseLikeQueryRepository courseLikeQueryRepository;
@@ -215,25 +220,52 @@ public class UserServiceImpl implements UserService{
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
         Calendar c = Calendar.getInstance();
+
+        LocalDate prevStart=null;
+        LocalDate prevFin=null;
+        int prevDay=0;
+
         int today=0;
         if("week".equals(type)){
             today = LocalDate.parse(formatter.format(c.getTime()),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")).getDayOfWeek().getValue(); // monday = 1,
+
             c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+
+            prevStart = LocalDate.parse(formatter.format(c.getTime())).with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+            prevFin = LocalDate.parse(formatter.format(c.getTime())).with(TemporalAdjusters.previous(DayOfWeek.SUNDAY)).plusDays(1);
+            prevDay=7;
+
         }
         else if("month".equals(type)){
             today = LocalDate.now().getDayOfMonth();
+
+            prevStart = LocalDate.parse(formatter.format(c.getTime())).minusMonths(1).withDayOfMonth(1);
+            prevFin = prevStart.withDayOfMonth(prevStart.lengthOfMonth()).plusDays(1);
+            prevDay = prevStart.lengthOfMonth();
+
             c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+
         }
+        System.out.println(prevStart +" "+prevFin+" "+prevDay);
 
         LocalDate ld = LocalDate.parse(formatter.format(c.getTime()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDateTime ldt = ld.atStartOfDay();
+
+        LocalDateTime prevStartT = prevStart.atStartOfDay();
+        LocalDateTime prevFinT = prevFin.atStartOfDay();
+
 
         User user = new User();
 
         user.setUserId(userId);
 
         List<Walk> ret = walkRepository.findByUserAndDateAfter(user, ldt);
+
+        List<Walk> prevRet = walkRepository.findByUserAndDateBetween(user,prevStartT,prevFinT);
+
+
 
         int sumTime=0,sumCalorie=0;
         double sumDistance=0;
@@ -243,6 +275,13 @@ public class UserServiceImpl implements UserService{
             sumCalorie+=w.getCalorie();
         }
 
+        int prevTime=0;
+        for(Walk w : prevRet){
+            System.out.println(w);
+            prevTime+=w.getTime();
+        }
+        System.out.println(prevTime);
+
         timeResponseBody.setStatusCode(200);
         timeResponseBody.setMessage("OK");
         timeResponseBody.setSumTime(sumTime);
@@ -251,7 +290,8 @@ public class UserServiceImpl implements UserService{
         timeResponseBody.setAvgCalorie((double)sumCalorie/today);
         timeResponseBody.setSumDistance(sumDistance);
         timeResponseBody.setAvgDistance(sumDistance/today);
-
+        timeResponseBody.setPrevSumTime(prevTime);
+        timeResponseBody.setPrevAvgTime((double)prevTime/prevDay);
 
         return timeResponseBody;
     }

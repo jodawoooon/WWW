@@ -29,5 +29,8 @@ public interface WalkRepository extends JpaRepository<Walk, Integer> {
 
     public List<Walk> findByUserAndDateAfter(User user, LocalDateTime today);
 
+    public List<Walk> findByUserAndDateBetween(User user, LocalDateTime from, LocalDateTime to);
+
     public int countByCourseAndDateAfter(Course course, LocalDateTime today);
+
 }
