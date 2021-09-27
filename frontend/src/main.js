@@ -11,6 +11,9 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
+import VueGeolocationApi from "vue-geolocation-api";
+
+Vue.use(VueGeolocationApi);
 Vue.use(ElementUI);
 // Install BootstrapVue
 Vue.use(BootstrapVue);

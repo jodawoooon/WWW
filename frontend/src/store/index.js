@@ -9,10 +9,18 @@ export default new Vuex.Store({
       name: "김싸피",
     },
     location: {
-      dong: "싸피동",
+      lat: "37.50143547334588",
+      lng: "127.03963238011177",
+      dong: "역삼동",
     },
   },
-  mutations: {},
+  mutations: {
+    SET_USER_LOCATION(state, payload) {
+      state.location.lat = payload.lat;
+      state.location.lng = payload.lng;
+      state.location.dong = payload.dong;
+    },
+  },
   actions: {},
   getters: {
     getUserName(state) {
@@ -20,6 +28,9 @@ export default new Vuex.Store({
     },
     getDong(state) {
       return state.location.dong;
+    },
+    getLocation(state) {
+      return state.location;
     },
   },
   modules: {},
