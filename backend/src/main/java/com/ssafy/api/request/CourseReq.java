@@ -30,14 +30,17 @@ public class CourseReq {
     int maxTime;
 
     @Schema(description = "최소 산책로 길이(KM)", defaultValue = "0", example = "0")
-    int minDistnace;
+    int minDistance;
 
     @Schema(description = "최대 산책로 길이(KM)", defaultValue = "10", example = "10")
     int maxDistance;
 
+    @Schema(description = "동", defaultValue = "역삼동", example = "역삼동")
     String dong;
 
-    Double longtitude;
+    @Schema(description = "경도", defaultValue = "127.03964896829933", example = "127.03964896829933")
+    Double longitude;
 
+    @Schema(description = "위도", defaultValue = "37.50146850020213", example = "37.50146850020213")
     Double latitude;
 }

@@ -14,7 +14,7 @@
           }}
         </p>
         <p class="content">
-          {{ $props.km }}km | {{ $props.min }}분 | {{ $props.kcal }}Kcal
+          {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}Kcal
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
@@ -46,8 +46,8 @@ export default {
       default: 0,
     },
     min: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "min",
     },
     kcal: {
       type: Number,

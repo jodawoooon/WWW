@@ -20,7 +20,7 @@ public class CourseDetailResponseBody extends BaseResponseBody {
     double latitude;
     double longitude;
     int likes;  // 코스의 좋아요 개수
-    int myLike; // 로그인 사용자의 좋아요 여부 (0, 1)
-    double score;  // 코스의 평균 점수 : 0~10을 별 5개로 표시
+    boolean myLike; // 로그인 사용자의 좋아요 여부 (true, false)
+    double score;  // 코스의 평균 점수 : 0~5를 별 5개로 표시
     int myScore;    // 로그인 사용자의 리뷰 점수 : 0~10을 별 5개로 표시
 }

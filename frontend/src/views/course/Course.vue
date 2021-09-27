@@ -7,6 +7,7 @@
         <el-row>
           <el-button
             type="primary"
+            @click="filter.sort = 'distance'"
             style="
               height: 10px;
               padding-left: 0px;
@@ -31,6 +32,7 @@
           </el-button>
           <el-button
             type="primary"
+            @click="filter.sort = 'likes'"
             style="
               height: 10px;
               padding-left: 0px;
@@ -71,7 +73,8 @@
           <h5>거리</h5>
           <el-slider
             v-model="filterDist"
-            :min="3"
+            range
+            :min="0"
             :max="15"
             :step="3"
             :marks="kms"
@@ -83,8 +86,9 @@
           <h5>시간</h5>
           <el-slider
             v-model="filterTime"
+            range
             :marks="times"
-            :min="30"
+            :min="0"
             :max="180"
             :step="30"
             :show-tooltip="false"
@@ -100,7 +104,7 @@
             justify-content: center;
           "
         >
-          <el-button type="danger" size="small">검색</el-button
+          <el-button type="danger" size="small" @click="setData">검색</el-button
           ><el-button type="danger" size="small" @click="resetData"
             >초기화</el-button
           ></el-row
@@ -110,7 +114,7 @@
       <span style="font-weight: 700">{{ dong }}</span> 일대의 산책로 코스입니다.
 
       <div class="course-content">
-        <CourseList :dong="dong" />
+        <CourseList :filter="filter" />
       </div>
     </div>
   </div>
@@ -130,6 +134,7 @@ export default {
   data() {
     return {
       times: {
+        0: "0분",
         30: "30분",
         60: "60분",
         90: "90분",
@@ -138,23 +143,42 @@ export default {
         180: "⬆",
       },
       kms: {
+        0: "0km",
         3: "3km",
         6: "6km",
         9: "9km",
         12: "12km",
         15: "⬆ ",
       },
-      filterTime: 180,
-      filterDist: 15,
-      filterKcal: 0,
+      filterTime: [0, 180],
+      filterDist: [0, 15],
       showFilter: false,
       dong: this.$store.getters.getDong,
+      filter: {
+        userId: "",
+        sort: "distance",
+        criteria: "dong",
+        minTime: 0,
+        maxTime: 1440,
+        minDistance: 0,
+        maxDistance: 15,
+        dong: this.$store.getters.getDong,
+        longitude: parseFloat(this.$store.getters.getLocation.lng),
+        latitude: parseFloat(this.$store.getters.getLocation.lat),
+      }
     };
   },
   methods: {
+    setData() {
+      this.filter.minTime = this.filterTime[0];
+      this.filter.maxTime = (this.filterTime[1] < 180) ? this.filterTime[1] : 1440;
+      this.filter.minDistance = this.filterDist[0];
+      this.filter.maxDistance = (this.filterDist[1] < 15) ? this.filterDist[1] : 40;
+    },
     resetData() {
-      this.filterTime = 180;
-      this.filterDist = 15;
+      this.filterTime = [0, 180];
+      this.filterDist = [0, 15];
+      this.filter.sort = "distance";
     },
   },
 };

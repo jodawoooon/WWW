@@ -2,7 +2,6 @@ package com.ssafy.walkServer.db.repository;
 
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.user.CourseBody;
-import com.ssafy.api.service.CourseService;
 import com.ssafy.db.repository.CourseQueryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,11 @@ public class CourseRepositoryTest {
         courseReq.setSort("distance");
         courseReq.setMinTime(0);
         courseReq.setMaxTime(240);
-        courseReq.setMinDistnace(0);
+        courseReq.setMinDistance(0);
         courseReq.setMaxDistance(10);
         courseReq.setDong("삼성동");
         courseReq.setLatitude(37.508690392046);
-        courseReq.setLongtitude(127.05618275253);
+        courseReq.setLongitude(127.05618275253);
 
         PageRequest pageRequest = PageRequest.of(0, 10);
         Page<CourseBody> results = courseQueryRepository.findCourseList(courseReq, pageRequest);
