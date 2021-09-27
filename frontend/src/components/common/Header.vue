@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav id="nav">
-      <div id="title">Home</div>
+      <div id="title">{{ $props.message }}</div>
       <div></div>
     </nav>
   </div>
@@ -12,6 +12,7 @@
 
 export default {
   name: "Header",
+  props: ["message"],
 };
 </script>
 
@@ -28,8 +29,8 @@ export default {
 
   max-width: 425px;
   /*width: 100vw;*/
-  height: 53px;
-  line-height: 53px;
+  height: 57px;
+  line-height: 57px;
 }
 
 #title {
