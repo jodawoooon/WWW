@@ -1,20 +1,45 @@
 <template>
-    <div>
-        <div class="main-greeting">
-            <div class="nickname">
-                <span>다운님</span>
-            </div>
-            <div class="comment">
-                <span>OOO</span> <span>과 함께 산책해보세요</span>
-            </div>
-        </div>
+  <div>
+    <Header id="navBar" />
+    <div class="main-greeting">
+      <div style="top-margin: 50px">test</div>
     </div>
+  </div>
 </template>
 
 <script>
-import ('@/assets/style/Main.css')
+import Header from "@/components/common/Header";
+import("@/assets/style/Main.css");
 
 export default {
-    name: "Main"
-}
+  name: "Main",
+  components: {
+    Header,
+  },
+};
 </script>
+
+<style scoped>
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+#navBar {
+  position: fixed;
+  width: 100%;
+  max-width: 425px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 60px;
+  z-index: 3;
+}
+</style>
