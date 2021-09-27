@@ -8,12 +8,18 @@ export default new Vuex.Store({
     userInfo: {
       name: "김싸피",
     },
+    location: {
+      dong: "싸피동",
+    },
   },
   mutations: {},
   actions: {},
   getters: {
     getUserName(state) {
       return state.userInfo.name;
+    },
+    getDong(state) {
+      return state.location.dong;
     },
   },
   modules: {},

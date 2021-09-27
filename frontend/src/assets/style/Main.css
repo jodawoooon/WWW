@@ -7,6 +7,9 @@
 .default {
   margin-top: 80px;
   margin-bottom: 100px;
+  padding-left: 4%;
+  padding-right: 4%;
+  text-align: left;
 }
 
 .main-greeting {
@@ -32,6 +35,17 @@
 
 .main-greeting .comment {
   font-size: 1.2em;
+}
+
+#navBar {
+  position: fixed;
+  width: 100%;
+  max-width: 425px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+
+  z-index: 3;
 }
 
 /**

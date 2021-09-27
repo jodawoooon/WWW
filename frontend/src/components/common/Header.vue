@@ -1,7 +1,15 @@
 <template>
   <div>
     <nav id="nav">
-      <span id="title" style="padding-left: 30px">{{ $props.message }}</span>
+      <span style="float: left; line-height: 57px; padding-left: 20px">
+        <i class="el-icon-back" v-if="showArrow == true"></i>
+        <i
+          class="el-icon-back"
+          v-if="showArrow == false"
+          style="color: #ffffff"
+        ></i>
+      </span>
+      <span id="title">{{ $props.message }}</span>
       <el-dropdown style="float: right; line-height: 57px; padding-right: 30px">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>
@@ -20,7 +28,10 @@
 
 export default {
   name: "Header",
-  props: ["message"],
+  props: {
+    message: String,
+    showArrow: Boolean,
+  },
 };
 </script>
 
