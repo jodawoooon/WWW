@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="goDetail()">
     <el-row style="display: flex; align-items: center">
       <el-col :span="20">
         <p
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import router from "@/router/index.js";
+
 export default {
   name: "CourseCard",
   props: {
@@ -56,6 +58,11 @@ export default {
     isBookmarked: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    goDetail() {
+      router.push("/course/detail");
     },
   },
 };

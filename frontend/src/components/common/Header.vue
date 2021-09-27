@@ -2,7 +2,11 @@
   <div>
     <nav id="nav">
       <span style="float: left; line-height: 57px; padding-left: 20px">
-        <i class="el-icon-back" v-if="showArrow == true"></i>
+        <i
+          class="el-icon-back"
+          v-if="showArrow == true"
+          @click="goBack($props.back)"
+        ></i>
         <i
           class="el-icon-back"
           v-if="showArrow == false"
@@ -26,11 +30,19 @@
 <script>
 // import {mapGetters, mapState} from "vuex";
 
+import router from "@/router/index.js";
+
 export default {
   name: "Header",
   props: {
     message: String,
     showArrow: Boolean,
+    back: String,
+  },
+  methods: {
+    goBack(back) {
+      router.push(back);
+    },
   },
 };
 </script>
