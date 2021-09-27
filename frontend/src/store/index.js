@@ -9,9 +9,9 @@ export default new Vuex.Store({
       name: "김싸피",
     },
     location: {
-      lat: "",
-      lng: "",
-      dong: "싸피동",
+      lat: "37.50143547334588",
+      lng: "127.03963238011177",
+      dong: "역삼동",
     },
   },
   mutations: {
