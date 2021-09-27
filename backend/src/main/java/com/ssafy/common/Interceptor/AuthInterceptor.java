@@ -29,64 +29,65 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        String accessToken = null;
-        String refreshToken = null;
-
-        // 현재 로그인 된 상태인지 체크
-        if(cookies == null || cookies.length == 0){
-            throw new AuthorizationServiceException("로그인이 필요합니다!");
-        }
-
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("accessToken"))
-                accessToken = cookie.getValue();
-            else if(cookie.getName().equals("refreshToken"))
-                refreshToken = cookie.getValue();
-        }
-
-        // 현재 로그인 된 상태인지 체크
-        if(accessToken == null || refreshToken == null) {
-            throw new AuthorizationServiceException("로그인이 필요합니다!");
-        }
-
-        KakaoAPI kakaoAPI = new KakaoAPI();
-        int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
-        System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
-        // accessToken이 만료되어 401 Error 발생
-        if(responseCode == 401){
-            //Cookie refreshTokenCookie = cookieUtil.getCookie(request, "refreshToken");
-            // 새로운 토큰 갱신
-            HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshToken);
-            System.out.println(Token);
-            String newAceessToken = (String) Token.get("accessToken");
-            Long newAceessTokenExpire = Long.parseLong((String) Token.get("accessTokenExpire"));
-
-            // 새로운 accessToken에 대한 cookie값 설정
-            Cookie newAccessTokenCookie = cookieUtil.createCookie("accessToken", newAceessTokenExpire, newAceessToken);
-            response.addCookie(newAccessTokenCookie);
-
-            // refreshToken의 유효기간이 1개월 미만인 경우 refreshToken또한 갱신
-            if (Token.get("refreshToken") != null && Token.get("refreshTokenExpire") != null) {
-                String newRefreshToken = (String) Token.get("refreshToken");
-                Long newRefreshTokenExpire = Long.parseLong((String) Token.get("refreshTokenExpire"));
-                String userId = redisService.getData(refreshToken);
-                // redis에 저장된 refreshToken이 만료되지 않은 경우
-                if (userId != null) {
-                    // 유효기간이 1개월 미만인 refreshToken 삭제 후 새로운 refreshToken 발급
-                    redisService.deleteData(refreshToken);
-                }
-                // redis에 새로운 refreshToken값 저장
-                redisService.setDataExpire(newRefreshToken, userId, newRefreshTokenExpire);
-                // 새로운 refreshToken에 대한 cookie값 설정
-                Cookie newRefreshTokenCookie = cookieUtil.createCookie("refreshToken", newRefreshTokenExpire, newRefreshToken);
-                response.addCookie(newRefreshTokenCookie);
-            }
-        }
-
-        if(responseCode == 400){
-            throw new AuthorizationServiceException("잘못된 접근입니다!");
-        }
+//        Cookie[] cookies = request.getCookies();
+//        String accessToken = null;
+//        String refreshToken = null;
+//
+//        // 현재 로그인 된 상태인지 체크
+//        if(cookies == null || cookies.length == 0){
+//            throw new AuthorizationServiceException("로그인이 필요합니다!");
+//        }
+//
+//        for(Cookie cookie : cookies){
+//            if(cookie.getName().equals("accessToken"))
+//                accessToken = cookie.getValue();
+//            else if(cookie.getName().equals("refreshToken"))
+//                refreshToken = cookie.getValue();
+//        }
+//
+//        // 현재 로그인 된 상태인지 체크
+//        if(accessToken == null || refreshToken == null) {
+//            throw new AuthorizationServiceException("로그인이 필요합니다!");
+//        }
+//
+//        KakaoAPI kakaoAPI = new KakaoAPI();
+//        int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
+//        System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
+//        // accessToken이 만료되어 401 Error 발생
+//        if(responseCode == 401){
+//            //Cookie refreshTokenCookie = cookieUtil.getCookie(request, "refreshToken");
+//            // 새로운 토큰 갱신
+//            HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshToken);
+//            System.out.println(Token);
+//            String newAceessToken = (String) Token.get("accessToken");
+//            Long newAceessTokenExpire = Long.parseLong((String) Token.get("accessTokenExpire"));
+//
+//            // 새로운 accessToken에 대한 cookie값 설정
+//            Cookie newAccessTokenCookie = cookieUtil.createCookie("accessToken", newAceessTokenExpire, newAceessToken);
+//            response.addCookie(newAccessTokenCookie);
+//
+//            // refreshToken의 유효기간이 1개월 미만인 경우 refreshToken또한 갱신
+//            if (Token.get("refreshToken") != null && Token.get("refreshTokenExpire") != null) {
+//                String newRefreshToken = (String) Token.get("refreshToken");
+//                Long newRefreshTokenExpire = Long.parseLong((String) Token.get("refreshTokenExpire"));
+//                String userId = redisService.getData(refreshToken);
+//                // redis에 저장된 refreshToken이 만료되지 않은 경우
+//                if (userId != null) {
+//                    // 유효기간이 1개월 미만인 refreshToken 삭제 후 새로운 refreshToken 발급
+//                    redisService.deleteData(refreshToken);
+//                }
+//                // redis에 새로운 refreshToken값 저장
+//                redisService.setDataExpire(newRefreshToken, userId, newRefreshTokenExpire);
+//                // 새로운 refreshToken에 대한 cookie값 설정
+//                Cookie newRefreshTokenCookie = cookieUtil.createCookie("refreshToken", newRefreshTokenExpire, newRefreshToken);
+//                response.addCookie(newRefreshTokenCookie);
+//            }
+//        }
+//
+//        if(responseCode == 400){
+//            throw new AuthorizationServiceException("잘못된 접근입니다!");
+//        }
+//        return true;
         return true;
     }
 
