@@ -16,14 +16,39 @@ spa:
 
 
 spring:
+  security:
+    user:
+      name: "ssafy"
+      password: "ssafy"
+
   redis:
-    host: localhost
-    port: 6379
+    host: j5a605.p.ssafy.io
+    port: 8000
   profiles:
     include:
       - db
 
   oauth2:
+    client:
+      registration:
+        kakao:
+          authorization-grant-type: authorization_code
+          client-id: 1e31c0b3e807829e950f0236c26efec6
+          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+          scope:
+            - profile
+            - account_email
+          client-authentication-method: POST
+          client-name: Kakao
+
+      provider:
+
+        kakao:
+          authorization-uri: https://kauth.kakao.com/oauth/authorize
+          token-uri: https://kauth.kakao.com/oauth/token
+          user-info-uri: http://kapi.kakao.com/v2/user/me
+          user-name-attribute: id
+
 
   data:
     web:
