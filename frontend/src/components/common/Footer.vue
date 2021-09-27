@@ -2,13 +2,17 @@
   <footer>
     <div id="flex-container">
       <router-link to="/main"
-        ><i class="material-icons" style="font-size: 30px">home</i></router-link
-      >
+        ><i class="el-icon-house" style="font-size: 23px"></i
+      ></router-link>
       <router-link to="/course"
-        ><i class="material-icons" style="font-size: 30px">map</i></router-link
-      >
-      <router-link to="/user/walk"> </router-link>
-      <router-link to="/main"></router-link>
+        ><i class="el-icon-place" style="font-size: 23px"></i
+      ></router-link>
+      <router-link to="/user/walk"
+        ><i class="el-icon-data-line" style="font-size: 23px"></i
+      ></router-link>
+      <router-link to="/user"
+        ><i class="el-icon-collection" style="font-size: 23px"></i
+      ></router-link>
     </div>
   </footer>
 </template>

@@ -29,7 +29,7 @@ export default {
 }
 
 #footer {
-  height: 60px;
+  height: 55px;
   width: 100%;
   max-width: 425px;
   left: 0;
