@@ -1,9 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    <ComponentNav title="나의 산책 분석"></ComponentNav>
-  </div>
-=======
     <div id="main">
         
         <ComponentNav title="나의 산책 분석"></ComponentNav>
@@ -53,7 +48,6 @@
         <div>userData:{{userData}}</div>
     </div>
 
->>>>>>> feat-14/userAPI
 </template>
 
 <script>
@@ -61,14 +55,6 @@ import ComponentNav from "@/components/common/ComponentNav";
 import userApi from "@/api/user.js"
 
 export default {
-<<<<<<< HEAD
-  name: "Walk",
-  components: {
-    ComponentNav,
-  },
-};
-</script>
-=======
     name: 'Walk',
     components: {
         ComponentNav
@@ -184,4 +170,3 @@ export default {
   background: #CCCCCC;
 }
 </style>
->>>>>>> feat-14/userAPI
