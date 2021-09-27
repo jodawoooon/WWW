@@ -7,6 +7,9 @@ import Main from "@/views/main/Main";
 // 코스 정보
 import Course from "@/views/course/Course";
 
+// 코스 상세
+import CourseDetail from "@/views/course/CourseDetail";
+
 // 유저 산책 정보
 import MyWalk from "@/views/user/Walk";
 
@@ -23,6 +26,9 @@ const routes = [
 
   // 동네 코스 목록
   { path: "/course", component: Course },
+
+  // 동네 코스 상세 목록
+  { path: "/course/detail", component: CourseDetail },
 
   // 나의 산책 분석
   { path: "/user/walk", component: MyWalk },
