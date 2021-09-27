@@ -13,6 +13,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.List;
 import com.ssafy.db.repository.UserRepository;
@@ -33,9 +34,6 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     WalkRepository walkRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     CourseLikeQueryRepository courseLikeQueryRepository;
