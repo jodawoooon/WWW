@@ -32,10 +32,10 @@ export default {
   width: 100%;
   color: #183a1d;
   position: fixed;
-  top: 60px;
+  top: 0;
   left: 0;
   right: 0;
-  margin: 0 auto;
+  margin: 0 0 0 0;
   z-index: 3;
   background: white;
   border-bottom: 1px solid #e4e6e9;
@@ -53,15 +53,6 @@ export default {
 }
 #component-nav a {
   text-align: start;
-   width: 60px;
-}
-#component-nav a {
-  text-align: start;
-
-}
-
-#component-nav div{
-  text-align : center;
 }
 
 </style>

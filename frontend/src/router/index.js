@@ -13,6 +13,12 @@ import MyWalk from "@/views/user/Walk";
 // 로그인
 import Login from "@/views/user/Login";
 
+// Redirect
+import KakaoCallback from "@/views/user/kakao-callback";
+
+// 회원가입
+import SignUp from "@/views/user/Signup";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +35,12 @@ const routes = [
 
   // 로그인
   { path: "/login", component: Login },
+
+  // Redirect
+  { path: "/kakao/callback", component: KakaoCallback },
+
+  // 회원가입
+  { path: "/signup", component: SignUp },
 ];
 
 const router = new VueRouter({

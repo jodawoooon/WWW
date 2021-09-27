@@ -60,10 +60,10 @@ public class UserServiceImpl implements UserService{
         User user = new User();
 
         String id = (String) userInfo.get("userId");
-        String name = (String) userInfo.get("name");
+        String nickname = (String) userInfo.get("nickname");
 
         user.setUserId(id);
-        user.setName(name);
+        user.setNickname(nickname);
 
         // DB에 user 정보 저장
         userRepository.save(user);

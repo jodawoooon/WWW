@@ -32,7 +32,7 @@ public class KakaoController {
     @Autowired
     CookieUtil cookieUtil;
 
-    @RequestMapping(value="/login")
+    @GetMapping(value="/login")
     public ResponseEntity<UserLoginPostRes> login(@RequestParam("code") String code, HttpSession session, HttpServletResponse response) {
         HashMap<String,Object> Token = kakaoAPI.getAccessToken(code);
         // Token 정보를 <String, 객체>로 생성
