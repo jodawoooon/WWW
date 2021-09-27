@@ -13,6 +13,9 @@ import MyWalk from "@/views/user/Walk";
 // 로그인
 import Login from "@/views/user/Login";
 
+// 관심 코스 정보
+import MyCourse from "@/views/user/MyCourse";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +32,8 @@ const routes = [
 
   // 로그인
   { path: "/login", component: Login },
+  
+  { path: "/user/mycourse", component: MyCourse},
 ];
 
 const router = new VueRouter({
