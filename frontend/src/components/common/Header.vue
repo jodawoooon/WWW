@@ -1,8 +1,16 @@
 <template>
   <div>
     <nav id="nav">
-      <div id="title">{{ $props.message }}</div>
-      <div></div>
+      <span id="title" style="padding-left: 30px">{{ $props.message }}</span>
+      <el-dropdown style="float: right; line-height: 57px; padding-right: 30px">
+        <span class="el-dropdown-link">
+          <i class="el-icon-more"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>로그인</el-dropdown-item>
+          <el-dropdown-item>로그아웃</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </nav>
   </div>
 </template>
@@ -17,6 +25,12 @@ export default {
 </script>
 
 <style scoped>
+.el-dropdown-link {
+  cursor: pointer;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
 #nav {
   background-color: white;
   top: 0;
