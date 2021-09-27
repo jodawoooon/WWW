@@ -49,8 +49,8 @@ export default {
 }
 
 .main-box {
-  margin-bottom: 30px;
-  height: 70px;
+  margin-bottom: 15px;
+  height: 90px;
   background: #f6f6f6;
   border-radius: 20px;
 }
