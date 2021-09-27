@@ -17,7 +17,7 @@ export const requestGet = async (url, headers) => {
 export const requestPost = async (url, data, headers) => {
   try {
     const response = await axios.post(url, data, { headers });
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       return response.data;
     }
     throw new Error();
