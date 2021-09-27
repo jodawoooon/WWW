@@ -16,6 +16,15 @@
   font-size: 10px !important;
 }
 
+.el-tabs__item.is-active {
+  color: #303133;
+  font-weight: 700;
+}
+
+.el-tabs__active-bar {
+  background-color: #ee684a;
+}
+
 .el-slider__bar {
   background-color: #49ab76 !important;
 }
