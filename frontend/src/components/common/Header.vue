@@ -19,8 +19,16 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="login()">로그인</el-dropdown-item>
-          <el-dropdown-item @click="logout()">로그아웃</el-dropdown-item>
+          <el-dropdown-item>
+            <el-button @click="login()" size="mini"
+              >로그인</el-button
+            ></el-dropdown-item
+          >
+          <el-dropdown-item>
+            <el-button @click="logout()" size="mini"
+              >로그아웃</el-button
+            ></el-dropdown-item
+          >
         </el-dropdown-menu>
       </el-dropdown>
     </nav>
@@ -83,5 +91,9 @@ export default {
 
 #title {
   font-weight: 700;
+}
+
+.el-button {
+  border: 0px;
 }
 </style>

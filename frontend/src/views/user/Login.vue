@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ComponentNav></ComponentNav>
+    <Header></Header>
     <div>
       <div class="login-content">
         <div style="top-margin: 50px">
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import ComponentNav from "@/components/common/ComponentNav";
+import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 
 export default {
   name: "Login",
   components: {
-    ComponentNav,
+    Header,
   },
   methods: {},
 };
