@@ -68,6 +68,7 @@ export default {
     geofind() {
       if (!("geolocation" in navigator)) {
         this.textContent = "Geolocation is not available.";
+        alert(this.textContent);
         return;
       }
       this.textContent = "Locating...";

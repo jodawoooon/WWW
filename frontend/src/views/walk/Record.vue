@@ -8,32 +8,60 @@
 
     <div class="box">
       <div class="content-top">
-        <h3 style="font-weight: 700; margin-bottom: 8px">
-          {{ this.course.title }}
+        <h3 style="font-weight: 700; margin-bottom: 2px">
+          🏁 {{ this.course.title }}
         </h3>
-        <el-divider style="padding: 0" />
+        <p style="font-weight: 400; font-size: 9pt; margin-bottom: 6px">
+          🌎 현위치 : {{ this.address }}
+        </p>
+        <el-divider />
+
+        <el-row style="text-align: center">
+          <el-col :span="8" class="myRecord">
+            <div id="run_desc distance">누적 거리</div>
+            <span id="acc_dis"> {{ accumulated_distance.toFixed(2) }}km </span>
+          </el-col>
+          <el-col :span="8" class="myRecord">
+            <div id="run_desc speed">현재 속도</div>
+            <span id="acc_time">{{ speed.toFixed(2) }}m/s</span>
+          </el-col>
+          <el-col :span="8" class="myRecord">
+            <div id="run_desc time">누적 시간</div>
+            <span id="time">{{ clock }}</span>
+          </el-col>
+        </el-row>
         <div class="btn_container">
           <div v-if="!running">
-            <section class="bottom-bar">
+            <section
+              class="bottom-bar"
+              style="
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding-top: 10px;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: center;
+              "
+            >
               <div v-if="!isPause">
-                <button
-                  type="button"
+                <el-button
+                  type="danger"
                   @click="startLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
                   start
-                </button>
+                </el-button>
               </div>
               <div v-if="isPause">
-                <button
-                  type="button"
+                <el-button
+                  type="danger"
                   @click="watchLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
                   start
-                </button>
-                <button
-                  type="button"
+                </el-button>
+                <el-button
+                  type="warning"
                   @click="endLocationUpdates"
                   class="
                     btn
@@ -44,42 +72,38 @@
                   "
                 >
                   stop
-                </button>
+                </el-button>
               </div>
             </section>
           </div>
           <div v-if="running">
-            <section class="bottom-bar">
-              <button
+            <section
+              class="bottom-bar"
+              style="
+                margin-top: 10px;
+                margin-bottom: 10px;
+                padding-top: 10px;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <el-button
                 type="button"
                 @click="stopLocationUpdates"
                 class="btn round btn btn-info btn-icon rounded-circle m-1"
               >
                 pause
-              </button>
+              </el-button>
 
-              <button
-                type="button"
+              <el-button
+                type="warning"
                 @click="endLocationUpdates"
                 class="btn round btn btn-secondary btn-icon rounded-circle m-1"
               >
                 stop
-              </button>
+              </el-button>
             </section>
-          </div>
-        </div>
-        <div style="text-align: center; margin-top: 40px">
-          <div class="myRecord">
-            <div id="run_desc distance">누적 거리</div>
-            <span id="acc_dis"> {{ accumulated_distance.toFixed(2) }}km </span>
-          </div>
-          <div class="myRecord">
-            <div id="run_desc speed">현재 속도</div>
-            <span id="acc_time">{{ speed.toFixed(2) }}m/s</span>
-          </div>
-          <div class="myRecord">
-            <div id="run_desc time">누적 시간</div>
-            <span id="time">{{ clock }}</span>
           </div>
         </div>
       </div>
@@ -112,6 +136,7 @@ export default {
     return {
       current: { lat: 0, lng: 0 },
       previous: { lat: 0, lng: 0 },
+      address: "",
       watchPositionId: null,
       map: null,
       accumulated_distance: 0, // 총 누적거리
@@ -339,6 +364,7 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         this.current.lat = position.coords.latitude;
         this.current.lng = position.coords.longitude;
+
         axios
           .get(
             "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
@@ -358,6 +384,7 @@ export default {
               lng: this.current.lng,
               dong: dong,
             });
+            this.address = response.data.documents[0].address_name;
           });
 
         var container = document.getElementById("map");
@@ -461,6 +488,21 @@ export default {
           // // );
           // // this.gugun = gugun;
 
+          axios
+            .get(
+              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
+                this.current.lng +
+                "&y=" +
+                this.current.lat,
+              {
+                headers: {
+                  Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+                },
+              }
+            )
+            .then((response) => {
+              this.address = response.data.documents[0].address_name;
+            });
           map.setCenter(now);
           marker.setPosition(now);
           if (this.previous.lat == 0) {
@@ -538,8 +580,8 @@ export default {
   padding: 20px;
   border-radius: 30px 30px 0px 0px;
   background: #ffffff;
-  height: 180px;
-  margin-top: -150px;
+  height: 222.5px;
+  margin-top: -197px;
   z-index: 1;
   position: relative;
 

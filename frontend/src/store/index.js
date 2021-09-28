@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -39,7 +39,32 @@ export default new Vuex.Store({
           lat: "37.4265296",
           lng: "126.986664",
         },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
       ],
+
       isBookmarked: false,
     },
   },
@@ -78,4 +103,5 @@ export default new Vuex.Store({
     },
   },
   modules: {},
+  plugins: [createPersistedState()],
 });
