@@ -90,8 +90,12 @@
       />
       <br /><br />
 
-      <div v-if="curType == 'week'"><b>이번 주</b> 는 <b>저번 주</b>보다</div>
-      <div v-if="curType == 'month'"><b>이번 달</b>은 <b>저번 달</b> 보다</div>
+      <div v-if="curType == 'week'">
+        <b>이번 주</b> 는 <b>저번 주</b>보다 하루 평균
+      </div>
+      <div v-if="curType == 'month'">
+        <b>이번 달</b>은 <b>저번 달</b> 보다 하루 평균
+      </div>
       <span class="font-weight-black">{{ timeDiffText }}</span>
       <span v-if="timeDiff < 0"> 만큼 덜 걸었어요</span>
       <span v-if="timeDiff >= 0"> 만큼 더 걸었어요</span>
