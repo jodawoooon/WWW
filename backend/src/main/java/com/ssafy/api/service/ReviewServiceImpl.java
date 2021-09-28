@@ -37,7 +37,6 @@ public class ReviewServiceImpl implements ReviewService{
 
         baseResponseBody.setMessage("OK");
         baseResponseBody.setStatusCode(201);
-
         return baseResponseBody;
     }
 
