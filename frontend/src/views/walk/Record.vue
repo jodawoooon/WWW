@@ -593,8 +593,6 @@ export default {
   margin-top: -197px;
   z-index: 1;
   position: relative;
-
-  box-shadow: 2px 2px 7px 5px #c5c5c5;
 }
 
 .bookmark {
