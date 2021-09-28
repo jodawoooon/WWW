@@ -20,10 +20,15 @@
         :isBookmarked="course.myLike"
       />
     </div>
+    <!-- <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
+      <div slot="no-results"></div>
+      <div slot="no-more"></div>
+    </infinite-loading> -->
   </div>
 </template>
 
 <script>
+// import InfiniteLoading from 'vue-infinite-loading';
 import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
 
@@ -32,6 +37,7 @@ export default {
   props: ["filter"],
   components: {
     CourseCard,
+    // InfiniteLoading,
   },
   data() {
     return {
@@ -67,16 +73,11 @@ export default {
     this.readCourseList();
   },
   methods: {
-    nextPage() {
-      this.courseReq.page++;
-      this.readCourseList();
-    },
     resetData() {
       this.showNearby = false;
       this.courseList = [];
       this.courseReq.userId = this.filter.userId;
       this.courseReq.page = 0;
-      this.courseReq.size = 10;
       this.courseReq.sort = this.filter.sort;
       this.courseReq.criteria = this.filter.criteria;
       this.courseReq.minTime = this.filter.minTime;
@@ -93,19 +94,26 @@ export default {
         this.courseReq,
         {}
       ).then((res) => {
-        this.courseList = res.courseList;
+        this.courseList = this.courseList.concat(res.courseList);
         this.hasNextPage = res.hasNextPage;
-        this.page = res.page;
-        console.log(this.courseList);
+        this.courseReq.page = res.page;
         // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
         if (this.courseReq.dong !== "" && this.courseList.length == 0) {
+          this.courseReq.page = 0;
           this.courseReq.dong = "";
-          console.log("재실행");
           this.showNearby = true;
           this.readCourseList();
+          return;
         }
+        // console.log("1");
       });
+      // console.log("2");
     },
+    // async infiniteHandler($state) {
+    //   await this.readCourseList();
+    //   // console.log("3");
+    //   $state.complete();
+    // },
   },
 };
 </script>
