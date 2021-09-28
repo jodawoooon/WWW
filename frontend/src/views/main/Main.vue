@@ -84,7 +84,7 @@ export default {
       lng: "",
 
       dong: "",
-      userName: this.$store.getters.getUserName,
+      userName: this.$store.getters.getLoginUserInfo.nickname,
       api_key: "51f278e92de05bac589367d013849016",
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "",
