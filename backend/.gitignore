@@ -39,3 +39,4 @@ application-db.yml
 .vscode/
 
 dist/
+src/main/resources/dist/

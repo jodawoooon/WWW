@@ -7,7 +7,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
-import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.api.request.CourseReq;
 import com.ssafy.api.response.user.CourseBody;
@@ -84,7 +83,7 @@ public class CourseQueryRepository {
                         "+ sin ( radians({0}) )" +
                         "* sin ( radians({2}) )" +
                         ")", course.latitude, course.longitude,
-                courseReq.getLatitude(), courseReq.getLongtitude()
+                courseReq.getLatitude(), courseReq.getLongitude()
         );
 
         // 정렬 조건: 거리짧은순(기본값), 인기순
@@ -110,13 +109,13 @@ public class CourseQueryRepository {
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().intValue().as("myLike"),
+                        my_cl.countDistinct().gt(1).as("myLike"),
                         geoDistance.as("geoDistance"))
                 )
                 .from(course)
                 .leftJoin(cl).on(cl.course.eq(course))
                 .leftJoin(my_cl).on(my_cl.course.eq(course).and(my_cl.user.userId.eq(courseReq.getUserId())))
-                .where(course.distance.between(courseReq.getMinDistnace(), courseReq.getMaxDistance())
+                .where(course.distance.between(courseReq.getMinDistance(), courseReq.getMaxDistance())
                         .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
                         ,containsDong(courseReq.getDong())
                         ,eqUserIdAndLike(courseReq.getUserId(), courseReq.getCriteria()))
@@ -152,7 +151,7 @@ public class CourseQueryRepository {
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().intValue().as("myLike"))
+                        my_cl.countDistinct().gt(1).as("myLike"))
                 )
                 .from(course)
                 .leftJoin(cl).on(cl.course.eq(course))
