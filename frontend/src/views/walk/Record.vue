@@ -18,16 +18,20 @@
 
         <el-row style="text-align: center">
           <el-col :span="8" class="myRecord">
-            <div id="run_desc distance">누적 거리</div>
-            <span id="acc_dis"> {{ accumulated_distance.toFixed(2) }}km </span>
+            <div id="run_desc distance">거리</div>
+            <span id="acc_dis" style="font-weight: 700">
+              {{ accumulated_distance.toFixed(2) }}km
+            </span>
           </el-col>
           <el-col :span="8" class="myRecord">
-            <div id="run_desc speed">현재 속도</div>
-            <span id="acc_time">{{ speed.toFixed(2) }}m/s</span>
+            <div id="run_desc speed">속도</div>
+            <span id="acc_time" style="font-weight: 700"
+              >{{ speed.toFixed(2) }}m/s</span
+            >
           </el-col>
           <el-col :span="8" class="myRecord">
-            <div id="run_desc time">누적 시간</div>
-            <span id="time">{{ clock }}</span>
+            <div id="run_desc time">시간</div>
+            <span id="time" style="font-weight: 700">{{ clock }}</span>
           </el-col>
         </el-row>
         <div class="btn_container">
