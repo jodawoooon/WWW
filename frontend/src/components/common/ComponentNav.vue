@@ -29,6 +29,23 @@ export default {
 .el-dropdown-link {
   cursor: pointer;
 }
+#component-nav {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  width: 100%;
+  color: #183a1d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 0 0 0;
+  z-index: 3;
+  background: white;
+  border-bottom: 1px solid #e4e6e9;
+}
 .el-icon-arrow-down {
   font-size: 12px;
 }
@@ -50,5 +67,11 @@ export default {
 
 #title {
   font-weight: 700;
+}
+.material-icons.color292929 {
+  color: #183a1d;
+}
+#component-nav a {
+  text-align: start;
 }
 </style>

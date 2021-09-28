@@ -107,16 +107,6 @@
           </div>
         </div>
       </div>
-      <el-row
-        style="
-          padding-top: 10px;
-          margin-bottom: 10px;
-          display: flex;
-          justify-content: center;
-        "
-      >
-        <el-button type="danger">STOP</el-button></el-row
-      >
     </div>
   </div>
 </template>
@@ -124,6 +114,7 @@
 <script>
 import Header from "@/components/common/Header";
 import axios from "axios";
+import https from "@/utils/axios.js";
 
 import("@/assets/style/Main.css");
 
@@ -172,6 +163,8 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit("SET_CUR_PAGE", "Record");
+
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -211,6 +204,22 @@ export default {
         speed: speed.toString(),
       };
       this.stringTempRecords.push(stringTempRecord);
+
+      console.log(tempRecord);
+      console.log(stringTempRecord);
+      console.log(this.accumulated_time);
+
+      https
+        .post("/main/finishrecord", {
+          userId: "test",
+          courseId: this.course.id,
+          distance: this.accumulated_distance,
+          time: this.accumulated_time,
+          calorie: 0,
+        })
+        .then((response) => {
+          console.log(response);
+        });
     },
     endLocationUpdates() {
       this.stopLocationUpdates();

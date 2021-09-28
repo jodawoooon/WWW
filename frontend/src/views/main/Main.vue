@@ -61,6 +61,9 @@ export default {
       userName: this.$store.getters.getUserName,
     };
   },
+  mounted() {
+    this.$store.commit("SET_CUR_PAGE", "Main");
+  },
   methods: {
     startWalk() {
       router.push("/record");

@@ -23,7 +23,4 @@ public class WishResponseBody extends BaseResponseBody {
         size=list.size();
     }
 
-
-
-
 }
