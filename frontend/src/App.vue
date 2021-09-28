@@ -2,7 +2,7 @@
   <div id="app">
     <div id="app-wrap">
       <router-view />
-      <Footer id="footer" />
+      <Footer v-if="curPage != 'Login'" id="footer" />
     </div>
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
 
   components: {
     Footer,
+  },
+  data() {
+    return {
+      curPage: this.$store.getters.getCurPage,
+    };
   },
 };
 </script>
