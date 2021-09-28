@@ -20,24 +20,25 @@
         :isBookmarked="course.myLike"
       />
     </div>
-    <!-- <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
+    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="waveDots">
       <div slot="no-results"></div>
       <div slot="no-more"></div>
-    </infinite-loading> -->
+    </infinite-loading>
   </div>
 </template>
 
 <script>
-// import InfiniteLoading from 'vue-infinite-loading';
+import InfiniteLoading from 'vue-infinite-loading';
 import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
+import axios from 'axios';
 
 export default {
   name: "CourseList",
   props: ["filter"],
   components: {
     CourseCard,
-    // InfiniteLoading,
+    InfiniteLoading,
   },
   data() {
     return {
@@ -65,6 +66,9 @@ export default {
       handler() {
         this.resetData();
         this.readCourseList();
+        if(this.$refs.infiniteLoading) {
+          this.$refs.infiniteLoading.stateChanger.reset();
+        }
       },
       deep: true,
     },
@@ -88,15 +92,13 @@ export default {
       this.courseReq.longitude = this.filter.longitude;
       this.courseReq.latitude = this.filter.latitude;
     },
-    readCourseList() {
-      requestPost(
+    async readCourseList() {
+      await requestPost(
         "/api/course/",
         this.courseReq,
         {}
       ).then((res) => {
         this.courseList = this.courseList.concat(res.courseList);
-        this.hasNextPage = res.hasNextPage;
-        this.courseReq.page = res.page;
         // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
         if (this.courseReq.dong !== "" && this.courseList.length == 0) {
           this.courseReq.page = 0;
@@ -105,15 +107,25 @@ export default {
           this.readCourseList();
           return;
         }
-        // console.log("1");
+        this.hasNextPage = res.hasNextPage;
+        this.courseReq.page = res.page+1;
       });
-      // console.log("2");
     },
-    // async infiniteHandler($state) {
-    //   await this.readCourseList();
-    //   // console.log("3");
-    //   $state.complete();
-    // },
+    infiniteHandler($state) {
+      setTimeout(() => {
+        axios.post('/api/course/', this.courseReq, { })
+        .then(res => {
+          const data = res.data;
+          this.courseList = this.courseList.concat(data.courseList);
+          $state.loaded();
+          this.hasNextPage = data.hasNextPage;
+          this.courseReq.page = data.page + 1;
+          if (!this.hasNextPage) {
+            $state.complete();
+          }
+        });
+      }, 3000);
+    }
   },
 };
 </script>
