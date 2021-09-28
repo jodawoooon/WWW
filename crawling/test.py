@@ -3,7 +3,7 @@ import requests
 import json
 
 dong = pd.read_csv(
-    "C:/Users/multicampus/Desktop/전국동이름.csv", encoding='euc-kr')
+    "C:/Users/multicampus/Desktop/특화데이터/전국동이름.csv", encoding='euc-kr')
 
 f = open('C:/Users/multicampus/Desktop/output.txt', 'w')
 addr_name = []
@@ -37,7 +37,7 @@ for b in dong.index:
         }
 
         # 카테고리 키워드
-        keywords = '편의점'
+        keywords = '카페'
 
         # API 접근
         url = 'https://dapi.kakao.com/v2/local/search/keyword.json?query={}'.format(
@@ -58,7 +58,7 @@ for b in dong.index:
 
         if len(places) < 15:
             break
-        # print(convs[i][1])
+
     address_name = []
     place_name = []
     cox = []
@@ -124,4 +124,4 @@ place['Y'] = corY
 
 
 # csv 파일로 내보내기
-place.to_csv('C:/Users/multicampus/Desktop/out.csv', encoding='CP949')
+place.to_csv('C:/Users/multicampus/Desktop/전국카페데이터.csv', encoding='CP949')
