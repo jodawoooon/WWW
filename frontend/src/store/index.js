@@ -1,11 +1,27 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     curPage: "Main",
+    tokens: {
+      accessToken: '',
+      accessTokenExpire:'',
+      refreshToken:'',
+      refreshTokenExpire:'',
+    },
+    loginUserInfo: {
+      userId: '',
+      nickname: '',
+    },
+    userProfile: {
+      userId:'',
+      name: '',
+      nickname: '', 
+    },
     userInfo: {
       name: "김싸피",
     },
@@ -107,6 +123,17 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_USER_INFO(state,payload){
+      console.log(payload);
+      state.loginUserInfo.userId = payload.userId;
+      state.loginUserInfo.nickname = payload.nickname;
+    },
+    SET_USER_TOKEN(state,payload){
+      state.tokens.accessToken = payload.accessToken;
+      state.tokens.refreshToken = payload.refreshToken;
+      state.tokens.accessTokenExpire = payload.accessTokenExpire;
+      state.tokens.refreshTokenExpire = payload.refreshTokenExpire;
+    },
     SET_USER_LOCATION(state, payload) {
       state.location.lat = payload.lat;
       state.location.lng = payload.lng;
@@ -123,6 +150,9 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
+    getLoginUserInfo(state){
+      return state.loginUserInfo;
+    },
     getUserName(state) {
       return state.userInfo.name;
     },
@@ -141,4 +171,6 @@ export default new Vuex.Store({
   },
   modules: {},
   plugins: [createPersistedState()],
+
 });
+

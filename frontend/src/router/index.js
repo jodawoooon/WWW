@@ -21,6 +21,11 @@ import MyCourse from "@/views/mypage/MyCourse";
 
 // 산책 기록 페이지
 import Record from "@/views/walk/Record";
+// Redirect
+import KakaoCallback from "@/views/user/kakao-callback";
+
+// 회원가입
+import SignUp from "@/views/user/Signup";
 
 Vue.use(VueRouter);
 
@@ -47,6 +52,11 @@ const routes = [
 
   // 산책 기록 페이지
   { path: "/record", component: Record },
+  // Redirect
+  { path: "/kakao/callback", component: KakaoCallback },
+
+  // 회원가입
+  { path: "/signup", name: "Signup" ,component: SignUp },
 ];
 
 const router = new VueRouter({

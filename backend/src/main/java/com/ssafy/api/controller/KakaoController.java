@@ -32,9 +32,22 @@ public class KakaoController {
     @Autowired
     CookieUtil cookieUtil;
 
-    @RequestMapping(value="/login")
-    public ResponseEntity<UserLoginPostRes> login(@RequestParam("code") String code, HttpSession session, HttpServletResponse response) {
+    @GetMapping(value = "/oauth")
+    @ApiOperation(value = "code를 통해 accessToken 획득", notes = "Kakao 인증서버에 code를 넘겨주어 accessToken, refreshToken을 발급받는다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<UserLoginPostRes> kakaoConnect(@RequestParam("code") String code, HttpSession session) {
         HashMap<String,Object> Token = kakaoAPI.getAccessToken(code);
+        System.out.println(Token);
+        return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", Token));
+    }
+
+    @PostMapping(value="/login")
+    public ResponseEntity<UserLoginPostRes> login(@RequestBody HashMap<String, Object> Token, HttpSession session, HttpServletResponse response) {
         // Token 정보를 <String, 객체>로 생성
         String accessToken = (String) Token.get("accessToken");
         String refreshToken = (String) Token.get("refreshToken");
@@ -50,17 +63,16 @@ public class KakaoController {
         User user = userService.getUserId(userId);
 
         // 회원가입이 되어있는 경우
-        if(!isNull(user)){
-            // 쿠키로 할 경우
-            Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
-            Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
-            //Cookie userIdCookie = cookieUtil.createCookie("userId",null, user.getUserId());
-            response.addCookie(accessTokenCookie);
-            response.addCookie(refreshTokenCookie);
-            return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
-        }
+//        if(!isNull(user)){
+//            Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
+//            Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
+//            //Cookie userIdCookie = cookieUtil.createCookie("userId",null, user.getUserId());
+//            response.addCookie(accessTokenCookie);
+//            response.addCookie(refreshTokenCookie);
+//            return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
+//        }
         // 없는 경우 유저 생성
-        userService.createUser(Token,userInfo);
+        //userService.createUser(Token,userInfo);
 
         return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", userInfo));
     }

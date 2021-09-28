@@ -1,14 +1,18 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.Dong;
 import com.ssafy.db.entity.Gugun;
 import com.ssafy.db.entity.Sido;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.DongRepository;
 import com.ssafy.db.repository.GugunRepository;
 import com.ssafy.db.repository.SidoRepository;
+import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +27,9 @@ public class InfoServiceImpl implements InfoService {
 
     @Autowired
     DongRepository dongRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Sido> getSidoList() {
@@ -46,5 +53,18 @@ public class InfoServiceImpl implements InfoService {
             return dongList.get();
         }
         return null;
+    }
+
+    @Override
+    public void register(UserRegisterPostReq userRegistPostReq) {
+        User user = new User();
+        user.setUserId(userRegistPostReq.getUserId());
+        user.setNickname(userRegistPostReq.getNickname());
+        user.setName(userRegistPostReq.getName());
+        user.setCity(userRegistPostReq.getCity());
+        user.setGu(userRegistPostReq.getGu());
+        user.setDong(userRegistPostReq.getDong());
+
+        userRepository.save(user);
     }
 }
