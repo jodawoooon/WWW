@@ -7,6 +7,32 @@
           <span style="font-weight: 700">{{ userName }}님!</span>
           산책하기 좋은 날이네요 🌞
           <div>{{ dong }}</div>
+          <div style="display: flex; justify-content: space-around">
+            <div
+              class="dong_status"
+              style="background-color: rgb(72, 146, 241, 30%)"
+            >
+              <p>오늘의 날씨</p>
+              <!-- <span>{{ weather.main.temp }}</span> -->
+              <p>최고온도/최저온도</p>
+            </div>
+            <div
+              class="dong_status"
+              style="background-color: rgb(87, 180, 130, 30%)"
+            >
+              <p>미세먼지 지수</p>
+              <span>좋음</span>
+              <p>미세먼지 양</p>
+            </div>
+            <div
+              class="dong_status"
+              style="background-color: rgb(238, 104, 74, 30%)"
+            >
+              <p>신규 확진자</p>
+              <span>21명</span>
+              <p>전국 : 1800명 어쩌구</p>
+            </div>
+          </div>
         </div>
       </div>
       <el-divider></el-divider>
@@ -44,6 +70,10 @@ export default {
 
       dong: "",
       userName: this.$store.getters.getUserName,
+      api_key: "51f278e92de05bac589367d013849016",
+      url_base: "https://api.openweathermap.org/data/2.5/",
+      query: "",
+      weather: {},
     };
   },
   methods: {
@@ -85,6 +115,22 @@ export default {
           this.textContent = err.message;
         }
       );
+    },
+    fetchWeather() {
+      if (this.dong != null) {
+        let fetchUrl = `${this.url_base}weather?q=${this.dong}&units=metric&APPID=${this.api_key}`;
+        fetch(fetchUrl)
+          .then((res) => {
+            console.log(res);
+            return res.json();
+          })
+          .then((results) => {
+            return this.setResult(results);
+          });
+      }
+    },
+    setResult(results) {
+      this.weather = results;
     },
   },
   created() {
