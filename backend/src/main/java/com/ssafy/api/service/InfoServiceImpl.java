@@ -56,8 +56,10 @@ public class InfoServiceImpl implements InfoService {
     }
 
     @Override
-    public void register(UserRegisterPostReq userRegistPostReq, String accessToken, HttpServletResponse response) {
+    public void register(UserRegisterPostReq userRegistPostReq) {
         User user = new User();
+        user.setUserId(userRegistPostReq.getUserId());
+        user.setNickname(userRegistPostReq.getNickname());
         user.setName(userRegistPostReq.getName());
         user.setCity(userRegistPostReq.getCity());
         user.setGu(userRegistPostReq.getGu());

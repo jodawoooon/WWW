@@ -9,6 +9,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserRegisterPostReq")
 public class UserRegisterPostReq {
+    String userId;
+
+    String nickname;
+
     String name;
 
     String city;

@@ -40,7 +40,7 @@ const routes = [
   { path: "/kakao/callback", component: KakaoCallback },
 
   // 회원가입
-  { path: "/signup", component: SignUp },
+  { path: "/signup", name: "Signup" ,component: SignUp },
 ];
 
 const router = new VueRouter({

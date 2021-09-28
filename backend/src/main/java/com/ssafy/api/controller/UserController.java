@@ -2,6 +2,10 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.User;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,5 +57,7 @@ public class UserController {
                                                          @RequestParam String type){
         return new ResponseEntity<BaseResponseBody>( userService.readTime(userId,type), HttpStatus.OK);
     }
+
+
 
 }

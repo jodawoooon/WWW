@@ -35,11 +35,6 @@ export default {
   components: {
     Header,
   },
-  data() {
-    return {
-      userName: this.$store.getters.getUserName,
-    };
-  },
 };
 </script>
 

@@ -18,5 +18,5 @@ public interface InfoService {
 
     List<Dong> getDongListByGugun(Long gugun);
 
-    void register(UserRegisterPostReq userRegistPostReq, String accessToken, HttpServletResponse response);
+    void register(UserRegisterPostReq userRegistPostReq);
 }
