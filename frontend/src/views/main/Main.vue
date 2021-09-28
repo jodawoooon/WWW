@@ -29,10 +29,6 @@
 <script>
 import axios from "axios";
 
-axios.defaults.baseURL = "https://dapi.kakao.com/";
-axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
-axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
-
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 
@@ -66,7 +62,7 @@ export default {
 
           axios
             .get(
-              "/v2/local/geo/coord2regioncode.json?x=" +
+              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
                 this.lng +
                 "&y=" +
                 this.lat,
