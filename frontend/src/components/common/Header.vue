@@ -19,8 +19,8 @@
           <i class="el-icon-more"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>로그인</el-dropdown-item>
-          <el-dropdown-item>로그아웃</el-dropdown-item>
+          <el-dropdown-item @click="login()">로그인</el-dropdown-item>
+          <el-dropdown-item @click="logout()">로그아웃</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </nav>
@@ -39,7 +39,18 @@ export default {
     showArrow: Boolean,
     back: String,
   },
+  data() {
+    return {
+      userInfo: this.$store.getters.getLoginUserInfo,
+    };
+  },
   methods: {
+    login() {
+      router.push("/login");
+    },
+    logout() {
+      router.push("/main");
+    },
     goBack(back) {
       router.push(back);
     },
