@@ -133,7 +133,6 @@ public class CourseQueryRepository {
 
     // 선택한 코스 상세 정보 조회
     public CourseDetailResponseBody findCourseById(int courseId, String userId) {
-
         return queryFactory
                 .select(Projections.fields(CourseDetailResponseBody.class,
                         course.courseId.as("courseId"),
