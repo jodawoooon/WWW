@@ -25,6 +25,7 @@ public class CourseController {
     @ApiOperation(value = "산책로 리스트", notes = "산책로 리스트를 가져온다")
     public ResponseEntity<BaseResponseBody> readCourseList(@RequestBody CourseReq courseReq){
 
+        System.out.println(courseReq);
         return new ResponseEntity<BaseResponseBody>(courseService.readCourseList(courseReq), HttpStatus.OK);
     }
 

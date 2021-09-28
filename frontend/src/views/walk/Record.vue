@@ -1,21 +1,9 @@
 <template>
   <div>
-    <Header
-      :showArrow="true"
-      back="/course"
-      message="산책로 상세 정보"
-      id="navBar"
-    />
+    <Header :showArrow="true" back="/course" message="산책 기록" id="navBar" />
 
     <div>
       <div id="map" class="map"></div>
-      <div class="bookmark" @click="clickStar()">
-        <i
-          :class="[
-            this.course.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
-          ]"
-        />
-      </div>
     </div>
 
     <div class="box">
@@ -23,56 +11,26 @@
         <h3 style="font-weight: 700; margin-bottom: 8px">
           {{ this.course.title }}
         </h3>
-        <p class="small-desc">
-          <i
-            class="el-icon-location"
-            style="color: #ee684a; margin-right: 5px; margin-bottom: 8px"
-          />{{ this.course.address }}
-        </p>
-        <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }}분 |
-          {{ this.course.kcal }}Kcal
-        </p>
+        <el-divider style="padding: 0" />
+        <p>00:00:00</p>
+        <span>0kcal</span><span>0km</span>
       </div>
-      <div class="content-middle">
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="산책로 소개" name="first">
-            <div class="mini-desc">{{ this.course.detail }}</div>
-          </el-tab-pane>
-          <el-tab-pane label="주변 편의시설" name="second">
-            <div class="mini-desc" style="margin-bottom: 10px">
-              주변 편의점 개수는 {{ this.course.conv.length }}개 입니다.
-            </div>
-            <div v-for="(card, idx) in this.course.conv" :key="idx">
-              <ConvCard
-                :title="card.title"
-                :address="card.address"
-                @click="moveMap(card)"
-              />
-            </div>
-          </el-tab-pane>
-        </el-tabs>
-        <el-row
-          style="
-            padding-top: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-          "
-        >
-          <el-button type="danger" @click="startWalk()"
-            >START</el-button
-          ></el-row
-        >
-      </div>
+      <el-row
+        style="
+          padding-top: 10px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <el-button type="danger">STOP</el-button></el-row
+      >
     </div>
   </div>
 </template>
 
 <script>
 import Header from "@/components/common/Header";
-import ConvCard from "@/views/course/ConvCard";
-import router from "@/router/index.js";
 
 import("@/assets/style/Main.css");
 
@@ -80,7 +38,6 @@ export default {
   name: "CourseDetail",
   components: {
     Header,
-    ConvCard,
   },
   data() {
     return {
@@ -143,9 +100,6 @@ export default {
       this.map.setCenter(moveLatLon);
       console.log(data);
     },
-    startWalk() {
-      router.push("/record");
-    },
   },
 };
 </script>
@@ -156,8 +110,8 @@ export default {
   padding: 20px;
   border-radius: 30px 30px 0px 0px;
   background: #ffffff;
-  min-height: 220px;
-  margin-top: -200px;
+  height: 180px;
+  margin-top: -150px;
   z-index: 1;
   position: relative;
 
@@ -177,16 +131,8 @@ export default {
   padding: 4px;
 }
 
-.content-middle {
-  margin-bottom: 60px;
-}
 .content-top {
   margin-bottom: 20px;
-}
-
-.small-desc {
-  font-size: 11pt;
-  color: #6f7789;
 }
 
 .mini-desc {

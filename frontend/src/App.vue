@@ -28,6 +28,9 @@ export default {
   color: #2c3e50;
 }
 
+.app {
+  height: 640px;
+}
 #footer {
   height: 55px;
   width: 100%;
@@ -35,6 +38,7 @@ export default {
   left: 0;
   right: 0;
   margin: 0 auto;
+  z-index: 3;
   position: fixed;
   bottom: 0;
   background: #49ab76;

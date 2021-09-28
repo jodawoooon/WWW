@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="goDetail()">
     <el-row style="display: flex; align-items: center">
       <el-col :span="20">
         <p
@@ -8,13 +8,19 @@
         >
           {{ $props.title }}
         </p>
+        <p v-if="$props.title !== $props.name"
+          class="name"
+          style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+        >
+          {{ $props.name }}
+        </p>
         <p class="content">
           <i class="el-icon-location" style="color: #ee684a" />{{
             $props.address
           }}
         </p>
         <p class="content">
-          {{ $props.km }}km | {{ $props.min }}분 | {{ $props.kcal }}Kcal
+          코스 길이: {{ $props.km }}km | {{ $props.min }} | 현재위치에서 떨어진 거리: {{ $props.geoDistance.toFixed(2) }}km
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
@@ -30,12 +36,22 @@
 </template>
 
 <script>
+import router from "@/router/index.js";
+
 export default {
   name: "CourseCard",
   props: {
     title: {
       type: String,
       default: "title",
+    },
+    name: {
+      type: String,
+      defalut: "name",
+    },
+    courseId: {
+      type: Number,
+      default: 0,
     },
     address: {
       type: String,
@@ -46,16 +62,25 @@ export default {
       default: 0,
     },
     min: {
+      type: String,
+      default: "min",
+    },
+    kcal: {
       type: Number,
       default: 0,
     },
-    kcal: {
+    geoDistance: {
       type: Number,
       default: 0,
     },
     isBookmarked: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    goDetail() {
+      router.push("/course/detail");
     },
   },
 };

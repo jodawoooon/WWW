@@ -6,7 +6,7 @@
         <div style="margin-top: 20px">
           <span style="font-weight: 700">{{ userName }}님!</span>
           산책하기 좋은 날이네요 🌞
-          <div></div>
+          <div>{{ dong }}</div>
         </div>
       </div>
       <el-divider></el-divider>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 
@@ -37,8 +39,56 @@ export default {
   },
   data() {
     return {
+      lat: "",
+      lng: "",
+
+      dong: "",
       userName: this.$store.getters.getUserName,
     };
+  },
+  methods: {
+    geofind() {
+      if (!("geolocation" in navigator)) {
+        this.textContent = "Geolocation is not available.";
+        return;
+      }
+      this.textContent = "Locating...";
+
+      // get position
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          this.lat = pos.coords.latitude;
+          this.lng = pos.coords.longitude;
+
+          axios
+            .get(
+              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
+                this.lng +
+                "&y=" +
+                this.lat,
+              {
+                headers: {
+                  Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+                },
+              }
+            )
+            .then((response) => {
+              this.dong = response.data.documents[0].region_3depth_name;
+              this.$store.commit("SET_USER_LOCATION", {
+                lat: this.lat,
+                lng: this.lng,
+                dong: this.dong,
+              });
+            });
+        },
+        (err) => {
+          this.textContent = err.message;
+        }
+      );
+    },
+  },
+  created() {
+    this.geofind();
   },
 };
 </script>
