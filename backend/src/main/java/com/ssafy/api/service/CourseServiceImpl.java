@@ -9,6 +9,9 @@ import com.ssafy.api.response.user.CourseBody;
 import com.ssafy.api.response.user.CourseDetailResponseBody;
 import com.ssafy.api.response.user.CourseResponseBody;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.db.entity.Cafe;
+import com.ssafy.db.entity.Conv;
+import com.ssafy.db.entity.Course;
 import com.ssafy.db.entity.CourseLike;
 import com.ssafy.db.key.CoursePK;
 import com.ssafy.db.repository.*;
@@ -38,6 +41,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     UserRepository userRepository;
+
+
+    @Autowired
+    CafeQueryRepository cafeQueryRepository;
+
+    @Autowired
+    ConvQueryRepository convQueryRepository;
 
     @Override
     @Transactional
@@ -83,11 +93,14 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public BaseResponseBody readCourseDetail(int courseId, String userId) {
         CourseDetailResponseBody courseDetailResponseBody = courseQueryRepository.findCourseById(courseId, userId);
+        Course course = courseRepository.findByCourseId(courseId);
+        System.out.println(courseId);
 
         try {
             courseDetailResponseBody.setMessage("OK");
             courseDetailResponseBody.setStatusCode(200);
-
+            courseDetailResponseBody.setCafeList(cafeQueryRepository.findCafeList(course));
+            courseDetailResponseBody.setConvList(convQueryRepository.findConvList(course));
             List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(courseId);
             Integer myScore = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
 

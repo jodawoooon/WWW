@@ -104,7 +104,9 @@ dependencies {
 	// H2 Database
 	runtimeOnly 'com.h2database:h2:1.4.197'
 
+
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+
 }
 
 // QueryDSL
