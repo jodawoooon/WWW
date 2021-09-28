@@ -21,7 +21,7 @@
     <div class="box">
       <div class="content-top">
         <h3 style="font-weight: 700; margin-bottom: 8px">
-          {{ this.course.title }}
+          🏁 {{ this.course.title }}
         </h3>
         <p class="small-desc">
           <i
@@ -40,18 +40,45 @@
             <div class="mini-desc">{{ this.course.detail }}</div>
           </el-tab-pane>
           <el-tab-pane label="주변 편의시설" name="second">
-            <div class="mini-desc" style="margin-bottom: 10px">
-              주변 편의점 개수는 {{ this.course.conv.length }}개 입니다.
-            </div>
-            <div v-for="(card, idx) in this.course.conv" :key="idx">
-              <ConvCard
-                :title="card.title"
-                :address="card.address"
-                @click="moveMap(card)"
-              />
-            </div>
+            <el-tabs :tab-position="tabPosition" style="height: 200px">
+              <el-tab-pane label="편의점">
+                <div class="mini-desc" style="margin-bottom: 10px">
+                  산책로 주변 편의점은 {{ this.course.conv.length }}개 입니다.
+                </div>
+                <div v-for="(card, idx) in this.course.conv" :key="idx">
+                  <ConvCard
+                    :title="card.title"
+                    :address="card.address"
+                    @click="moveMap(card)"
+                  />
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="카페">
+                <div class="mini-desc" style="margin-bottom: 10px">
+                  산책로 주변 카페는 {{ this.course.conv.length }}개 입니다.
+                </div>
+                <div v-for="(card, idx) in this.course.conv" :key="idx">
+                  <ConvCard
+                    :title="card.title"
+                    :address="card.address"
+                    @click="moveMap(card)"
+                  /></div
+              ></el-tab-pane>
+            </el-tabs>
           </el-tab-pane>
         </el-tabs>
+        <el-row
+          style="
+            padding-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <el-button type="danger" @click="startWalk()"
+            >START</el-button
+          ></el-row
+        >
       </div>
     </div>
   </div>
@@ -60,6 +87,7 @@
 <script>
 import Header from "@/components/common/Header";
 import ConvCard from "@/views/course/ConvCard";
+import router from "@/router/index.js";
 
 import("@/assets/style/Main.css");
 
@@ -71,6 +99,7 @@ export default {
   },
   data() {
     return {
+      tabPosition: "left",
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
     };
@@ -129,6 +158,9 @@ export default {
       // 지도 중심을 이동 시킵니다
       this.map.setCenter(moveLatLon);
       console.log(data);
+    },
+    startWalk() {
+      router.push("/record");
     },
   },
 };

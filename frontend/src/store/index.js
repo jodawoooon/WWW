@@ -1,17 +1,18 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    curPage: "Main",
     userInfo: {
       name: "김싸피",
     },
     location: {
-      lat: "37.508690392046",
-      lng: "127.05618275253",
-      dong: "삼성동",
+      lat: "37.47085376325646",
+      lng: "126.95986125726075",
+      dong: "봉천동",
     },
     curCourse: {
       id: 1016,
@@ -38,7 +39,32 @@ export default new Vuex.Store({
           lat: "37.4265296",
           lng: "126.986664",
         },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
       ],
+
       isBookmarked: false,
     },
   },
@@ -54,6 +80,9 @@ export default new Vuex.Store({
       state.curCourse.address = payload.address;
       //..... 현재 선택한 산책로 정보 commit
     },
+    SET_CUR_PAGE(state, curPage) {
+      state.curPage = curPage;
+    },
   },
   actions: {},
   getters: {
@@ -63,6 +92,9 @@ export default new Vuex.Store({
     getDong(state) {
       return state.location.dong;
     },
+    getCurPage(state) {
+      return state.curPage;
+    },
     getLocation(state) {
       return state.location;
     },
@@ -71,4 +103,5 @@ export default new Vuex.Store({
     },
   },
   modules: {},
+  plugins: [createPersistedState()],
 });

@@ -21,6 +21,7 @@ public class UserController {
         System.out.println("OK!");
         return new ResponseEntity<BaseResponseBody>(userService.readUserInfo(userId), HttpStatus.OK);
     }
+    
 
     //recent course list
     @GetMapping("/mypage/recent")

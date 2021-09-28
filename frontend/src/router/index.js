@@ -4,6 +4,9 @@ import VueRouter from "vue-router";
 // 메인
 import Main from "@/views/main/Main";
 
+// 메인
+import Index from "@/views/main/Index";
+
 // 코스 정보
 import Course from "@/views/course/Course";
 
@@ -19,11 +22,17 @@ import Login from "@/views/user/Login";
 // 관심 코스 정보
 import MyCourse from "@/views/user/MyCourse";
 
+// 산책 기록 페이지
+import Record from "@/views/walk/Record";
+
 Vue.use(VueRouter);
 
 const routes = [
   { path: "/index.html", component: Main, alias: "/" },
   // 메인
+  // 인덱스
+
+  { path: "/index", component: Index },
   { path: "", redirect: "/main" },
   { path: "/main", name: "Main", component: Main },
 
@@ -38,8 +47,11 @@ const routes = [
 
   // 로그인
   { path: "/login", component: Login },
-  
-  { path: "/user/mycourse", component: MyCourse},
+
+  { path: "/user/mycourse", component: MyCourse },
+
+  // 산책 기록 페이지
+  { path: "/record", component: Record },
 ];
 
 const router = new VueRouter({

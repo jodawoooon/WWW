@@ -8,13 +8,19 @@
         >
           {{ $props.title }}
         </p>
+        <p v-if="$props.title !== $props.name"
+          class="name"
+          style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+        >
+          {{ $props.name }}
+        </p>
         <p class="content">
           <i class="el-icon-location" style="color: #ee684a" />{{
             $props.address
           }}
         </p>
         <p class="content">
-          {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}Kcal
+          코스 길이: {{ $props.km }}km | {{ $props.min }} | 현재위치에서 떨어진 거리: {{ $props.geoDistance.toFixed(2) }}km
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
@@ -39,6 +45,14 @@ export default {
       type: String,
       default: "title",
     },
+    name: {
+      type: String,
+      defalut: "name",
+    },
+    courseId: {
+      type: Number,
+      default: 0,
+    },
     address: {
       type: String,
       default: "address",
@@ -52,6 +66,10 @@ export default {
       default: "min",
     },
     kcal: {
+      type: Number,
+      default: 0,
+    },
+    geoDistance: {
       type: Number,
       default: 0,
     },
