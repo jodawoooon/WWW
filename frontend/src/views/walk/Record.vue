@@ -107,16 +107,6 @@
           </div>
         </div>
       </div>
-      <el-row
-        style="
-          padding-top: 10px;
-          margin-bottom: 10px;
-          display: flex;
-          justify-content: center;
-        "
-      >
-        <el-button type="danger">STOP</el-button></el-row
-      >
     </div>
   </div>
 </template>
