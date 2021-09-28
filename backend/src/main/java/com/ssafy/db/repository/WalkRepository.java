@@ -33,4 +33,6 @@ public interface WalkRepository extends JpaRepository<Walk, Integer> {
 
     public int countByCourseAndDateAfter(Course course, LocalDateTime today);
 
+    //특정 날짜별 걸은 기록 리스트
+    public List<Walk> findByDate(LocalDateTime date);
 }

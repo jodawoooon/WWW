@@ -1,35 +1,136 @@
 package com.ssafy.api.service;
 
-import org.jboss.jandex.Main;
+import com.google.gson.JsonObject;
+import com.querydsl.core.Tuple;
+import com.ssafy.api.response.main.GetRankRes;
+import com.ssafy.api.response.main.GetRecommendListRes;
+import com.ssafy.api.response.main.TodayWalkTimeRes;
+import com.ssafy.db.entity.Course;
+import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.Walk;
+import com.ssafy.db.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MainServiceImpl implements MainService {
+
+    @Autowired
+    WalkRepository walkRepository;
+    @Autowired
+    WalkQueryRepository walkQueryRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    CourseRepository courseRepository;
+    @Autowired
+    CourseReviewQueryRepository courseReviewQueryRepository;
+    @Autowired
+    CourseLikeQueryRepository courseLikeQueryRepository;
+    @Autowired
+    CourseFinishQueryRepository courseFinishQueryRepository;
+
     @Override
-    public boolean getRank(){
-        return false;
+    public GetRankRes getRank(){
+        int i=0;
+        try {
+            List<Tuple> rankInfo = walkQueryRepository.findTop3UserByDistance();
+            String[] ranking = new String[rankInfo.size()];
+            for (Tuple row : rankInfo){
+                ranking[i++] = row.get(1,String.class);//
+            }
+            GetRankRes resbody = new GetRankRes();
+            resbody.setRanking(ranking);
+            return resbody;
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
-    public Date getTodayWalk(){
-        return null;
+    public TodayWalkTimeRes getTodayWalk(String userId, LocalDateTime date){
+        List<Walk> walklist = walkRepository.findByDate(date);
+        if (walklist.size()==0){//오늘 걸은 기록이 없음
+            TodayWalkTimeRes resbody = new TodayWalkTimeRes();
+            resbody.setHour(0);
+            resbody.setMinute(0);
+            resbody.setSecond(0);
+            return resbody;
+        }
+        int[] HM = new int[3];
+        for(int i=0;i<walklist.size();i++){
+            HM[0] += walklist.get(i).getDate().getHour();
+            HM[1] += walklist.get(i).getDate().getMinute();
+            HM[2] += walklist.get(i).getDate().getSecond();
+        }
+        TodayWalkTimeRes resbody = new TodayWalkTimeRes();
+        resbody.setHour(HM[0]);
+        resbody.setMinute(HM[1]);
+        resbody.setSecond(HM[2]);
+        return resbody;
+    }
+
+    @Override//calorie : 프론트에서 계산해서 주거나 거리랑 시간만 보낼시 백에서 계산 예정
+    public boolean finishRecord(String userId, int courseId, double distance, int time, int calorie){
+        User user = userRepository.findByUserId(userId);
+        Course course = courseRepository.findByCourseId(courseId);
+
+        try {
+            Walk walk = new Walk(0,user,course,distance,time,calorie);
+            walkRepository.save(walk);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
-    public boolean startRecord(){
-        return false;
-    }
+    public GetRecommendListRes getRecommendList(String dong){
+        try{
+            // 좋아요 많은 순, 리뷰, 다른 사용자가 많이 산책한 코스
+            List<Integer> bestCourses = courseLikeQueryRepository.findTop5CourseByLike(dong);
+            List<Integer> bestReviews = courseReviewQueryRepository.findTop5ReviewsByScore(dong);
+            List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(dong);
+            bestCourses.addAll(bestReviews);
+            bestCourses.addAll(bestFinishes);
 
-    @Override
-    public boolean finishRecord(){
-        return false;
-    }
+            int a = 0;
+            String[] recommends = new String[15];
 
-    @Override
-    public List<String> getRecommendList(){
-        return null;
+            for(Integer i : bestCourses){
+                String cName = courseRepository.findByCourseId(i).getName();
+                recommends[a++] = cName;
+            }
+
+            GetRecommendListRes resbody = new GetRecommendListRes();
+            resbody.setRecommendList(recommends);
+            return resbody;
+        }catch (Exception e){
+            return null;
+        }
+
+//        int a=0;
+//        String[] recommends = new String[15];
+//        String[] temp = new String[14];
+//        for(Course b : bestCourses) {
+//            recommends[a++] = Integer.toString(b.getCourseId());
+//            recommends[a++] = b.getFlagName();
+//            recommends[a++] = b.getName();
+//            recommends[a++] = b.getRoute();
+//            recommends[a++] = Double.toString(b.getDistance());
+//            recommends[a++] = b.getLevel();
+//            recommends[a++] = b.getTime();
+//            recommends[a++] = b.getDetail();
+//            recommends[a++] = b.getOption();
+//            recommends[a++] = b.getToilet();
+//            recommends[a++] = b.getConvStore();
+//            recommends[a++] = Double.toString(b.getLatitude());
+//            recommends[a++] = Double.toString(b.getLongitude());
+//            recommends[a++] = b.getAddress();
+//        }
     }
 }
