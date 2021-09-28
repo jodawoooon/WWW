@@ -19,7 +19,7 @@
     </v-card>
 
     <div v-if="!isRecent">
-      <div v-for="(course, idx) in wishCourse.courseList" v-bind:key="idx">
+      <div v-for="(course, idx) in this.wishCourse.courseList" v-bind:key="idx">
         <CourseCard
           :name="course.courseName"
           :courseId="course.id"
@@ -28,7 +28,10 @@
       </div>
     </div>
     <div v-if="isRecent">
-      <div v-for="(course, idx) in recentCourse.courseList" v-bind:key="idx">
+      <div
+        v-for="(course, idx) in this.recentCourse.courseList"
+        v-bind:key="idx"
+      >
         <CourseCard
           :name="course.courseName"
           :courseId="course.id"
