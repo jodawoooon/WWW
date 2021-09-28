@@ -4,8 +4,8 @@
         <div style="top-margin: 50px">
           <p>기본 정보를 입력하고 <br> <span class="title">WWW</span>를 이용해보세요🏃‍♀️🏃‍♂️</p></div>
       </div>
-      <div class="form-content">
-        <el-form :model="form" ref="form" label-width="100px" class="demo-ruleForm">
+      <div class="form-content" style="margin-right:30px; margin-left:30px;">
+        <el-form :model="form" ref="form" label-position=top; class="demo-ruleForm">
           <el-form-item
             label="이름"
             prop="name"
@@ -16,9 +16,7 @@
           >
             <el-input v-model="form.name" placeholder="실명을 기재해주세요" ></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('form')" size="medium" style="">완료</el-button>
-          </el-form-item>
+          <el-button type="primary" @click="submitForm('form')" size="medium" style="">완료</el-button>
         </el-form>
       </div>
   </div>
@@ -89,6 +87,7 @@ import axios from "@/utils/axios.js";
   margin : auto;
 }
 .el-button{
+  margin-top : 20px;
   background-color:#EE684A;
   width: 100px;
 }

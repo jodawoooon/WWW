@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ComponentNav></ComponentNav>
     <div>
         <div class="login-content">
             <div style="top-margin: 50px"><h2>환영합니다! 🙌</h2>
@@ -23,13 +24,15 @@
 </template>
 
 <script>
-
+import ComponentNav from "@/components/common/ComponentNav";
 import("@/assets/style/Main.css");
 
 
 export default {
     name: 'Login',
-
+    components: {
+        ComponentNav
+    },
     methods: {
 
   }
@@ -40,7 +43,7 @@ export default {
 
 .login-content{
     text-align: left;
-    margin : 25% 0% 5% 10%;
+    margin : 30% 0% 5% 10%;
 }
 .login-content h2{
   font-weight: bold;
