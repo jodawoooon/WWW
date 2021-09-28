@@ -2,6 +2,8 @@ package com.ssafy.db.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.Course;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +33,17 @@ public class CourseLikeQueryRepository {
                 .fetch();
     }
 
+    //좋아요가 가장 많은 5개
+    public List<Integer> findTop5CourseByLike(String dong){
+        return queryFactory
+                .select(courseLike.course.courseId.as("course"))
+                .from(courseLike)
+                .join(courseLike.course,course)
+                .where(course.address.contains(dong))
+                .groupBy(courseLike.course)
+                .orderBy(courseLike.course.count().desc())
+                .limit(5)
+                .fetch();
+    }
 
 }
