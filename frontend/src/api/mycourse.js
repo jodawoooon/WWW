@@ -4,9 +4,9 @@ import SERVER from './drf.js';
 
 export const myCourseApi = {
 
-    getWalkData: (data, headers) => {
+    getCourseData: (data, headers) => {
         let check = true;
-        let url = SERVER.URL + SERVER.ROUTES.myCourse+`/${data.type}`;
+        let url = SERVER.URL + SERVER.ROUTES.myCourse + `/${data.type}`;
         if (data.userId) {
             if (check) {
                 url += `?`;
