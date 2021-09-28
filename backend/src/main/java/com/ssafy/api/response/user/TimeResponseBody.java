@@ -7,9 +7,10 @@ import lombok.Data;
 public class TimeResponseBody extends BaseResponseBody {
     int sumTime;
     double avgTime;
+    int prevSumTime;
+    double prevAvgTime;
     int sumCalorie;
     double avgCalorie;
     double sumDistance;
     double avgDistance;
-
 }

@@ -22,4 +22,13 @@ public class CourseReviewQueryRepository {
                 .where(courseReview.course.courseId.eq(courseId))
                 .fetch();
     }
+
+    // 로그인 사용자의 코스 리뷰 점수
+    public Integer findScoreByCourseIdAndUserId(int courseId, String userId) {
+        return queryFactory.select(courseReview.score)
+                .from(courseReview)
+                .where(courseReview.course.courseId.eq(courseId)
+                        .and(courseReview.user.userId.eq(userId)))
+                .fetchOne();
+    }
 }

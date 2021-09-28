@@ -9,23 +9,31 @@ import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.List;
+import com.ssafy.db.repository.UserRepository;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RedisService redisService;
 
     @Autowired
     WalkQueryRepository walkQueryRepository;
 
     @Autowired
     WalkRepository walkRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     CourseLikeQueryRepository courseLikeQueryRepository;
@@ -35,6 +43,39 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
+
+    @Override
+    public User getUserId(String userId) {
+        Optional<User> user = userRepository.findUserByUserId(userId);
+        if(!user.isPresent()){
+            return null;
+        }
+        return user.get();
+    }
+
+    @Override
+    public User createUser(HashMap<String,Object> Token, HashMap<String, Object> userInfo) {
+        String accessToken = (String) Token.get("accessToken");
+        String refreshToken = (String) Token.get("refreshToken");
+        Long accessTokenExpire = Long.parseLong(Token.get("accessTokenExpire").toString());
+        Long refreshTokenExpire = Long.parseLong(Token.get("refreshTokenExpire").toString());
+
+        User user = new User();
+
+        String id = (String) userInfo.get("userId");
+        String name = (String) userInfo.get("name");
+
+        user.setUserId(id);
+        user.setName(name);
+
+        // DB에 user 정보 저장
+        userRepository.save(user);
+
+        // redis에 refreshToken 저장
+        redisService.setDataExpire(refreshToken,id,refreshTokenExpire);
+
+        return user;
+    }
 
 
     @Override
@@ -78,6 +119,8 @@ public class UserServiceImpl implements UserService{
         return userResponseBody;
 
     }
+
+
 
     @Override
     public BaseResponseBody readRecentCourse(String userId) {
@@ -175,25 +218,52 @@ public class UserServiceImpl implements UserService{
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
         Calendar c = Calendar.getInstance();
+
+        LocalDate prevStart=null;
+        LocalDate prevFin=null;
+        int prevDay=0;
+
         int today=0;
         if("week".equals(type)){
             today = LocalDate.parse(formatter.format(c.getTime()),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")).getDayOfWeek().getValue(); // monday = 1,
+
             c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+
+            prevStart = LocalDate.parse(formatter.format(c.getTime())).with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+            prevFin = LocalDate.parse(formatter.format(c.getTime())).with(TemporalAdjusters.previous(DayOfWeek.SUNDAY)).plusDays(1);
+            prevDay=7;
+
         }
         else if("month".equals(type)){
             today = LocalDate.now().getDayOfMonth();
+
+            prevStart = LocalDate.parse(formatter.format(c.getTime())).minusMonths(1).withDayOfMonth(1);
+            prevFin = prevStart.withDayOfMonth(prevStart.lengthOfMonth()).plusDays(1);
+            prevDay = prevStart.lengthOfMonth();
+
             c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+
         }
+        System.out.println(prevStart +" "+prevFin+" "+prevDay);
 
         LocalDate ld = LocalDate.parse(formatter.format(c.getTime()), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDateTime ldt = ld.atStartOfDay();
+
+        LocalDateTime prevStartT = prevStart.atStartOfDay();
+        LocalDateTime prevFinT = prevFin.atStartOfDay();
+
 
         User user = new User();
 
         user.setUserId(userId);
 
         List<Walk> ret = walkRepository.findByUserAndDateAfter(user, ldt);
+
+        List<Walk> prevRet = walkRepository.findByUserAndDateBetween(user,prevStartT,prevFinT);
+
+
 
         int sumTime=0,sumCalorie=0;
         double sumDistance=0;
@@ -203,6 +273,13 @@ public class UserServiceImpl implements UserService{
             sumCalorie+=w.getCalorie();
         }
 
+        int prevTime=0;
+        for(Walk w : prevRet){
+            System.out.println(w);
+            prevTime+=w.getTime();
+        }
+        System.out.println(prevTime);
+
         timeResponseBody.setStatusCode(200);
         timeResponseBody.setMessage("OK");
         timeResponseBody.setSumTime(sumTime);
@@ -211,7 +288,8 @@ public class UserServiceImpl implements UserService{
         timeResponseBody.setAvgCalorie((double)sumCalorie/today);
         timeResponseBody.setSumDistance(sumDistance);
         timeResponseBody.setAvgDistance(sumDistance/today);
-
+        timeResponseBody.setPrevSumTime(prevTime);
+        timeResponseBody.setPrevAvgTime((double)prevTime/prevDay);
 
         return timeResponseBody;
     }

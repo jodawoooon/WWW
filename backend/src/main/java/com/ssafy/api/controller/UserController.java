@@ -18,7 +18,7 @@ public class UserController {
     //user info
     @GetMapping("/mypage")
     public ResponseEntity<BaseResponseBody> readUserInfo(@RequestParam String userId){
-
+        System.out.println("OK!");
         return new ResponseEntity<BaseResponseBody>(userService.readUserInfo(userId), HttpStatus.OK);
     }
 
@@ -50,8 +50,8 @@ public class UserController {
     //월간/주간
     @GetMapping("/time")
     public ResponseEntity<BaseResponseBody> readTime(@RequestParam String userId,
-                                                         @RequestParam String type){
-        return new ResponseEntity<BaseResponseBody>( userService.readTime(userId,type), HttpStatus.OK);
+                                                         @RequestParam String returnType){
+        return new ResponseEntity<BaseResponseBody>( userService.readTime(userId,returnType), HttpStatus.OK);
     }
 
 }

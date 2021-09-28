@@ -1,4 +1,7 @@
 module.exports = {
-    outputDir: "../backend/src/main/resources/dist"
-  }
+
+      outputDir: "../backend/src/main/resources/dist"
+    }
+
+    
   
