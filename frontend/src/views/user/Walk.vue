@@ -1,6 +1,7 @@
 <template>
-  <div id="main">
+  <div style="padding-bottom: 90px">
     <Header :showArrow="false" message="나의 산책 분석" id="navBar" />
+
     <div style="background-color: #49ab76; color: #ffffff">
       <div id="space"></div>
 
@@ -37,74 +38,68 @@
       </v-tabs>
     </v-card>
     <br /><br />
-    <div id="default">
-      <div style="font-size: 20px">
-        <div v-if="curType == 'week'">
-          <b>이번주🚩</b><br />{{ prevDay }} ~ {{ curDay }}
-        </div>
-        <div v-if="curType == 'month'">
-          <b>이번달🚩</b><br />{{ prevDay }} ~ {{ curDay }}
-        </div>
+
+    <div style="font-size: 20px">
+      <div v-if="curType == 'week'">
+        <b>이번주🚩</b><br />{{ prevDay }} ~ {{ curDay }}
       </div>
-      <br />
-
-      <div class="data">
-        <div v-if="curType == 'week'">
-          <b style="float: left; margin-left: 35px">주간 누적</b>
-          <span style="float: right; margin-right: 35px">{{
-            sumTimeText
-          }}</span>
-          <br />
-        </div>
-
-        <div v-if="curType == 'month'">
-          <b style="float: left; margin-left: 35px">월간 누적</b>
-          <span style="float: right; margin-right: 35px">{{
-            sumTimeText
-          }}</span>
-          <br />
-        </div>
-
-        <div>
-          <b style="float: left; margin-left: 35px">하루 평균</b>
-          <span style="float: right; margin-right: 35px">{{
-            avgTimeText
-          }}</span>
-          <br />
-        </div>
+      <div v-if="curType == 'month'">
+        <b>이번달🚩</b><br />{{ prevDay }} ~ {{ curDay }}
       </div>
-      <br />
+    </div>
+    <br />
+
+    <div class="data">
+      <div v-if="curType == 'week'">
+        <b style="float: left; margin-left: 35px">주간 누적</b>
+        <span style="float: right; margin-right: 35px">{{ sumTimeText }}</span>
+        <br />
+      </div>
+
+      <div v-if="curType == 'month'">
+        <b style="float: left; margin-left: 35px">월간 누적</b>
+        <span style="float: right; margin-right: 35px">{{ sumTimeText }}</span>
+        <br />
+      </div>
+
       <div>
-        총 소모 칼로리 :
-        <b style="font-size: 25px"> {{ userData.sumCalorie }} </b>kcal
+        <b style="float: left; margin-left: 35px">하루 평균</b>
+        <span style="float: right; margin-right: 35px">{{ avgTimeText }}</span>
         <br />
       </div>
+    </div>
+    <br />
+    <div>
+      총 소모 칼로리 :
+      <b style="font-size: 25px"> {{ userData.sumCalorie }} </b>kcal
+      <br />
+    </div>
+    <div style="font-size: 20px">
+      <br />
+      <img
+        v-if="timeDiff < 0"
+        src="https://cdn-icons-png.flaticon.com/512/599/599426.png"
+        alt=""
+        width="80px"
+      />
+      <img
+        v-if="timeDiff >= 0"
+        src="https://cdn-icons-png.flaticon.com/512/983/983079.png"
+        alt=""
+        width="80px"
+      />
+      <br /><br />
 
-      <div style="font-size: 20px">
-        <br />
-        <img
-          v-if="timeDiff < 0"
-          src="https://cdn-icons-png.flaticon.com/512/599/599426.png"
-          alt=""
-          width="80px"
-        />
-        <img
-          v-if="timeDiff >= 0"
-          src="https://cdn-icons-png.flaticon.com/512/983/983079.png"
-          alt=""
-          width="80px"
-        />
-        <br /><br />
-
-        <div v-if="curType == 'week'">
-          <b>이번 주</b> 평균 산책 시간은<br /><b>저번 주</b> 평균 산책 시간보다
-        </div>
-        <div v-if="curType == 'month'">
-          <b>이번 달</b> 평균 산책 시간은<br /><b>저번 달</b> 평균 산책 시간보다
-        </div>
-        <span class="font-weight-black">{{ timeDiffText }}</span>
-        <span v-if="timeDiff < 0"> 만큼 덜 걸었습니다</span>
-        <span v-if="timeDiff >= 0"> 만큼 더 걸었습니다</span>
+      <div v-if="curType == 'week'"><b>이번 주</b> 는 <b>저번 주</b>보다</div>
+      <div v-if="curType == 'month'"><b>이번 달</b>은 <b>저번 달</b> 보다</div>
+      <span class="font-weight-black">{{ timeDiffText }}</span>
+      <span v-if="timeDiff < 0"> 만큼 덜 걸었어요</span>
+      <span v-if="timeDiff >= 0"> 만큼 더 걸었어요</span>
+      <div style="font-size: 10pt; margin-top: 3px" v-if="timeDiff < 0">
+        내일은 더 걸어봐요💪
+      </div>
+      <div style="font-size: 10pt; margin-top: 3px" v-if="timeDiff >= 0">
+        참 잘했어요🤩👏
       </div>
     </div>
   </div>
