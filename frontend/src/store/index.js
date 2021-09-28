@@ -9,9 +9,9 @@ export default new Vuex.Store({
       name: "김싸피",
     },
     location: {
-      lat: "37.50143547334588",
-      lng: "127.03963238011177",
-      dong: "역삼동",
+      lat: "37.47085376325646",
+      lng: "126.95986125726075",
+      dong: "봉천동",
     },
     curCourse: {
       id: 1016,

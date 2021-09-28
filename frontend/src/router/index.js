@@ -19,6 +19,9 @@ import Login from "@/views/user/Login";
 // 관심 코스 정보
 import MyCourse from "@/views/user/MyCourse";
 
+// 산책 기록 페이지
+import Record from "@/views/walk/Record";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,8 +41,11 @@ const routes = [
 
   // 로그인
   { path: "/login", component: Login },
-  
-  { path: "/user/mycourse", component: MyCourse},
+
+  { path: "/user/mycourse", component: MyCourse },
+
+  // 산책 기록 페이지
+  { path: "/record", component: Record },
 ];
 
 const router = new VueRouter({
