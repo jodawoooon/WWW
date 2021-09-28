@@ -1,20 +1,23 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.response.main.GetRankRes;
+import com.ssafy.api.response.main.GetRecommendListRes;
+import com.ssafy.api.response.main.TodayWalkTimeRes;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public interface MainService {
 
-    public boolean getRank();
+    public GetRankRes getRank();
 
-    public Date getTodayWalk();
+    public TodayWalkTimeRes getTodayWalk(String userId, LocalDateTime date);
 
-    public boolean startRecord();
+//    public boolean startRecord();
 
-    public boolean finishRecord();
+    public boolean finishRecord(String userId, int courseId, double distance, int time, int calorie);
 
-    public List<String> getRecommendList();
+    public GetRecommendListRes getRecommendList(String dong);
 }
