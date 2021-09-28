@@ -1,8 +1,10 @@
 <template>
   <div>
     <!-- 여기서 코스 리스트 가져와서 CourseCard에 props로 넘겨주기-->
-    <div v-if="showNearby" style="font-weight: 700">현재 위치로부터 10KM내 코스까지 포함된 결과입니다.</div>
-    <div v-for="(course,idx) in courseList" v-bind:key="idx">
+    <div v-if="showNearby" style="font-weight: 700">
+      현재 위치로부터 10KM내 코스까지 포함된 결과입니다.
+    </div>
+    <div v-for="(course, idx) in courseList" v-bind:key="idx">
       <CourseCard
         :title="course.courseFlagName"
         :name="course.courseName"
@@ -19,7 +21,7 @@
 </template>
 
 <script>
-import {requestPost} from "@/api/request.js";
+import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
 
 export default {
@@ -50,12 +52,12 @@ export default {
     };
   },
   watch: {
-    "filter" : { 
+    filter: {
       handler() {
         this.resetData();
         this.readCourseList();
       },
-      deep: true
+      deep: true,
     },
   },
   created() {
@@ -83,20 +85,23 @@ export default {
       this.courseReq.latitude = this.filter.latitude;
     },
     readCourseList() {
-      requestPost("http://localhost:8080/api/course/", this.courseReq, {})
-        .then((res) => {
-          this.courseList = res.courseList;
-          this.hasNextPage = res.hasNextPage;
-          this.page = res.page;
-          console.log(this.courseList);
-          // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
-          if (this.courseReq.dong !== "" && this.courseList.length == 0) {
-            this.courseReq.dong = "";
-            console.log("재실행");
-            this.showNearby = true;
-            this.readCourseList();
-          }
-        });
+      requestPost(
+        "https://j5a605.p.ssafy.io/api/course/",
+        this.courseReq,
+        {}
+      ).then((res) => {
+        this.courseList = res.courseList;
+        this.hasNextPage = res.hasNextPage;
+        this.page = res.page;
+        console.log(this.courseList);
+        // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
+        if (this.courseReq.dong !== "" && this.courseList.length == 0) {
+          this.courseReq.dong = "";
+          console.log("재실행");
+          this.showNearby = true;
+          this.readCourseList();
+        }
+      });
     },
   },
 };
