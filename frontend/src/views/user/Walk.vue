@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <ComponentNav title="나의 산책 분석"></ComponentNav>
+    <Header :showArrow="false" message="나의 산책 분석" id="navBar" />
     <div id="space"></div>
 
     <p style="text-align: left; margin-left: 25px">
@@ -92,13 +92,14 @@
 </template>
 
 <script>
-import ComponentNav from "@/components/common/ComponentNav";
+import Header from "@/components/common/Header";
 import userApi from "@/api/user.js";
 
 export default {
   name: "Walk",
   components: {
-    ComponentNav,
+    Header,
+    
   },
   data() {
     return {
@@ -230,7 +231,7 @@ export default {
   margin: auto;
   position: fixed;
   bottom: 0;
-  background: #cccccc;
+  background: #FFFFFF;
 }
 
 .data{

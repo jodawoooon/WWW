@@ -17,7 +17,7 @@ import MyWalk from "@/views/user/Walk";
 import Login from "@/views/user/Login";
 
 // 관심 코스 정보
-import MyCourse from "@/views/user/MyCourse";
+import MyCourse from "@/views/mypage/MyCourse";
 
 // 산책 기록 페이지
 import Record from "@/views/walk/Record";

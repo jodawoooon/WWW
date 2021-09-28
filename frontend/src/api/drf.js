@@ -4,6 +4,6 @@ export default {
   URL,
   ROUTES: {
     users: "/api/users",
-    myCourse: "/api/mypage",
+    myCourse: "/api/users/mypage",
   },
 };

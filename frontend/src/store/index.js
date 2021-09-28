@@ -64,6 +64,44 @@ export default new Vuex.Store({
           lng: "126.986664",
         },
       ],
+      cafe: [
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+        {
+          title: "test",
+          address: "test",
+          lat: "37.4265296",
+          lng: "126.986664",
+        },
+      ],
 
       isBookmarked: false,
     },
@@ -78,7 +116,6 @@ export default new Vuex.Store({
       state.curCourse.id = payload.id;
       state.curCourse.title = payload.title;
       state.curCourse.address = payload.address;
-      //..... 현재 선택한 산책로 정보 commit
     },
     SET_CUR_PAGE(state, curPage) {
       state.curPage = curPage;
