@@ -17,26 +17,30 @@
         >
       </v-tabs>
     </v-card>
-
-    <div v-if="!isRecent">
-      <div v-for="(course, idx) in this.wishCourse.courseList" v-bind:key="idx">
-        <CourseCard
-          :name="course.courseName"
-          :courseId="course.id"
-          :address="course.address"
-        />
+    <div class="default">
+      <div v-if="!isRecent">
+        <div
+          v-for="(course, idx) in this.wishCourse.courseList"
+          v-bind:key="idx"
+        >
+          <CourseCard
+            :name="course.courseName"
+            :courseId="course.id"
+            :address="course.address"
+          />
+        </div>
       </div>
-    </div>
-    <div v-if="isRecent">
-      <div
-        v-for="(course, idx) in this.recentCourse.courseList"
-        v-bind:key="idx"
-      >
-        <CourseCard
-          :name="course.courseName"
-          :courseId="course.id"
-          :address="course.address"
-        />
+      <div v-if="isRecent">
+        <div
+          v-for="(course, idx) in this.recentCourse.courseList"
+          v-bind:key="idx"
+        >
+          <CourseCard
+            :name="course.courseName"
+            :courseId="course.id"
+            :address="course.address"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -57,13 +61,17 @@ export default {
   data() {
     return {
       isRecent: false,
-      userId: "",
+      userId: this.$store.gettersLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };
   },
+  mounted() {
+    this.getWishCourse(this.userId);
+    this.getRecentCourse(this.userId);
+  },
   created() {
-    this.userId = "test"; // for test
+    // this.userId = "test"; // for test
     this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
   },

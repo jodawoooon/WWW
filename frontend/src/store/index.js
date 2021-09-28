@@ -8,19 +8,19 @@ export default new Vuex.Store({
   state: {
     curPage: "Main",
     tokens: {
-      accessToken: '',
-      accessTokenExpire:'',
-      refreshToken:'',
-      refreshTokenExpire:'',
+      accessToken: "",
+      accessTokenExpire: "",
+      refreshToken: "",
+      refreshTokenExpire: "",
     },
     loginUserInfo: {
-      userId: '',
-      nickname: '',
+      userId: "",
+      nickname: "",
     },
     userProfile: {
-      userId:'',
-      name: '',
-      nickname: '', 
+      userId: "",
+      name: "",
+      nickname: "",
     },
     userInfo: {
       name: "김싸피",
@@ -123,12 +123,12 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    SET_USER_INFO(state,payload){
+    SET_USER_INFO(state, payload) {
       console.log(payload);
       state.loginUserInfo.userId = payload.userId;
       state.loginUserInfo.nickname = payload.nickname;
     },
-    SET_USER_TOKEN(state,payload){
+    SET_USER_TOKEN(state, payload) {
       state.tokens.accessToken = payload.accessToken;
       state.tokens.refreshToken = payload.refreshToken;
       state.tokens.accessTokenExpire = payload.accessTokenExpire;
@@ -144,13 +144,16 @@ export default new Vuex.Store({
       state.curCourse.title = payload.title;
       state.curCourse.address = payload.address;
     },
+    SET_CUR_TITLE(state, payload) {
+      state.curCourse.title = payload;
+    },
     SET_CUR_PAGE(state, curPage) {
       state.curPage = curPage;
     },
   },
   actions: {},
   getters: {
-    getLoginUserInfo(state){
+    getLoginUserInfo(state) {
       return state.loginUserInfo;
     },
     getUserName(state) {
@@ -171,6 +174,4 @@ export default new Vuex.Store({
   },
   modules: {},
   plugins: [createPersistedState()],
-
 });
-
