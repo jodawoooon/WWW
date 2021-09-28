@@ -1,8 +1,12 @@
 <template>
   <div>
     <!-- 여기서 코스 리스트 가져와서 CourseCard에 props로 넘겨주기-->
-    <div v-if="showNearby" style="font-weight: 700">
-      현재 위치로부터 10KM내 코스까지 포함된 결과입니다.
+    <div v-if="!showNearby">
+      <span style="font-weight: 700">{{ filter.dong }}</span> 일대의 산책로 코스입니다.
+    </div>
+    <div v-if="showNearby">
+      <span style="font-weight: 700">{{ filter.dong }}</span>에 위치한 산책로 코스가 없습니다.<br>
+      현재 위치로부터 10km내 코스까지 포함된 결과입니다.<br><br>
     </div>
     <div v-for="(course, idx) in courseList" v-bind:key="idx">
       <CourseCard
@@ -13,14 +17,18 @@
         :km="course.courseLength"
         :min="course.time"
         :kcal="100"
-        :geoDistance="course.geoDistance"
         :isBookmarked="course.myLike"
       />
     </div>
+    <!-- <infinite-loading @infinite="infiniteHandler" spinner="waveDots">
+      <div slot="no-results"></div>
+      <div slot="no-more"></div>
+    </infinite-loading> -->
   </div>
 </template>
 
 <script>
+// import InfiniteLoading from 'vue-infinite-loading';
 import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
 
@@ -29,6 +37,7 @@ export default {
   props: ["filter"],
   components: {
     CourseCard,
+    // InfiniteLoading,
   },
   data() {
     return {
@@ -64,16 +73,11 @@ export default {
     this.readCourseList();
   },
   methods: {
-    nextPage() {
-      this.courseReq.page++;
-      this.readCourseList();
-    },
     resetData() {
       this.showNearby = false;
       this.courseList = [];
       this.courseReq.userId = this.filter.userId;
       this.courseReq.page = 0;
-      this.courseReq.size = 10;
       this.courseReq.sort = this.filter.sort;
       this.courseReq.criteria = this.filter.criteria;
       this.courseReq.minTime = this.filter.minTime;
@@ -86,23 +90,30 @@ export default {
     },
     readCourseList() {
       requestPost(
-        "https://j5a605.p.ssafy.io/api/course/",
+        "/api/course/",
         this.courseReq,
         {}
       ).then((res) => {
-        this.courseList = res.courseList;
+        this.courseList = this.courseList.concat(res.courseList);
         this.hasNextPage = res.hasNextPage;
-        this.page = res.page;
-        console.log(this.courseList);
+        this.courseReq.page = res.page;
         // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
         if (this.courseReq.dong !== "" && this.courseList.length == 0) {
+          this.courseReq.page = 0;
           this.courseReq.dong = "";
-          console.log("재실행");
           this.showNearby = true;
           this.readCourseList();
+          return;
         }
+        // console.log("1");
       });
+      // console.log("2");
     },
+    // async infiniteHandler($state) {
+    //   await this.readCourseList();
+    //   // console.log("3");
+    //   $state.complete();
+    // },
   },
 };
 </script>

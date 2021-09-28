@@ -20,6 +20,7 @@
     "sass-loader": "^10.2.0",
     "vue": "^2.6.11",
     "vue-geolocation-api": "^0.1.21",
+    "vue-infinite-loading": "^2.4.5",
     "vue-kakao-login": "^1.0.5",
     "vue-material-design-icons": "^4.12.1",
     "vue-moment": "^4.1.0",

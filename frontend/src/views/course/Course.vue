@@ -111,7 +111,6 @@
         >
         <el-divider />
       </div>
-      <span style="font-weight: 700">{{ dong }}</span> 일대의 산책로 코스입니다.
 
       <div class="course-content">
         <CourseList :filter="filter" />
