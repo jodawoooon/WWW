@@ -1,8 +1,12 @@
 <template>
   <div>
     <!-- 여기서 코스 리스트 가져와서 CourseCard에 props로 넘겨주기-->
-    <div v-if="showNearby" style="font-weight: 700">
-      현재 위치로부터 10KM내 코스까지 포함된 결과입니다.
+    <div v-if="!showNearby">
+      <span style="font-weight: 700">{{ filter.dong }}</span> 일대의 산책로 코스입니다.
+    </div>
+    <div v-if="showNearby">
+      <span style="font-weight: 700">{{ filter.dong }}</span>에 위치한 산책로 코스가 없습니다.<br>
+      현재 위치로부터 10km내 코스까지 포함된 결과입니다.<br><br>
     </div>
     <div v-for="(course, idx) in courseList" v-bind:key="idx">
       <CourseCard
@@ -13,7 +17,6 @@
         :km="course.courseLength"
         :min="course.time"
         :kcal="100"
-        :geoDistance="course.geoDistance"
         :isBookmarked="course.myLike"
       />
     </div>
@@ -86,7 +89,7 @@ export default {
     },
     readCourseList() {
       requestPost(
-        "https://j5a605.p.ssafy.io/api/course/",
+        "/api/course/",
         this.courseReq,
         {}
       ).then((res) => {
