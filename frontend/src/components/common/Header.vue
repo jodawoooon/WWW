@@ -13,7 +13,14 @@
           style="color: #ffffff"
         ></i>
       </span>
-      <span id="title">{{ $props.message }}</span>
+      <span v-if="$props.message != 'WWW'" id="title">{{
+        $props.message
+      }}</span>
+      <span style="font-size: 16pt" v-if="$props.message == 'WWW'" id="title">
+        <span style="color: #737373; font-weight: 800">W</span>
+        <span style="color: #49ab76; font-weight: 800">W</span>
+        <span style="color: #737373; font-weight: 800">W</span>
+      </span>
       <el-dropdown style="float: right; line-height: 57px; padding-right: 30px">
         <span class="el-dropdown-link">
           <i class="el-icon-more"></i>

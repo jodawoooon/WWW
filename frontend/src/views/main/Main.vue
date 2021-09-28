@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :showArrow="false" message="Home" id="navBar" />
+    <Header :showArrow="false" message="WWW" id="navBar" />
     <div class="default">
       <div class="main-top">
         <div style="margin-top: 20px">
