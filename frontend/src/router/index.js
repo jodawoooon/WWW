@@ -4,6 +4,9 @@ import VueRouter from "vue-router";
 // 메인
 import Main from "@/views/main/Main";
 
+// 메인
+import Index from "@/views/main/Index";
+
 // 코스 정보
 import Course from "@/views/course/Course";
 
@@ -27,6 +30,9 @@ Vue.use(VueRouter);
 const routes = [
   { path: "/index.html", component: Main, alias: "/" },
   // 메인
+  // 인덱스
+
+  { path: "/index", component: Index },
   { path: "", redirect: "/main" },
   { path: "/main", name: "Main", component: Main },
 

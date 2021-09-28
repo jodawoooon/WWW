@@ -13,6 +13,9 @@ import "element-ui/lib/theme-chalk/index.css";
 
 import VueGeolocationApi from "vue-geolocation-api";
 
+import vueMoment from "vue-moment";
+Vue.use(vueMoment);
+
 Vue.use(VueGeolocationApi);
 Vue.use(ElementUI);
 // Install BootstrapVue

@@ -22,6 +22,7 @@
     "vue-geolocation-api": "^0.1.21",
     "vue-kakao-login": "^1.0.5",
     "vue-material-design-icons": "^4.12.1",
+    "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
     "vuetify": "^2.5.8",
     "vuetify-loader": "^1.7.3",

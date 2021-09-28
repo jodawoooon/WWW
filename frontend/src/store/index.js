@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    curPage: "Main",
     userInfo: {
       name: "김싸피",
     },
@@ -54,6 +55,9 @@ export default new Vuex.Store({
       state.curCourse.address = payload.address;
       //..... 현재 선택한 산책로 정보 commit
     },
+    SET_CUR_PAGE(state, curPage) {
+      state.curPage = curPage;
+    },
   },
   actions: {},
   getters: {
@@ -62,6 +66,9 @@ export default new Vuex.Store({
     },
     getDong(state) {
       return state.location.dong;
+    },
+    getCurPage(state) {
+      return state.curPage;
     },
     getLocation(state) {
       return state.location;
