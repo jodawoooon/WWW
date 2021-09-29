@@ -105,6 +105,7 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {

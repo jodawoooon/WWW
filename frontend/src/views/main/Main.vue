@@ -92,7 +92,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit("SET_CUR_PAGE", "Main");
+    this.$store.commit("SET_IS_NOT_INDEX");
   },
   methods: {
     startWalk() {
@@ -156,6 +156,7 @@ export default {
     },
   },
   created() {
+    this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
   },
 };

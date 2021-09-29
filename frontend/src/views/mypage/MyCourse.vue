@@ -87,6 +87,7 @@ export default {
   mounted() {
     this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
+    this.$store.commit("SET_IS_NOT_INDEX");
   },
   created() {
     // this.userId = "test"; // for test

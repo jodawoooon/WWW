@@ -6,6 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isAgree: false,
+    isIndex: true,
     curPage: "Main",
     tokens: {
       accessToken: "",
@@ -123,6 +125,18 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_IS_INDEX(state) {
+      state.isIndex = true;
+    },
+    SET_IS_AGREE(state) {
+      state.isAgree = true;
+    },
+    SET_IS_NOT_AGREE(state) {
+      state.isAgree = false;
+    },
+    SET_IS_NOT_INDEX(state) {
+      state.isIndex = false;
+    },
     SET_USER_INFO(state, payload) {
       console.log(payload);
       state.loginUserInfo.userId = payload.userId;
@@ -160,6 +174,12 @@ export default new Vuex.Store({
   },
   actions: {},
   getters: {
+    getIsIndex(state) {
+      return state.isIndex;
+    },
+    getIsAgree(state) {
+      return state.isAgree;
+    },
     getLoginUserInfo(state) {
       return state.loginUserInfo;
     },
