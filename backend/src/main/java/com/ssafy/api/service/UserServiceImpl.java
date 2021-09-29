@@ -200,13 +200,8 @@ public class UserServiceImpl implements UserService{
         try {
             int time = -1;
             List<Integer> result = walkQueryRepository.TotalWalkTime(userId);
-            if(result.get(0)!=null)time=result.get(0);
-            System.out.println(time);
-            if (time != -1) {
-                return new TotalTimeResponseBody(200, "OK", time);
-            } else {
-                return new TotalTimeResponseBody(404, "Not Found", time);
-            }
+            if(result.get(0)!=null)return new TotalTimeResponseBody(200, "OK", result.get(0));
+            else return new TotalTimeResponseBody(200, "OK", 0);
         }
         catch (Exception e){
             e.printStackTrace();
