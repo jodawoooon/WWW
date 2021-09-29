@@ -180,13 +180,20 @@ export default {
         userId: userId,
       };
       let totalTime = await userApi.getWalkData(data, {});
-      this.totalTime =
-        parseInt(totalTime.time / 3600) +
-        "시간 " +
-        parseInt((totalTime.time % 3600) / 60) +
-        "분 " +
-        parseInt((totalTime.time % 3600) % 60) +
-        "초";
+      
+        if(totalTime.time==0){
+          this.totalTime="0시간 0분 0초"
+        }
+        else{
+          this.totalTime =
+          parseInt(totalTime.time / 3600) +
+          "시간 " +
+          parseInt((totalTime.time % 3600) / 60) +
+          "분 " +
+          parseInt((totalTime.time % 3600) % 60) +
+          "초";
+        }
+        
     },
 
     async getUserData(userId, returnType) {
