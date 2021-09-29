@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       isRecent: false,
-      userId: this.$store.getters.LoginUserInfo.userId,
+      userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };
