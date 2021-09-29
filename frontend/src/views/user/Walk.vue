@@ -112,7 +112,6 @@
 <script>
 import Header from "@/components/common/Header";
 import userApi from "@/api/user.js";
-import router from "@/router/index.js";
 
 export default {
   name: "Walk",
@@ -136,19 +135,16 @@ export default {
       sumTimeText: "",
     };
   },
+  mounted() {
+    this.$store.commit("SET_IS_NOT_INDEX");
+  },
   created() {
     // this.userId = "test"; // for test
     this.curType = "week";
     this.init(this.curType);
-    if(this.userId == ""){
-      alert("로그인 이후 이용해주세요");
-      router.push("/main");
-    }
   },
   methods: {
     init(type) {
-
-
       this.curType = type;
 
       let today = new Date();
@@ -180,12 +176,11 @@ export default {
         userId: userId,
       };
       let totalTime = await userApi.getWalkData(data, {});
-      
-        if(totalTime.time==0){
-          this.totalTime="0시간 0분 0초"
-        }
-        else{
-          this.totalTime =
+
+      if (totalTime.time == 0) {
+        this.totalTime = "0시간 0분 0초";
+      } else {
+        this.totalTime =
           parseInt(totalTime.time / 3600) +
           "시간 " +
           parseInt((totalTime.time % 3600) / 60) +
@@ -193,9 +188,6 @@ export default {
           parseInt((totalTime.time % 3600) % 60) +
           "초";
         }
-        console.log(totalTime);
-        console.log(parseInt((totalTime.time % 3600) % 60));
-        console.log(this.totalTime);
         
     },
 

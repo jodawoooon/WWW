@@ -93,6 +93,7 @@ export default {
     goDetail() {
       console.log(this.$props.courseId);
       console.log(this.$props.lat);
+
       console.log(this.$store.getLoginUserInfo.userId);
       axios.get("/api/course/",{
         params :{
@@ -120,6 +121,7 @@ export default {
         });
         console.log(this.$props.courseId+" "+this.$props.address);
       })
+
       router.push("/course/detail");
     },
   },
