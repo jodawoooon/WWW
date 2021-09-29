@@ -42,9 +42,12 @@ public class CourseQueryRepository {
         return course.address.contains(dong);
     }
 
-    // 현재 위치부터 반경 10km까지 위치한 코스 검색
-    private BooleanExpression nearbyGeoDistance(NumberTemplate geoDistance) {
-        return geoDistance.lt(10);
+    // 동 검색에 실패할 경우 현재 위치부터 반경 10km까지 위치한 코스 검색
+    private BooleanExpression nearbyGeoDistance(String dong, NumberTemplate geoDistance) {
+        if (StringUtils.isEmpty(dong)) {
+            return geoDistance.lt(10);
+        }
+        return null;
     }
 
     // 코스 목록 검색 조건: 동으로 검색(기본값), 로그인 사용자 관심 코스 검색
@@ -65,7 +68,8 @@ public class CourseQueryRepository {
                         course.name.as("courseName"),
                         course.address.as("address"),
                         course.distance.as("courseLength"),
-                        course.time.as("courseTime")
+                        course.time.as("courseTime"),
+                        course.timeInt.as("timeInt")
                 )
                 .from(walk)
                 .join(walk.course,course)
@@ -111,6 +115,7 @@ public class CourseQueryRepository {
                         course.address.as("address"),
                         course.distance.as("courseLength"),
                         course.time.as("time"),
+                        course.timeInt.as("timeInt"),
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
@@ -121,9 +126,9 @@ public class CourseQueryRepository {
                 .leftJoin(cl).on(cl.course.eq(course))
                 .leftJoin(my_cl).on(my_cl.course.eq(course).and(my_cl.user.userId.eq(courseReq.getUserId())))
                 .where(course.distance.between(courseReq.getMinDistance(), courseReq.getMaxDistance())
-                        .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
+                                .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
                         ,containsDong(courseReq.getDong())
-                        ,nearbyGeoDistance(geoDistance)
+                        ,nearbyGeoDistance(courseReq.getDong(), geoDistance)
                         ,eqUserIdAndLike(courseReq.getUserId(), courseReq.getCriteria()))
                 .groupBy(course.courseId)
                 .orderBy(orderSpecifier, course.courseId.asc())
@@ -164,5 +169,4 @@ public class CourseQueryRepository {
                 .where(course.courseId.eq(courseId))
                 .fetchOne();
     }
-
 }

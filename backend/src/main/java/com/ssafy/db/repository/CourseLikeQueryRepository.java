@@ -25,7 +25,8 @@ public class CourseLikeQueryRepository {
                         course.name.as("courseName"),
                         course.address.as("address"),
                         course.distance.as("courseLength"),
-                        course.time.as("courseTime")
+                        course.time.as("courseTime"),
+                        course.timeInt.as("timeInt")
                         )
                 .from(courseLike)
                 .join(courseLike.course, course)

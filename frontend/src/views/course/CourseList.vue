@@ -18,9 +18,9 @@
         :address="course.address"
         :km="course.courseLength"
         :min="course.time"
-        :kcal="(course.time / 60) * 0.06"
-        :lat="course.latitude"
-        :lng="course.longitude"
+        :kcal="Math.round((course.timeInt * 60) * 0.06 * 10) / 10"
+        :lat="course.latitude.toString()"
+        :lng="course.longitude.toString()"
         :score="course.score"
         :detail="course.detail"
         :isBookmarked="course.myLike"
@@ -29,7 +29,7 @@
       />
     </div>
     <infinite-loading
-      @infinite="infiniteHandler"
+      @infinite="readCourseList"
       ref="infiniteLoading"
       spinner="waveDots"
     >
@@ -41,7 +41,6 @@
 
 <script>
 import InfiniteLoading from "vue-infinite-loading";
-import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
 import axios from "axios";
 
@@ -77,16 +76,12 @@ export default {
     filter: {
       handler() {
         this.resetData();
-        this.readCourseList();
         if (this.$refs.infiniteLoading) {
           this.$refs.infiniteLoading.stateChanger.reset();
         }
       },
       deep: true,
     },
-  },
-  created() {
-    this.readCourseList();
   },
   methods: {
     resetData() {
@@ -104,34 +99,29 @@ export default {
       this.courseReq.longitude = this.filter.longitude;
       this.courseReq.latitude = this.filter.latitude;
     },
-    async readCourseList() {
-      await requestPost("/api/course/", this.courseReq, {}).then((res) => {
-        this.courseList = this.courseList.concat(res.courseList);
-        // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
-        if (this.courseReq.dong !== "" && this.courseList.length == 0) {
-          this.courseReq.page = 0;
-          this.courseReq.dong = "";
-          this.showNearby = true;
-          this.readCourseList();
-          return;
-        }
-        this.hasNextPage = res.hasNextPage;
-        this.courseReq.page = res.page + 1;
-      });
-    },
-    infiniteHandler($state) {
+    readCourseList($state) {
       setTimeout(() => {
         axios.post("/api/course/", this.courseReq, {}).then((res) => {
           const data = res.data;
           this.courseList = this.courseList.concat(data.courseList);
           $state.loaded();
+          if (this.courseReq.dong !== "" && this.courseList.length == 0) {
+            this.courseReq.page = 0;
+            this.showNearby = true;
+            this.courseReq.dong = "";
+            $state.complete();
+            if (this.$refs.infiniteLoading) {
+              this.$refs.infiniteLoading.stateChanger.reset();
+            }
+            return;
+          }
           this.hasNextPage = data.hasNextPage;
           this.courseReq.page = data.page + 1;
           if (!this.hasNextPage) {
             $state.complete();
           }
         });
-      }, 3000);
+      }, 1000);
     },
   },
 };

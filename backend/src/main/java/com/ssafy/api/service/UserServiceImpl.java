@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService{
             courseResponseBody.setStatusCode(200);
 
             for (Tuple t : result) {
-
+                System.out.println(t);
                 List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
                 double score;
 
@@ -149,6 +149,8 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(score);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -178,6 +180,8 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(0.0);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -196,13 +200,8 @@ public class UserServiceImpl implements UserService{
         try {
             int time = -1;
             List<Integer> result = walkQueryRepository.TotalWalkTime(userId);
-            if(result.get(0)!=null)time=result.get(0);
-            System.out.println(time);
-            if (time != -1) {
-                return new TotalTimeResponseBody(200, "OK", time);
-            } else {
-                return new TotalTimeResponseBody(404, "Not Found", time);
-            }
+            if(result.get(0)!=null)return new TotalTimeResponseBody(200, "OK", result.get(0));
+            else return new TotalTimeResponseBody(200, "OK", 0);
         }
         catch (Exception e){
             e.printStackTrace();
