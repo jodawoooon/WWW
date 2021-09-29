@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    
+    <div id="space"></div>
     <v-card>
       <v-tabs centered fixed-tabs slider-color="red">
         <v-tab
@@ -16,7 +16,7 @@
         >
       </v-tabs>
     </v-card>
-    <div class="default">
+    <div>
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </>
 </template>
 
 <script>
@@ -89,6 +89,7 @@ export default {
     // this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
+    console.log(this.userId);
   },
   created() {
     // this.userId = "test"; // for test
