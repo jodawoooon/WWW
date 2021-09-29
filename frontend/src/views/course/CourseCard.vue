@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     goDetail() {
+      console.log(this.$props.lat);
       this.$store.commit("SET_CUR_COURSE", {
         id: this.$props.id,
         title:
