@@ -143,13 +143,13 @@ export default new Vuex.Store({
       state.curCourse.id = payload.id;
       state.curCourse.title = payload.title;
       state.curCourse.address = payload.address;
-      state.curCourse.lat = payload.curCourse;
+      state.curCourse.lat = payload.lat;
       state.curCourse.lng = payload.lng;
       state.curCourse.score = payload.score;
       state.curCourse.distance = payload.distance;
       state.curCourse.time = payload.time;
-      state.curCourse.kcal = payload.kcal;
-      state.curCourse.detail = payload.detail;
+      // state.curCourse.kcal = payload.kcal;
+      // state.curCourse.detail = payload.detail;
     },
     SET_CUR_TITLE(state, payload) {
       state.curCourse.title = payload;
