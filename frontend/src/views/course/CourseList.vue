@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       courseReq: {
-        userId: this.filter.userId,
+        userId: this.$store.getters.getLoginUserInfo.userId,
         page: 0,
         size: 10,
         sort: this.filter.sort,
@@ -87,7 +87,7 @@ export default {
     resetData() {
       this.showNearby = false;
       this.courseList = [];
-      this.courseReq.userId = this.filter.userId;
+      this.courseReq.userId = this.$store.getters.getLoginUserInfo.userId;
       this.courseReq.page = 0;
       this.courseReq.sort = this.filter.sort;
       this.courseReq.criteria = this.filter.criteria;

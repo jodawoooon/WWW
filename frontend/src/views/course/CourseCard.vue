@@ -20,8 +20,10 @@
       </el-col>
       <el-col :span="4" style="text-align: center">
         <i
+          v-if="this.$store.getters.getLoginUserInfo.userId"
+          @click.stop="clickStar()"
           :class="[
-            $props.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
+            isLiked ? 'el-icon-star-on' : 'el-icon-star-off',
           ]"
           style="font-size: 25pt; color: #ee684a"
         />
@@ -36,9 +38,10 @@ import axios from "axios";
 
 export default {
   name: "CourseCard",
-  dat() {
+  data() {
     return {
       userId: this.$store.getters.getLoginUserInfo.userId,
+      isLiked: this.$props.isBookmarked,
     };
   },
   props: {
@@ -92,16 +95,15 @@ export default {
     goDetail() {
       console.log(this.$props.courseId);
       console.log(this.$props.lat);
-      console.log(this.$store.getLoginUserInfo.userId);
+      console.log(this.$store.getters.getLoginUserInfo.userId);
       axios
         .get("/api/course/", {
           params: {
             courseId: this.$props.courseId,
-            userId: this.$store.getLoginUserInfo.userId,
+            userId: this.$store.getters.getLoginUserInfo.userId,
           },
         })
         .then((res) => {
-          console.log(res);
           this.$store.commit("SET_CUR_COURSE", {
             id: this.$props.courseId,
             title:
@@ -118,10 +120,38 @@ export default {
             detail: this.$props.detail,
             cafe: res.data.cafeList,
             conv: res.data.convList,
+            isBookmarked: res.data.myLike,
           });
           console.log(this.$props.courseId + " " + this.$props.address);
         });
       router.push("/course/detail");
+    },
+    clickStar() {
+      if (this.isLiked) {
+        this.deleteLike();
+      } else {
+        this.createLike();
+      }
+    },
+    createLike() {
+      const req =  {
+        courseId: this.$props.courseId,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.post("/api/course/like", req, {}).then(() => {
+        this.isLiked = !this.isLiked;
+      });
+    },
+    deleteLike() {
+      const req =  {
+        courseId: this.$props.courseId,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.delete("/api/course/like", {
+        data: req,
+      }).then(() => {
+        this.isLiked = !this.isLiked;
+      });
     },
   },
 };

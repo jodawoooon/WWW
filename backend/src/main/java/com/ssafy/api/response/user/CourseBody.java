@@ -18,7 +18,7 @@ public class CourseBody{
     int likes;  // 코스의 좋아요 개수
     boolean myLike; // 로그인 사용자의 좋아요 여부 (true, false)
     double score;  // 코스의 평균 점수 : 0~5를 별 5개로 표시
-    int myScore;
+    Integer myScore;
     Double geoDistance; // 사용자와 산책로 떨어진 거리 KM 단위
     int calorie;
 }
