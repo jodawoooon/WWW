@@ -171,6 +171,10 @@ export default new Vuex.Store({
       // state.curCourse.detail = payload.detail;
       state.curCourse.cafe = payload.cafe;
       state.curCourse.conv = payload.conv;
+      state.curCourse.isBookmarked = payload.isBookmarked;
+    },
+    SET_CUR_COURSE_LIKE(state, payload) {
+      state.curCourse.isBookmarked = payload.isBookmarked;
     },
     SET_CUR_TITLE(state, payload) {
       state.curCourse.title = payload;

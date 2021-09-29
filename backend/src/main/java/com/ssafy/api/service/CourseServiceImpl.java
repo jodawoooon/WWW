@@ -153,7 +153,7 @@ public class CourseServiceImpl implements CourseService {
                 .user(courseLikeReq.getUserId())
                 .build();
 
-        CourseLike courseLike = courseLikeRepository.findById(coursePK).get();
+        CourseLike courseLike = courseLikeRepository.findById(coursePK).orElse(null);
 
         courseLikeRepository.delete(courseLike);
 

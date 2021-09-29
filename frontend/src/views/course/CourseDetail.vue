@@ -10,7 +10,10 @@
 
     <div>
       <div id="map" class="map"></div>
-      <div class="bookmark" @click="clickStar()">
+      <div class="bookmark" 
+        v-if="this.$store.getters.getLoginUserInfo.userId"
+        @click="clickStar()"
+        >
         <i
           :class="[
             this.course.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
@@ -97,6 +100,7 @@
 import Header from "@/components/common/Header";
 import ConvCard from "@/views/course/ConvCard";
 import router from "@/router/index.js";
+import axios from "axios";
 
 import("@/assets/style/Main.css");
 
@@ -131,12 +135,36 @@ export default {
   methods: {
     clickStar() {
       if (this.course.isBookmarked) {
-        //axios 북마크 삭제
+        this.deleteLike();
       } else {
-        //axios 북마크 등록
+        this.createLike();
       }
-
-      this.course.isBookmarked = !this.course.isBookmarked;
+    },
+    createLike() {
+      const req =  {
+        courseId: this.course.id,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.post("/api/course/like", req, {}).then(() => {
+        this.course.isBookmarked = !this.course.isBookmarked;
+        this.$store.commit("SET_CUR_COURSE_LIKE", {
+            isBookmarked: this.course.isBookmarked,
+        });
+      });
+    },
+    deleteLike() {
+      const req =  {
+        courseId: this.course.id,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.delete("/api/course/like", {
+        data: req,
+      }).then(() => {
+        this.course.isBookmarked = !this.course.isBookmarked;
+        this.$store.commit("SET_CUR_COURSE_LIKE", {
+            isBookmarked: this.course.isBookmarked,
+        });
+      });
     },
     initMap() {
 

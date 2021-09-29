@@ -121,7 +121,8 @@ public class CourseQueryRepository {
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().gt(1).as("myLike"),
+                        my_cl.countDistinct().gt(0).as("myLike"),
+                        my_cl.countDistinct().intValue().as("testLike"),
                         geoDistance.as("geoDistance"))
                 )
                 .from(course)
@@ -163,7 +164,7 @@ public class CourseQueryRepository {
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().gt(1).as("myLike"))
+                        my_cl.countDistinct().gt(0).as("myLike"))
                 )
                 .from(course)
                 .leftJoin(cl).on(cl.course.eq(course))
