@@ -31,11 +31,11 @@
               >로그인</el-button
             ></el-dropdown-item
           >
-          <el-dropdown-item>
+          <!-- <el-dropdown-item>
             <el-button @click="logout()" size="mini"
               >로그아웃</el-button
             ></el-dropdown-item
-          >
+          > -->
         </el-dropdown-menu>
       </el-dropdown>
     </nav>
