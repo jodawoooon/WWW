@@ -112,6 +112,7 @@
 <script>
 import Header from "@/components/common/Header";
 import userApi from "@/api/user.js";
+import router from "@/router/index.js";
 
 export default {
   name: "Walk",
@@ -120,7 +121,7 @@ export default {
   },
   data() {
     return {
-      userId: "",
+      userId: this.$store.getters.getLoginUserInfo.userId,
       curType: "",
       userName: this.$store.getters.getLoginUserInfo.nickname,
       userInfo: [],
@@ -136,12 +137,18 @@ export default {
     };
   },
   created() {
-    this.userId = "test"; // for test
+    // this.userId = "test"; // for test
     this.curType = "week";
     this.init(this.curType);
+    if(this.userId == ""){
+      alert("로그인 이후 이용해주세요");
+      router.push("/main");
+    }
   },
   methods: {
     init(type) {
+
+
       this.curType = type;
 
       let today = new Date();

@@ -69,6 +69,7 @@ import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 import myCourseApi from "@/api/mycourse.js";
 import CourseCard from "@/views/course/CourseCard";
+import router from "@/router/index.js";
 
 export default {
   name: "MyCourse",
@@ -78,20 +79,26 @@ export default {
   },
   data() {
     return {
-      isRecent: false,
+      isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };
   },
   mounted() {
-    this.getWishCourse(this.userId);
+    // this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
   },
   created() {
     // this.userId = "test"; // for test
-    this.getWishCourse(this.userId);
+    //this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
+
+    console.log(router);
+    if(this.userId == ""){
+      alert("로그인 이후 이용해주세요");
+      router.push("/main");
+    }
   },
   methods: {
     async getWishCourse(userId) {

@@ -86,17 +86,21 @@ export default {
       type: Boolean,
       default: false,
     },
+
   },
   methods: {
+    // 산책로 세부 정보를 가져오기
     goDetail() {
+      console.log(this.$props.courseId);
       console.log(this.$props.lat);
+      console.log(this.$store.getLoginUserInfo.userId);
       axios.get("/api/course/",{
         params :{
           courseId : this.$props.courseId,
-          userId : this.userId
+          userId : this.$store.getLoginUserInfo.userId
         }
       }).then((res) =>{
-        console.log(res.data.courseId);
+        console.log(res);
         this.$store.commit("SET_CUR_COURSE", {
           id: this.$props.courseId,
           title:

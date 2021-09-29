@@ -46,11 +46,13 @@
                   산책로 주변 편의점은 {{ this.course.conv.length }}개 입니다.
                 </div>
                 <div v-for="(card, idx) in this.course.conv" :key="idx">
-                  <ConvCard
-                    :title="card.title"
-                    :address="card.address"
-                    @click="moveMap(card)"
-                  />
+                  <div  @click="moveMap(card)">
+                    <ConvCard
+                      :name="card.name"
+                      :address="card.address"                 
+                    />
+                  </div>
+
                 </div>
               </el-tab-pane>
               <el-tab-pane label="카페">
@@ -58,12 +60,17 @@
                   산책로 주변 카페는 {{ this.course.cafe.length }}개 입니다.
                 </div>
                 <div v-for="(card, idx) in this.course.cafe" :key="idx">
-                  <ConvCard
-                    :title="card.title"
-                    :address="card.address"
-                    @click="moveMap(card)"
-                  /></div
-              ></el-tab-pane>
+                  <div  @click="moveMap(card)">
+                    <ConvCard
+                      :name="card.name"
+                      :address="card.address"
+                      :latitude="card.latitude"
+                      :longitude="card.longitude"
+                      @click="moveMap(card)"
+                    />
+                  </div>
+                </div>
+              </el-tab-pane>
             </el-tabs>
           </el-tab-pane>
         </el-tabs>
@@ -106,7 +113,6 @@ export default {
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
-      console.log("여기")
       this.initMap();
     } else {
       const script = document.createElement("script");
@@ -128,7 +134,7 @@ export default {
       this.course.isBookmarked = !this.course.isBookmarked;
     },
     initMap() {
-      console.log(this.course.lat);
+
       var container = document.getElementById("map");
       var options = {
         center: new kakao.maps.LatLng(this.course.lat, this.course.lng),
@@ -152,13 +158,54 @@ export default {
       console.log(tab, event);
     },
     moveMap(data) {
+      
+
       //
       // 이동할 위도 경도 위치를 생성합니다
-      var moveLatLon = new kakao.maps.LatLng(data.lat, data.lng);
+      var moveLatLon = new kakao.maps.LatLng(data.latitude, data.longitude);
 
       // 지도 중심을 이동 시킵니다
       this.map.setCenter(moveLatLon);
-      console.log(data);
+      console.log(moveLatLon);
+      //Map 현재위치 마커
+      var convMarkerSrc = require("@/assets/location.png");
+      var convMarkerSize = new kakao.maps.Size(30, 30);
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(
+        convMarkerSrc,
+        convMarkerSize
+      );
+
+      var convMarkerPosition = new kakao.maps.LatLng(
+        data.latitude,
+        data.longitude
+      );
+
+      console.log(convMarkerPosition);
+
+      if(this.marker!=null){
+        this.marker.setPosition(convMarkerPosition);
+      }else{
+        var marker = new kakao.maps.Marker({
+              position: convMarkerPosition,
+              image: markerImage, // 마커이미지 설정
+        });
+        marker.setMap(this.map);
+
+        this.marker = marker;
+      }
+
+   
+
+      // var marker = new kakao.maps.Marker({
+      //   map: this.map,
+      //   title: "현재위치",
+      //   position: runningMarkerPosition,
+      //   icon: runningMarker,
+      // });
+
+
     },
     startWalk() {
       router.push("/record");
