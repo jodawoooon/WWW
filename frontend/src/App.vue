@@ -16,8 +16,8 @@
 <script>
 import Footer from "@/components/common/Footer";
 import { mapGetters } from "vuex";
-import router from "@/router/index.js";
-import axios from "axios";
+// import router from "@/router/index.js";
+// import axios from "axios";
 
 export default {
   name: "App",
@@ -32,56 +32,53 @@ export default {
     };
   },
   methods: {
-    geofind() {
-      if (!("geolocation" in navigator)) {
-        return;
-      }
-
-      // get position
-      navigator.geolocation.watchPosition(
-        (pos) => {
-          this.lat = pos.coords.latitude;
-          this.lng = pos.coords.longitude;
-
-          axios
-            .get(
-              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
-                this.lng +
-                "&y=" +
-                this.lat,
-              {
-                headers: {
-                  Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
-                },
-              }
-            )
-            .then((response) => {
-              this.dong = response.data.documents[0].region_3depth_name;
-              this.$store.commit("SET_USER_LOCATION", {
-                lat: this.lat,
-                lng: this.lng,
-                dong: this.dong,
-              });
-              this.$store.commit("SET_IS_AGREE");
-              router.push("/main");
-            });
-        },
-        (err) => {
-          console.log("fail");
-          this.dialogVisible = true;
-          this.$store.commit("SET_IS_NOT_AGREE");
-          router.push("/index");
-          this.textContent = err.message;
-        }
-      );
-    },
+    // geofind() {
+    //   if (!("geolocation" in navigator)) {
+    //     return;
+    //   }
+    //   // get position
+    //   navigator.geolocation.watchPosition(
+    //     (pos) => {
+    //       this.lat = pos.coords.latitude;
+    //       this.lng = pos.coords.longitude;
+    //       axios
+    //         .get(
+    //           "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
+    //             this.lng +
+    //             "&y=" +
+    //             this.lat,
+    //           {
+    //             headers: {
+    //               Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+    //             },
+    //           }
+    //         )
+    //         .then((response) => {
+    //           this.dong = response.data.documents[0].region_3depth_name;
+    //           this.$store.commit("SET_USER_LOCATION", {
+    //             lat: this.lat,
+    //             lng: this.lng,
+    //             dong: this.dong,
+    //           });
+    //           this.$store.commit("SET_IS_AGREE");
+    //         });
+    //     },
+    //     (err) => {
+    //       console.log("fail");
+    //       this.dialogVisible = true;
+    //       this.$store.commit("SET_IS_NOT_AGREE");
+    //       router.push("/index");
+    //       this.textContent = err.message;
+    //     }
+    //   );
+    // },
   },
-  created() {
-    this.geofind();
-  },
-  mounted() {
-    this.geofind();
-  },
+  // created() {
+  //   this.geofind();
+  // },
+  // mounted() {
+  //   this.geofind();
+  // },
   computed: {
     ...mapGetters(["getIsIndex"]),
     requireCurPage: function () {
