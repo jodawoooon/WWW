@@ -125,6 +125,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_MAIN_TO_START(state) {
+      state.curCourse.title = " ";
+    },
     SET_IS_INDEX(state) {
       state.isIndex = true;
     },

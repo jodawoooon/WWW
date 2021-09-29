@@ -96,6 +96,7 @@ export default {
   },
   methods: {
     startWalk() {
+      this.$store.commit("SET_MAIN_TO_START");
       router.push("/record");
     },
     geofind() {

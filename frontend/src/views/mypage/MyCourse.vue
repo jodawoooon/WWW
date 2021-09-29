@@ -2,7 +2,6 @@
   <div id="main">
     <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
     <div id="space"></div>
-
     <v-card>
       <v-tabs centered fixed-tabs slider-color="red">
         <v-tab
@@ -96,10 +95,6 @@ export default {
     this.getRecentCourse(this.userId);
 
     console.log(router);
-    if (this.userId == "") {
-      alert("로그인 이후 이용해주세요");
-      router.push("/main");
-    }
   },
   methods: {
     async getWishCourse(userId) {

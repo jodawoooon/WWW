@@ -53,12 +53,12 @@ const routes = [
   { path: "/course/detail", component: CourseDetail },
 
   // 나의 산책 분석
-  { path: "/user/walk", component: MyWalk },
+  { path: "/user/walk", component: MyWalk, meta: { requiresAuth: true } },
 
   // 로그인
   { path: "/login", component: Login },
 
-  { path: "/user/mycourse", component: MyCourse },
+  { path: "/user/mycourse", component: MyCourse, meta: { requiresAuth: true } },
 
   // 산책 기록 페이지
   { path: "/record", component: Record, meta: { requiresLocation: true } },
@@ -94,6 +94,19 @@ router.beforeEach(function (to, from, next) {
       // 동의 받았는지 확인한다.
 
       next({ path: "/index" });
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.requiresAuth)) {
+    //로그인이 필요한 페이지라면
+
+    if (
+      store.getters.getLoginUserInfo.userId === null ||
+      store.getters.getLoginUserInfo.userId === undefined ||
+      store.getters.getLoginUserInfo.userId == ""
+    ) {
+      // 확인한다.
+      next({ path: "/login" });
     } else {
       next();
     }
