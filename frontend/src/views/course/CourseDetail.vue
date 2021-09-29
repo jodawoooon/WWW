@@ -106,6 +106,7 @@ export default {
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
+      console.log("여기")
       this.initMap();
     } else {
       const script = document.createElement("script");

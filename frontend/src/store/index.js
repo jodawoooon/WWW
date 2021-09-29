@@ -150,6 +150,8 @@ export default new Vuex.Store({
       state.curCourse.time = payload.time;
       // state.curCourse.kcal = payload.kcal;
       // state.curCourse.detail = payload.detail;
+      state.curCourse.cafe = payload.cafe;
+      state.curCourse.conv = payload.conv;
     },
     SET_CUR_TITLE(state, payload) {
       state.curCourse.title = payload;

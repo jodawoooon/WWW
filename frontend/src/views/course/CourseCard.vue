@@ -32,9 +32,15 @@
 
 <script>
 import router from "@/router/index.js";
+import axios from "axios";
 
 export default {
   name: "CourseCard",
+  dat() {
+    return{
+      userId : this.$store.getters.getLoginUserInfo.userId
+    }
+  },
   props: {
     title: {
       type: String,
@@ -84,24 +90,32 @@ export default {
   methods: {
     goDetail() {
       console.log(this.$props.lat);
-      this.$store.commit("SET_CUR_COURSE", {
-        id: this.$props.id,
-        title:
-          this.$props.title != this.$props.name
-            ? this.$props.title + "-" + this.$props.name
-            : this.$props.title,
-        address: this.$props.address,
-        lat: this.$props.lat,
-        lng: this.$props.lng,
-        score: this.$props.score,
-        distance: this.$props.km,
-        time: this.$props.min,
-        kcal: this.$props.kcal,
-        detail: this.$props.detail,
-        cafe: this.$props.cafeList,
-        conv: this.$props.convList,
-      });
-
+      axios.get("/api/course/",{
+        params :{
+          courseId : this.$props.courseId,
+          userId : this.userId
+        }
+      }).then((res) =>{
+        console.log(res.data.courseId);
+        this.$store.commit("SET_CUR_COURSE", {
+          id: this.$props.courseId,
+          title:
+            this.$props.title != this.$props.name
+              ? this.$props.title + "-" + this.$props.name
+              : this.$props.title,
+          address: this.$props.address,
+          lat: this.$props.lat,
+          lng: this.$props.lng,
+          score: this.$props.score,
+          distance: this.$props.km,
+          time: this.$props.min,
+          kcal: this.$props.kcal,
+          detail: this.$props.detail,
+          cafe: res.data.cafeList,
+          conv: res.data.convList,
+        });
+        console.log(this.$props.courseId+" "+this.$props.address);
+      })
       router.push("/course/detail");
     },
   },
