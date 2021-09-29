@@ -193,6 +193,9 @@ export default {
           parseInt((totalTime.time % 3600) % 60) +
           "초";
         }
+        console.log(totalTime);
+        console.log(parseInt((totalTime.time % 3600) % 60));
+        console.log(this.totalTime);
         
     },
 
