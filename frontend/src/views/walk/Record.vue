@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :showArrow="true" back="/course" message="산책 기록" id="navBar" />
+    <Header :showArrow="true" back="/main" message="산책 기록" id="navBar" />
     <el-dialog :visible.sync="centerDialogVisible" width="70%" center>
       <span>산책 기록이 저장되었습니다 📬</span>
       <span slot="footer" class="dialog-footer" style="padding-top: 0px">
@@ -175,8 +175,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.commit("SET_CUR_PAGE", "Record");
-
+    this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {

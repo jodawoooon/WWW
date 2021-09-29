@@ -1,8 +1,7 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    <div id="space"></div>
-
+    
     <v-card>
       <v-tabs centered fixed-tabs slider-color="red">
         <v-tab
@@ -17,7 +16,7 @@
         >
       </v-tabs>
     </v-card>
-    <div class="default">
+    <div class="">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
@@ -30,7 +29,7 @@
             :address="course.address"
             :km="course.courseLength"
             :min="course.time"
-            :kcal="(course.time / 60) * 0.06"
+            :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
             :lat="course.latitude"
             :lng="course.longitude"
             :score="course.score"
@@ -50,8 +49,8 @@
             :courseId="course.courseId"
             :address="course.address"
             :km="course.courseLength"
-            :min="course.time"
-            :kcal="(course.time / 60) * 0.06"
+            :min="timeText(course.time)"
+            :kcal="course.calorie"
             :lat="course.latitude"
             :lng="course.longitude"
             :score="course.score"
@@ -86,15 +85,17 @@ export default {
     };
   },
   mounted() {
+    this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
     // this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
+    this.$store.commit("SET_IS_NOT_INDEX");
   },
   created() {
     // this.userId = "test"; // for test
+
     //this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
 
-    console.log(router);
     if(this.userId == ""){
       alert("로그인 이후 이용해주세요");
       router.push("/main");
@@ -119,6 +120,14 @@ export default {
       this.recentCourse = await myCourseApi.getCourseData(data, {});
       console.log(this.recentCourse);
     },
+    timeText(time){
+      var t = parseInt(time);
+      var text="";
+      if(t>=3600)text+=parseInt(t/3600)+"시간 ";
+      if(t>=60)text+=parseInt(t%3600/60) +"분 ";
+      text += parseInt(t%3600%60) +"초";
+      return text;
+    },
   },
 };
 </script>
@@ -135,7 +144,6 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  position: fixed;
   bottom: 0;
   background: #ffffff;
 }

@@ -149,8 +149,10 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(score);
                 courseBody.setCourseLength(t.get(3, Double.class));
-                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTime(""+t.get(4, Integer.class));
                 courseBody.setTimeInt(t.get(5,Integer.class));
+                courseBody.setCourseFlagName(t.get(6, String.class));
+                courseBody.setCalorie(t.get(7, Integer.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -182,6 +184,7 @@ public class UserServiceImpl implements UserService{
                 courseBody.setCourseLength(t.get(3, Double.class));
                 courseBody.setTime(t.get(4, String.class));
                 courseBody.setTimeInt(t.get(5,Integer.class));
+                courseBody.setCourseFlagName(t.get(6, String.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 

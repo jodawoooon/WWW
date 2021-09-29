@@ -6,6 +6,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isAgree: false,
+    isIndex: true,
+    prevSilde: "",
+    prevPage: "",
     curPage: "Main",
     tokens: {
       accessToken: "",
@@ -123,6 +127,21 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    SET_MAIN_TO_START(state) {
+      state.curCourse.title = " ";
+    },
+    SET_IS_INDEX(state) {
+      state.isIndex = true;
+    },
+    SET_IS_AGREE(state) {
+      state.isAgree = true;
+    },
+    SET_IS_NOT_AGREE(state) {
+      state.isAgree = false;
+    },
+    SET_IS_NOT_INDEX(state) {
+      state.isIndex = false;
+    },
     SET_USER_INFO(state, payload) {
       console.log(payload);
       state.loginUserInfo.userId = payload.userId;
@@ -159,9 +178,21 @@ export default new Vuex.Store({
     SET_CUR_PAGE(state, curPage) {
       state.curPage = curPage;
     },
+    SET_PREV_PAGE(state, prevPage) {
+      state.prevPage = prevPage;
+    },
+    SET_PREV_SILDE(state, prevSilde) {
+      state.prevSilde = prevSilde;
+    },
   },
   actions: {},
   getters: {
+    getIsIndex(state) {
+      return state.isIndex;
+    },
+    getIsAgree(state) {
+      return state.isAgree;
+    },
     getLoginUserInfo(state) {
       return state.loginUserInfo;
     },
@@ -179,6 +210,12 @@ export default new Vuex.Store({
     },
     getCourseDetail(state) {
       return state.curCourse;
+    },
+    getPrevPage(state) {
+      return state.prevPage;
+    },
+    getPrevSilde(state) {
+      return state.prevSilde;
     },
   },
   modules: {},
