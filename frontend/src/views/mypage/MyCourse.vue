@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    <div id="space"></div>
+    
     <v-card>
       <v-tabs centered fixed-tabs slider-color="red">
         <v-tab
@@ -16,7 +16,7 @@
         >
       </v-tabs>
     </v-card>
-    <div class="default">
+    <div class="">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
