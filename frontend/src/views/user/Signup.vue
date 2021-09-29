@@ -29,7 +29,7 @@
                         ]"
                         style="width:100%"
                       >
-                        <el-select v-model="form.sido" placeholder="시/도" :change="getGugunList(form.sido)">
+                        <el-select v-model="form.sido" placeholder="시/도" @change="getGugunList(form.sido)">
                           <el-option
                             v-for="(sido, idx) in sidoList"
                             :key="idx"
@@ -48,7 +48,7 @@
                         prop="gugun"
                         style="width:100%"
                       >
-                        <el-select v-model="form.gugun" placeholder="구/군" :change="getDongList(form.gugun)">
+                        <el-select v-model="form.gugun" placeholder="구/군" @change="getDongList(form.gugun)">
                           <el-option
                             v-for="(gugun, idx) in gugunList"
                             :key="idx"
@@ -117,7 +117,7 @@ import axios from "@/utils/axios.js";
         .get("/info/sido")
         .then((res) => {
           console.log(res.data);
-          this.$store.commit("SET_SIDO_LIST", res.data);
+          //this.$store.commit("SET_SIDO_LIST", res.data);
           this.sidoList = res.data.sidoList;
         })
       },
@@ -126,16 +126,18 @@ import axios from "@/utils/axios.js";
         .get("/info/gugun/" + sidoCode)
         .then((res) =>{
           console.log(res)
-          this.$store.commit("SET_GUGUN_LIST",res.data);
+          //this.$store.commit("SET_GUGUN_LIST",res.data);
           this.gugunList = res.data.gugunList;
+          this.form.gugun = ''
         })
       },
       getDongList(gugunCode){
         axios
         .get("/info/dong/" + gugunCode)
         .then((res) =>{
-          this.$store.commit("SET_DONG_LIST",res.data);
+          //this.$store.commit("SET_DONG_LIST",res.data);
           this.dongList = res.data.dongList;
+          this.form.dong = ''
         })
       },
       submitForm(formName) {
