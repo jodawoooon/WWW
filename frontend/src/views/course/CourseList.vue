@@ -26,7 +26,6 @@
         :isBookmarked="course.myLike"
         :cafeList="course.cafeList"
         :convList="course.convList"
-        ,
       />
     </div>
     <infinite-loading
