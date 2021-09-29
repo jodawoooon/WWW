@@ -30,7 +30,7 @@
             :address="course.address"
             :km="course.courseLength"
             :min="course.time"
-            :kcal="(course.time / 60) * 0.06"
+            :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
             :lat="course.latitude"
             :lng="course.longitude"
             :score="course.score"
@@ -51,7 +51,7 @@
             :address="course.address"
             :km="course.courseLength"
             :min="course.time"
-            :kcal="(course.time / 60) * 0.06"
+            :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
             :lat="course.latitude"
             :lng="course.longitude"
             :score="course.score"
@@ -96,7 +96,7 @@ export default {
     this.getRecentCourse(this.userId);
 
     console.log(router);
-    if(this.userId == ""){
+    if (this.userId == "") {
       alert("로그인 이후 이용해주세요");
       router.push("/main");
     }
