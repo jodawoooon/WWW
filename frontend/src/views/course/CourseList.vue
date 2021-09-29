@@ -2,11 +2,13 @@
   <div>
     <!-- 여기서 코스 리스트 가져와서 CourseCard에 props로 넘겨주기-->
     <div v-if="!showNearby">
-      <span style="font-weight: 700">{{ filter.dong }}</span> 일대의 산책로 코스입니다.
+      <span style="font-weight: 700">{{ filter.dong }}</span> 일대의 산책로
+      코스입니다.
     </div>
     <div v-if="showNearby">
-      <span style="font-weight: 700">{{ filter.dong }}</span>에 위치한 산책로 코스가 없습니다.<br>
-      현재 위치로부터 10km내 코스까지 포함된 결과입니다.<br><br>
+      <span style="font-weight: 700">{{ filter.dong }}</span
+      >에 위치한 산책로 코스가 없습니다.<br />
+      현재 위치로부터 10km내 코스까지 포함된 결과입니다.<br /><br />
     </div>
     <div v-for="(course, idx) in courseList" v-bind:key="idx">
       <CourseCard
@@ -16,11 +18,19 @@
         :address="course.address"
         :km="course.courseLength"
         :min="course.time"
-        :kcal="100"
+        :kcal="(course.time / 60) * 0.06"
+        :lat="course.latitude"
+        :lng="course.longitude"
+        :score="course.score"
+        :detail="course.detail"
         :isBookmarked="course.myLike"
       />
     </div>
-    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="waveDots">
+    <infinite-loading
+      @infinite="infiniteHandler"
+      ref="infiniteLoading"
+      spinner="waveDots"
+    >
       <div slot="no-results"></div>
       <div slot="no-more"></div>
     </infinite-loading>
@@ -28,10 +38,10 @@
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
+import InfiniteLoading from "vue-infinite-loading";
 import { requestPost } from "@/api/request.js";
 import CourseCard from "@/views/course/CourseCard";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "CourseList",
@@ -66,7 +76,7 @@ export default {
       handler() {
         this.resetData();
         this.readCourseList();
-        if(this.$refs.infiniteLoading) {
+        if (this.$refs.infiniteLoading) {
           this.$refs.infiniteLoading.stateChanger.reset();
         }
       },
@@ -93,11 +103,7 @@ export default {
       this.courseReq.latitude = this.filter.latitude;
     },
     async readCourseList() {
-      await requestPost(
-        "/api/course/",
-        this.courseReq,
-        {}
-      ).then((res) => {
+      await requestPost("/api/course/", this.courseReq, {}).then((res) => {
         this.courseList = this.courseList.concat(res.courseList);
         // 동 이름으로 검색된 코스가 없을 경우 반경 10KM 이내 조건으로 다시 검색
         if (this.courseReq.dong !== "" && this.courseList.length == 0) {
@@ -108,13 +114,12 @@ export default {
           return;
         }
         this.hasNextPage = res.hasNextPage;
-        this.courseReq.page = res.page+1;
+        this.courseReq.page = res.page + 1;
       });
     },
     infiniteHandler($state) {
       setTimeout(() => {
-        axios.post('/api/course/', this.courseReq, { })
-        .then(res => {
+        axios.post("/api/course/", this.courseReq, {}).then((res) => {
           const data = res.data;
           this.courseList = this.courseList.concat(data.courseList);
           $state.loaded();
@@ -125,7 +130,7 @@ export default {
           }
         });
       }, 3000);
-    }
+    },
   },
 };
 </script>

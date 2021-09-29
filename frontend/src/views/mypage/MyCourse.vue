@@ -24,9 +24,18 @@
           v-bind:key="idx"
         >
           <CourseCard
+            :title="course.courseFlagName"
             :name="course.courseName"
-            :courseId="course.id"
+            :courseId="course.courseId"
             :address="course.address"
+            :km="course.courseLength"
+            :min="course.time"
+            :kcal="(course.time / 60) * 0.06"
+            :lat="course.latitude"
+            :lng="course.longitude"
+            :score="course.score"
+            :detail="course.detail"
+            :isBookmarked="course.myLike"
           />
         </div>
       </div>
@@ -36,9 +45,18 @@
           v-bind:key="idx"
         >
           <CourseCard
+            :title="course.courseFlagName"
             :name="course.courseName"
-            :courseId="course.id"
+            :courseId="course.courseId"
             :address="course.address"
+            :km="course.courseLength"
+            :min="course.time"
+            :kcal="(course.time / 60) * 0.06"
+            :lat="course.latitude"
+            :lng="course.longitude"
+            :score="course.score"
+            :detail="course.detail"
+            :isBookmarked="course.myLike"
           />
         </div>
       </div>

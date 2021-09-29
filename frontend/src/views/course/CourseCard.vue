@@ -6,7 +6,8 @@
           class="title"
           style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
         >
-          {{ $props.title }} <span v-if="$props.title !== $props.name">- {{ $props.name }}</span>
+          {{ $props.title }}
+          <span v-if="$props.title !== $props.name">- {{ $props.name }}</span>
         </p>
         <p class="content">
           <i class="el-icon-location" style="color: #ee684a" />{{
@@ -70,6 +71,19 @@ export default {
   },
   methods: {
     goDetail() {
+      this.$store.commit("SET_CUR_COURSE", {
+        id: this.$props.id,
+        title: this.$props.title + this.$props.name,
+        address: this.$props.address,
+        lat: this.$props.lat,
+        lng: this.$props.lng,
+        score: this.$props.score,
+        distance: this.$props.km,
+        time: this.$props.min,
+        kcal: this.$props.kcal,
+        detail: this.$props.detail,
+      });
+
       router.push("/course/detail");
     },
   },
