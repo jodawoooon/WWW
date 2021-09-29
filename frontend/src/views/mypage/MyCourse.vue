@@ -144,7 +144,6 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  position: fixed;
   bottom: 0;
   background: #ffffff;
 }
