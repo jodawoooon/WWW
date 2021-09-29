@@ -16,7 +16,7 @@
         >
       </v-tabs>
     </v-card>
-    <div class="">
+    <div class="default">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
