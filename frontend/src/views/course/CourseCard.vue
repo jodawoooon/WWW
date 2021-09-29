@@ -64,6 +64,18 @@ export default {
       type: Number,
       default: 0,
     },
+    lat: {
+      type: String,
+      default: "37.4265296",
+    },
+    lng: {
+      type: String,
+      default: "126.986664",
+    },
+    detail: {
+      type: String,
+      default: "test",
+    },
     isBookmarked: {
       type: Boolean,
       default: false,
