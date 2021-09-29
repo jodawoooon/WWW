@@ -68,7 +68,8 @@ public class CourseQueryRepository {
                         course.name.as("courseName"),
                         course.address.as("address"),
                         course.distance.as("courseLength"),
-                        course.time.as("courseTime")
+                        course.time.as("courseTime"),
+                        course.timeInt.as("timeInt")
                 )
                 .from(walk)
                 .join(walk.course,course)
@@ -125,7 +126,7 @@ public class CourseQueryRepository {
                 .leftJoin(cl).on(cl.course.eq(course))
                 .leftJoin(my_cl).on(my_cl.course.eq(course).and(my_cl.user.userId.eq(courseReq.getUserId())))
                 .where(course.distance.between(courseReq.getMinDistance(), courseReq.getMaxDistance())
-                        .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
+                                .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
                         ,containsDong(courseReq.getDong())
                         ,nearbyGeoDistance(courseReq.getDong(), geoDistance)
                         ,eqUserIdAndLike(courseReq.getUserId(), courseReq.getCriteria()))
@@ -168,5 +169,4 @@ public class CourseQueryRepository {
                 .where(course.courseId.eq(courseId))
                 .fetchOne();
     }
-
 }

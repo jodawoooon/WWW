@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService{
             courseResponseBody.setStatusCode(200);
 
             for (Tuple t : result) {
-
+                System.out.println(t);
                 List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
                 double score;
 
@@ -149,6 +149,8 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(score);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -178,6 +180,8 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(0.0);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 

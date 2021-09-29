@@ -83,9 +83,10 @@ export default {
   },
   methods: {
     goDetail() {
+      console.log(this.$props.courseId);
       console.log(this.$props.lat);
       this.$store.commit("SET_CUR_COURSE", {
-        id: this.$props.id,
+        courseId: this.$props.courseId,
         title:
           this.$props.title != this.$props.name
             ? this.$props.title + "-" + this.$props.name
