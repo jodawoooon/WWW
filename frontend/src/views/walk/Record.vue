@@ -1,7 +1,12 @@
 <template>
   <div>
     <Header :showArrow="true" back="/course" message="산책 기록" id="navBar" />
-
+    <el-dialog :visible.sync="centerDialogVisible" width="70%" center>
+      <span>산책 기록이 저장되었습니다 📬</span>
+      <span slot="footer" class="dialog-footer" style="padding-top: 0px">
+        <el-button @click="goMain()">확인</el-button>
+      </span>
+    </el-dialog>
     <div>
       <div id="map" class="map"></div>
     </div>
@@ -34,6 +39,7 @@
             <span id="time" style="font-weight: 700">{{ clock }}</span>
           </el-col>
         </el-row>
+
         <div class="btn_container">
           <div v-if="!running">
             <section
@@ -119,6 +125,7 @@
 import Header from "@/components/common/Header";
 import axios from "axios";
 import https from "@/utils/axios.js";
+import router from "@/router/index.js";
 
 import("@/assets/style/Main.css");
 
@@ -129,6 +136,7 @@ export default {
   },
   data() {
     return {
+      centerDialogVisible: false,
       current: { lat: 0, lng: 0 },
       previous: { lat: 0, lng: 0 },
       address: "",
@@ -227,7 +235,7 @@ export default {
     },
     endLocationUpdates() {
       this.stopLocationUpdates();
-
+      this.centerDialogVisible = true;
       this.speed = (this.accumulated_distance * 1000) / this.accumulated_time;
 
       this.savePosition();
@@ -241,6 +249,10 @@ export default {
       this.checkOneKm = 0;
       this.endTime = new Date();
       this.endTime = this.$moment(this.endTime).format("YYYY-MM-DDTHH:mm:ss");
+    },
+    goMain() {
+      this.centerDialogVisible = false;
+      router.push("/main");
     },
     stopLocationUpdates() {
       this.isPause = true;
