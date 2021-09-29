@@ -52,6 +52,7 @@
                       :address="card.address"                 
                     />
                   </div>
+                  
 
                 </div>
               </el-tab-pane>
