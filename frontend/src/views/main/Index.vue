@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import router from "@/router/index.js";
 
 import("@/assets/style/Main.css");
@@ -49,8 +48,6 @@ export default {
   components: {},
   data() {
     return {
-      lat: "",
-      lng: "",
       dialogVisible: false,
       dong: "",
       isAgree: false,
@@ -69,33 +66,11 @@ export default {
       }
 
       // get position
-      navigator.geolocation.watchPosition(
+      navigator.geolocation.getCurrentPosition(
         (pos) => {
-          this.lat = pos.coords.latitude;
-          this.lng = pos.coords.longitude;
-
-          axios
-            .get(
-              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
-                this.lng +
-                "&y=" +
-                this.lat,
-              {
-                headers: {
-                  Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
-                },
-              }
-            )
-            .then((response) => {
-              this.dong = response.data.documents[0].region_3depth_name;
-              this.$store.commit("SET_USER_LOCATION", {
-                lat: this.lat,
-                lng: this.lng,
-                dong: this.dong,
-              });
-              this.$store.commit("SET_IS_AGREE");
-              router.push("/main");
-            });
+          console.log(pos);
+          this.$store.commit("SET_IS_AGREE");
+          router.push("/main");
         },
         (err) => {
           console.log("fail");
