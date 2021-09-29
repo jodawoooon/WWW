@@ -16,11 +16,15 @@ export default new Vuex.Store({
     loginUserInfo: {
       userId: '',
       nickname: '',
+      name: '',
+      sido: '',
+      gugun:'',
+      dong:'',
     },
     userProfile: {
       userId:'',
       name: '',
-      nickname: '', 
+      nickname: '',
     },
     userInfo: {
       name: "김싸피",
@@ -120,13 +124,20 @@ export default new Vuex.Store({
       ],
 
       isBookmarked: false,
+      sidoList: [],
+      gugunList: [],
+      dongList: []
     },
   },
   mutations: {
     SET_USER_INFO(state,payload){
-      console.log(payload);
       state.loginUserInfo.userId = payload.userId;
-      state.loginUserInfo.nickname = payload.nickname;
+      state.loginUserInfo.name = payload.name;
+    },
+    SET_MORE_USER_INFO(state, payload){
+      state.userProfile.userId = payload.userId;
+      state.userProfile.nickname = payload.nickname;
+      state.userProfile.name = payload.name;
     },
     SET_USER_TOKEN(state,payload){
       state.tokens.accessToken = payload.accessToken;
@@ -146,6 +157,15 @@ export default new Vuex.Store({
     },
     SET_CUR_PAGE(state, curPage) {
       state.curPage = curPage;
+    },
+    SET_SIDO_LIST(state, payload){
+      state.sidoList = payload.sidoList;
+    },
+    SET_GUGUN_LIST(state, payload){
+      state.gugunList = payload.gugunList;
+    },
+    SET_DONG_LIST(state, payload){
+      state.dongList = payload.dongList;
     },
   },
   actions: {},
@@ -168,6 +188,15 @@ export default new Vuex.Store({
     getCourseDetail(state) {
       return state.curCourse;
     },
+    getterSidoList(state){
+      return state.sidoList;
+    },
+    getterGugunList(state){
+      return state.gugunList;
+    },
+    getterDongList(state){
+      return state.dongList;
+    }
   },
   modules: {},
   plugins: [createPersistedState()],
