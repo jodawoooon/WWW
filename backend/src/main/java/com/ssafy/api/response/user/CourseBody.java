@@ -12,6 +12,7 @@ public class CourseBody{
     double courseCnt;
     double courseLength;    // KM 단위 코스 길이
     String time;
+    int timeInt;    // 분 단위 int형 시간
     double latitude;
     double longitude;
     int likes;  // 코스의 좋아요 개수
