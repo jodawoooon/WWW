@@ -32,9 +32,15 @@
 
 <script>
 import router from "@/router/index.js";
+import axios from "axios";
 
 export default {
   name: "CourseCard",
+  dat() {
+    return{
+      userId : this.$store.getters.getLoginUserInfo.userId
+    }
+  },
   props: {
     title: {
       type: String,
@@ -80,28 +86,42 @@ export default {
       type: Boolean,
       default: false,
     },
+
   },
   methods: {
+    // 산책로 세부 정보를 가져오기
     goDetail() {
       console.log(this.$props.courseId);
       console.log(this.$props.lat);
-      this.$store.commit("SET_CUR_COURSE", {
-        courseId: this.$props.courseId,
-        title:
-          this.$props.title != this.$props.name
-            ? this.$props.title + "-" + this.$props.name
-            : this.$props.title,
-        address: this.$props.address,
-        lat: this.$props.lat,
-        lng: this.$props.lng,
-        score: this.$props.score,
-        distance: this.$props.km,
-        time: this.$props.min,
-        kcal: this.$props.kcal,
-        detail: this.$props.detail,
-        cafe: this.$props.cafeList,
-        conv: this.$props.convList,
-      });
+
+      console.log(this.$store.getLoginUserInfo.userId);
+      axios.get("/api/course/",{
+        params :{
+          courseId : this.$props.courseId,
+          userId : this.$store.getLoginUserInfo.userId
+        }
+      }).then((res) =>{
+        console.log(res);
+        this.$store.commit("SET_CUR_COURSE", {
+          id: this.$props.courseId,
+          title:
+            this.$props.title != this.$props.name
+              ? this.$props.title + "-" + this.$props.name
+              : this.$props.title,
+          address: this.$props.address,
+          lat: this.$props.lat,
+          lng: this.$props.lng,
+          score: this.$props.score,
+          distance: this.$props.km,
+          time: this.$props.min,
+          kcal: this.$props.kcal,
+          detail: this.$props.detail,
+          cafe: res.data.cafeList,
+          conv: res.data.convList,
+        });
+        console.log(this.$props.courseId+" "+this.$props.address);
+      })
+
       router.push("/course/detail");
     },
   },

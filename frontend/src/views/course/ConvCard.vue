@@ -1,11 +1,11 @@
 <template>
-  <div class="card" @click="goDetail()">
+  <div class="card">
     <el-row>
       <p
         class="title"
         style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
       >
-        {{ $props.title }}
+        {{ $props.name }}
       </p>
       <p class="content">
         <i class="el-icon-location" style="color: #ee684a" />{{
@@ -20,9 +20,9 @@
 export default {
   name: "ConvCard",
   props: {
-    title: {
+    name: {
       type: String,
-      default: "title",
+      default: "name",
     },
     address: {
       type: String,
@@ -30,9 +30,7 @@ export default {
     },
   },
   methods: {
-    goDetail() {
-      //goDetail
-    },
+
   },
 };
 </script>
