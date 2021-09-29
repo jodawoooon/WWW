@@ -73,7 +73,10 @@ export default {
     goDetail() {
       this.$store.commit("SET_CUR_COURSE", {
         id: this.$props.id,
-        title: this.$props.title + this.$props.name,
+        title:
+          this.$props.title != this.$props.name
+            ? this.$props.title + "-" + this.$props.name
+            : this.$props.title,
         address: this.$props.address,
         lat: this.$props.lat,
         lng: this.$props.lng,
@@ -82,6 +85,8 @@ export default {
         time: this.$props.min,
         kcal: this.$props.kcal,
         detail: this.$props.detail,
+        cafe: this.$props.cafeList,
+        conv: this.$props.convList,
       });
 
       router.push("/course/detail");

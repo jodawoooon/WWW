@@ -30,8 +30,8 @@
           />{{ this.course.address }}
         </p>
         <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }}분 |
-          {{ this.course.kcal }}Kcal
+          {{ this.course.distance }}km | {{ this.course.time }} |
+          {{ this.course.kcal }}kcal
         </p>
       </div>
       <div class="content-middle">
@@ -55,9 +55,9 @@
               </el-tab-pane>
               <el-tab-pane label="카페">
                 <div class="mini-desc" style="margin-bottom: 10px">
-                  산책로 주변 카페는 {{ this.course.conv.length }}개 입니다.
+                  산책로 주변 카페는 {{ this.course.cafe.length }}개 입니다.
                 </div>
-                <div v-for="(card, idx) in this.course.conv" :key="idx">
+                <div v-for="(card, idx) in this.course.cafe" :key="idx">
                   <ConvCard
                     :title="card.title"
                     :address="card.address"
