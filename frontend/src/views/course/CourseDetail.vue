@@ -1,8 +1,9 @@
 <template>
   <div>
+    
     <Header
       :showArrow="true"
-      back="/course"
+      :back="prevPage"
       message="산책로 상세 정보"
       id="navBar"
     />
@@ -102,6 +103,7 @@ export default {
       tabPosition: "left",
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
+      prevPage:this.$store.getters.getPrevPage,
     };
   },
   mounted() {
@@ -116,6 +118,7 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
       document.head.appendChild(script);
     }
+    console.log(this.prevPage);
   },
   methods: {
     clickStar() {

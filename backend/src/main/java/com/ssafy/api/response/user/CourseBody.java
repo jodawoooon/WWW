@@ -20,4 +20,5 @@ public class CourseBody{
     double score;  // 코스의 평균 점수 : 0~5를 별 5개로 표시
     int myScore;
     Double geoDistance; // 사용자와 산책로 떨어진 거리 KM 단위
+    int calorie;
 }

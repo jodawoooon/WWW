@@ -8,6 +8,8 @@ export default new Vuex.Store({
   state: {
     isAgree: false,
     isIndex: true,
+    prevSilde: "",
+    prevPage: "",
     curPage: "Main",
     tokens: {
       accessToken: "",
@@ -171,6 +173,12 @@ export default new Vuex.Store({
     SET_CUR_PAGE(state, curPage) {
       state.curPage = curPage;
     },
+    SET_PREV_PAGE(state, prevPage) {
+      state.prevPage = prevPage;
+    },
+    SET_PREV_SILDE(state, prevSilde) {
+      state.prevSilde = prevSilde;
+    },
   },
   actions: {},
   getters: {
@@ -197,6 +205,12 @@ export default new Vuex.Store({
     },
     getCourseDetail(state) {
       return state.curCourse;
+    },
+    getPrevPage(state) {
+      return state.prevPage;
+    },
+    getPrevSilde(state) {
+      return state.prevSilde;
     },
   },
   modules: {},

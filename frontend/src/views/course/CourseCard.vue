@@ -102,7 +102,6 @@ export default {
         cafe: this.$props.cafeList,
         conv: this.$props.convList,
       });
-
       router.push("/course/detail");
     },
   },

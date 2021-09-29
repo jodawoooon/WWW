@@ -169,6 +169,7 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    this.$store.commit("SET_PREV_PAGE", "/course");
   },
   methods: {
     setData() {
