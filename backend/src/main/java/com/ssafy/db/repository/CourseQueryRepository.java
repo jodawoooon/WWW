@@ -42,9 +42,12 @@ public class CourseQueryRepository {
         return course.address.contains(dong);
     }
 
-    // 현재 위치부터 반경 10km까지 위치한 코스 검색
-    private BooleanExpression nearbyGeoDistance(NumberTemplate geoDistance) {
-        return geoDistance.lt(10);
+    // 동 검색에 실패할 경우 현재 위치부터 반경 10km까지 위치한 코스 검색
+    private BooleanExpression nearbyGeoDistance(String dong, NumberTemplate geoDistance) {
+        if (StringUtils.isEmpty(dong)) {
+            return geoDistance.lt(10);
+        }
+        return null;
     }
 
     // 코스 목록 검색 조건: 동으로 검색(기본값), 로그인 사용자 관심 코스 검색
@@ -124,7 +127,7 @@ public class CourseQueryRepository {
                 .where(course.distance.between(courseReq.getMinDistance(), courseReq.getMaxDistance())
                         .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
                         ,containsDong(courseReq.getDong())
-                        ,nearbyGeoDistance(geoDistance)
+                        ,nearbyGeoDistance(courseReq.getDong(), geoDistance)
                         ,eqUserIdAndLike(courseReq.getUserId(), courseReq.getCriteria()))
                 .groupBy(course.courseId)
                 .orderBy(orderSpecifier, course.courseId.asc())
