@@ -1,5 +1,4 @@
-import { requestGet } from "@/api/request.js";
-import { requestPost } from "@/api/request.js";
+import { requestGet, requestPost } from "@/api/request.js";
 import SERVER from "./drf.js";
 
 export const myCourseApi = {
@@ -19,7 +18,7 @@ export const myCourseApi = {
   },
 
   setCourseReview: (data, headers) => {
-    let url = SERVER.URL + SERVER.ROUTES.review + "/";
+    let url = SERVER.URL + SERVER.ROUTES.review;
     return requestPost(url, data, headers);
   },
 };

@@ -17,7 +17,7 @@
       </v-tabs>
     </v-card>
 
-    <div>
+    <div style="margin: 10px; text-algin: left">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
@@ -70,7 +70,7 @@
                 padding-top: 20px;
               "
             >
-              자유공원 - 갈산둘레길
+              {{ course.courseFlagName }}
             </div>
             <div
               style="
@@ -94,7 +94,7 @@
                   padding-top: 10px;
                   padding-bottom: 10px;
                 "
-                @click="sendReview"
+                @click="sendReview(course.courseId)"
                 >✨ 제출하기 ✨</el-button
               ><br />
               <el-button
@@ -120,7 +120,7 @@
               :name="course.courseName"
               :courseId="course.courseId"
               :address="course.address"
-              :km="course.courseLength"
+              :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
               :kcal="course.calorie"
               :lat="course.latitude"
@@ -140,7 +140,7 @@
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 import myCourseApi from "@/api/mycourse.js";
-import CourseCard from "@/views/course/CourseCard";
+import CourseCard from "@/views/mypage/ReviewCard";
 import StarRating from "vue-star-rating";
 //import router from "@/router/index.js";
 
@@ -155,9 +155,9 @@ export default {
     return {
       curID: "",
       dialogVisible: false,
-      rating: 0,
+      rating: 1,
       isRecent: true,
-      userId: "test",
+      userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };
@@ -181,15 +181,14 @@ export default {
     // }
   },
   methods: {
-    async sendRivew() {
+    async sendReview(id) {
       let data = {
-        courseId: this.curId,
+        courseId: id,
         score: this.rating,
-        type: "wish",
         userId: this.userId,
       };
-      await myCourseApi.getCourseData(data, {});
-      this.rating = 0;
+      await myCourseApi.setCourseReview(data, {});
+      this.rating = 1;
       this.dialogVisible = false;
     },
     clickReview(id) {
