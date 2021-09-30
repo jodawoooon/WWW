@@ -17,10 +17,33 @@
       </v-tabs>
     </v-card>
 
-    <div>
+    <div class="default" style="margin-left: 10px; margin-right: 10px">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
+          v-bind:key="idx"
+        >
+          <div>
+            <CourseCard
+              :title="course.courseFlagName"
+              :name="course.courseName"
+              :courseId="course.courseId"
+              :address="course.address"
+              :km="course.courseLength"
+              :min="course.time"
+              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
+              :lat="course.latitude"
+              :lng="course.longitude"
+              :score="course.score"
+              :detail="course.detail"
+              :isBookmarked="course.myLike"
+            />
+          </div>
+        </div>
+      </div>
+      <div v-if="isRecent">
+        <div
+          v-for="(course, idx) in this.recentCourse.courseList"
           v-bind:key="idx"
         >
           <el-dialog
@@ -98,29 +121,6 @@
               :courseId="course.courseId"
               :address="course.address"
               :km="course.courseLength"
-              :min="course.time"
-              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
-              :lat="course.latitude"
-              :lng="course.longitude"
-              :score="course.score"
-              :detail="course.detail"
-              :isBookmarked="course.myLike"
-            />
-          </div>
-        </div>
-      </div>
-      <div v-if="isRecent">
-        <div
-          v-for="(course, idx) in this.recentCourse.courseList"
-          v-bind:key="idx"
-        >
-          <div>
-            <CourseCard
-              :title="course.courseFlagName"
-              :name="course.courseName"
-              :courseId="course.courseId"
-              :address="course.address"
-              :km="course.courseLength"
               :min="timeText(course.time)"
               :kcal="course.calorie"
               :lat="course.latitude"
@@ -157,7 +157,7 @@ export default {
       dialogVisible: true,
       rating: 0,
       isRecent: true,
-      userId: this.$store.getter.getLoginUserInfo.userId,
+      userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };

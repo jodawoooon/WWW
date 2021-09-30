@@ -1,5 +1,5 @@
 <template>
-  <div class="card" @click="goDetail()">
+  <div class="card">
     <el-row style="display: flex; align-items: center">
       <el-col :span="20">
         <p
@@ -22,9 +22,7 @@
         <i
           v-if="this.$store.getters.getLoginUserInfo.userId"
           @click.stop="clickStar()"
-          :class="[
-            isLiked ? 'el-icon-star-on' : 'el-icon-star-off',
-          ]"
+          :class="[isLiked ? 'el-icon-star-on' : 'el-icon-star-off']"
           style="font-size: 25pt; color: #ee684a"
         />
       </el-col>
@@ -134,7 +132,7 @@ export default {
       }
     },
     createLike() {
-      const req =  {
+      const req = {
         courseId: this.$props.courseId,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
@@ -143,15 +141,17 @@ export default {
       });
     },
     deleteLike() {
-      const req =  {
+      const req = {
         courseId: this.$props.courseId,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
-      axios.delete("/api/course/like", {
-        data: req,
-      }).then(() => {
-        this.isLiked = !this.isLiked;
-      });
+      axios
+        .delete("/api/course/like", {
+          data: req,
+        })
+        .then(() => {
+          this.isLiked = !this.isLiked;
+        });
     },
   },
 };
