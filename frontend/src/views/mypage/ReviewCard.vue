@@ -19,10 +19,8 @@
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
-        <el-button v-if="$props.myScore > 0" @click="clickBox($props.courseId)"
-          >리뷰 남기기</el-button
-        >
-        <el-button v-if="$props.myScore == 0"
+        <el-button @click="clickBox($props.courseId)">리뷰 남기기</el-button>
+        <el-button
           ><i class="el-icon-star-on"></i>{{ $props.myScore }}</el-button
         >
       </el-col>
