@@ -17,7 +17,7 @@
       </v-tabs>
     </v-card>
 
-    <div class="default" style="margin-left: 10px; margin-right: 10px">
+    <div style="margin-left: 10px; margin-right: 10px">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
@@ -120,7 +120,7 @@
               :name="course.courseName"
               :courseId="course.courseId"
               :address="course.address"
-              :km="course.courseLength"
+              :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
               :kcal="course.calorie"
               :lat="course.latitude"
@@ -155,7 +155,7 @@ export default {
     return {
       curID: "",
       dialogVisible: false,
-      rating: 0,
+      rating: 1,
       isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
@@ -189,7 +189,7 @@ export default {
         userId: this.userId,
       };
       await myCourseApi.setCourseReview(data, {});
-      this.rating = 0;
+      this.rating = 1;
       this.dialogVisible = false;
     },
     clickReview(id) {

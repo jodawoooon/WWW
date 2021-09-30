@@ -19,7 +19,7 @@ export const myCourseApi = {
   },
 
   setCourseReview: (data, headers) => {
-    let url = SERVER.URL + SERVER.ROUTES.review + "/";
+    let url = SERVER.URL + SERVER.ROUTES.review;
     return requestPost(url, data, headers);
   },
 };
