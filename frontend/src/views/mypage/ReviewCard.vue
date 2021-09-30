@@ -171,6 +171,9 @@ export default {
       type: String,
       default: "126.986664",
     },
+    score: {
+      type: Number,
+    },
     detail: {
       type: String,
       default: "test",

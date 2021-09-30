@@ -53,7 +53,7 @@
               :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
               :lat="course.latitude.toString()"
               :lng="course.longitude.toString()"
-              :score="course.myScore"
+              :myScore="course.myScore"
               :detail="course.detail"
               :isBookmarked="course.myLike"
             />
