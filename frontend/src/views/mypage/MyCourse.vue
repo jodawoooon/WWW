@@ -188,7 +188,7 @@ export default {
         type: "wish",
         userId: this.userId,
       };
-      await myCourseApi.sendReview(data, {});
+      await myCourseApi.setCourseReview(data, {});
       this.rating = 0;
       this.dialogVisible = false;
     },
