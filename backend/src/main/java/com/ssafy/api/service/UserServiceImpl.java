@@ -140,8 +140,8 @@ public class UserServiceImpl implements UserService{
                 int courseId = t.get(0, Integer.class);
                 System.out.println(courseId+" "+userId);
                 Object o = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
-                int myScore=0;
-                if(o!=null)myScore = (int)o;
+                double myScore=0;
+                if(o!=null)myScore = (double)o;
 
 
                 if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){

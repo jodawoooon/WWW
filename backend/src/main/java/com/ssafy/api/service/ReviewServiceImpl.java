@@ -29,6 +29,11 @@ public class ReviewServiceImpl implements ReviewService{
     public BaseResponseBody createReview(CourseReviewReq courseReviewReq) {
         BaseResponseBody baseResponseBody = new BaseResponseBody();
 
+        if (courseReviewReq.getScore() < 0)
+            courseReviewReq.setScore(0);
+        else if (courseReviewReq.getScore() > 5)
+            courseReviewReq.setScore(5);
+
         CourseReview courseReview = CourseReview.builder()
                 .course(courseRepository.findByCourseId(courseReviewReq.getCourseId()))
                 .user(userRepository.findByUserId(courseReviewReq.getUserId()))
@@ -46,6 +51,11 @@ public class ReviewServiceImpl implements ReviewService{
     @Transactional
     public BaseResponseBody updateReview(CourseReviewReq courseReviewReq) {
         BaseResponseBody baseResponseBody = new BaseResponseBody();
+
+        if (courseReviewReq.getScore() < 0)
+            courseReviewReq.setScore(0);
+        else if (courseReviewReq.getScore() > 5)
+            courseReviewReq.setScore(5);
 
         CoursePK coursePK = CoursePK.builder()
                 .course(courseReviewReq.getCourseId())
