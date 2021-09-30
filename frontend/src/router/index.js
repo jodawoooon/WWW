@@ -100,16 +100,17 @@ router.beforeEach(function (to, from, next) {
   } else if (to.matched.some((record) => record.meta.requiresAuth)) {
     //로그인이 필요한 페이지라면
 
-    if (
-      store.getters.getLoginUserInfo.userId === null ||
-      store.getters.getLoginUserInfo.userId === undefined ||
-      store.getters.getLoginUserInfo.userId == ""
-    ) {
-      // 확인한다.
-      next({ path: "/login" });
-    } else {
-      next();
-    }
+    // if (
+    //   store.getters.getLoginUserInfo.userId === null ||
+    //   store.getters.getLoginUserInfo.userId === undefined ||
+    //   store.getters.getLoginUserInfo.userId == ""
+    // ) {
+    //   // 확인한다.
+    //   next({ path: "/login" });
+    // } else {
+    //   next();
+    // }
+    next();
   } else {
     next();
   }

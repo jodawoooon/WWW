@@ -5,5 +5,6 @@ export default {
   ROUTES: {
     users: "/api/users",
     myCourse: "/api/users/mypage",
+    review: "/api/review",
   },
 };

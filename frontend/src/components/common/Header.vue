@@ -23,7 +23,7 @@
       </span>
       <el-dropdown style="float: right; line-height: 57px; padding-right: 30px">
         <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
+          <i class="el-icon-user-solid"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
