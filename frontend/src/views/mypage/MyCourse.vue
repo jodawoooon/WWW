@@ -157,7 +157,7 @@ export default {
       dialogVisible: true,
       rating: 0,
       isRecent: true,
-      userId: this.$store.getters.getLoginUserInfo.userId,
+      userId: "test",
       recentCourse: [],
       wishCourse: [],
     };
