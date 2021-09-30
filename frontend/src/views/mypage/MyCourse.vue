@@ -70,7 +70,7 @@
                 padding-top: 20px;
               "
             >
-              자유공원 - 갈산둘레길
+              {{ course.courseFlagName }}
             </div>
             <div
               style="
@@ -94,7 +94,7 @@
                   padding-top: 10px;
                   padding-bottom: 10px;
                 "
-                @click="sendReview()"
+                @click="sendReview(course.courseId)"
                 >✨ 제출하기 ✨</el-button
               ><br />
               <el-button
@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       curID: "",
-      dialogVisible: true,
+      dialogVisible: false,
       rating: 0,
       isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
@@ -181,9 +181,9 @@ export default {
     // }
   },
   methods: {
-    async sendReview() {
+    async sendReview(id) {
       let data = {
-        courseId: this.curId,
+        courseId: id,
         score: this.rating,
         type: "wish",
         userId: this.userId,
