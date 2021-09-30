@@ -58,12 +58,30 @@ public class InfoServiceImpl implements InfoService {
     @Override
     public void register(UserRegisterPostReq userRegistPostReq) {
         User user = new User();
+
+        System.out.println(userRegistPostReq);
+
         user.setUserId(userRegistPostReq.getUserId());
         user.setNickname(userRegistPostReq.getNickname());
         user.setName(userRegistPostReq.getName());
-        user.setCity(userRegistPostReq.getCity());
-        user.setGu(userRegistPostReq.getGu());
-        user.setDong(userRegistPostReq.getDong());
+
+        if(userRegistPostReq.getCity() != null){
+            Long sidoId = Long.parseLong(userRegistPostReq.getCity());
+            Sido sido = sidoRepository.findSidoById(sidoId).get();
+            user.setCity(sido.getName());
+        }
+
+        if(userRegistPostReq.getGu() != null){
+            Long gugunId = Long.parseLong(userRegistPostReq.getGu());
+            Gugun gugun = gugunRepository.findGugunById(gugunId).get();
+            user.setGu(gugun.getName());
+        }
+
+        if(userRegistPostReq.getDong() != null){
+            Long dongId = Long.parseLong(userRegistPostReq.getDong());
+            Dong dong = dongRepository.findDongById(dongId).get();
+            user.setDong(dong.getName());
+        }
 
         userRepository.save(user);
     }

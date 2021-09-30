@@ -23,7 +23,7 @@ export default {
       },
       userInfo :{
           userId: '',
-          nickname: '',
+          name: '',
       }
     }
   },
@@ -41,10 +41,10 @@ export default {
         .then((result)=>{
             console.log(result)
             this.userInfo.userId = result.data.user.userId;
-            this.userInfo.nickname = result.data.user.nickname;
-            console.log("userId : " + this.userInfo);
-            console.log(1111);
-            this.$store.commit("SET_USER_INFO", {userId: result.data.user.userId, nickname : result.data.user.nickname});
+            this.userInfo.name = result.data.user.name;
+            console.log("username : " + this.userInfo.name);
+            console.log("!2434")
+            this.$store.commit("SET_USER_INFO", {userId: result.data.user.userId, name : result.data.user.name});
             console.log(this.$store.state.loginUserInfo);
             axios
                 .get("/info/present/" + this.userInfo.userId)

@@ -15,8 +15,8 @@ export default new Vuex.Store({
     },
     loginUserInfo: {
       userId: '',
-      nickname: '',
       name: '',
+      nickname: '',
       sido: '',
       gugun:'',
       dong:'',
@@ -131,6 +131,7 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_USER_INFO(state,payload){
+      console.log(payload)
       state.loginUserInfo.userId = payload.userId;
       state.loginUserInfo.name = payload.name;
     },
