@@ -15,7 +15,7 @@
           }}
         </p>
         <p class="content">
-          {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}kcal
+          {{ roundKm }}km | {{ $props.min }} | {{ $props.kcal }}kcal
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
@@ -42,6 +42,7 @@ export default {
     return {
       userId: this.$store.getters.getLoginUserInfo.userId,
       isLiked: this.$props.isBookmarked,
+      roundKm : Math.round(this.$props.km*100)/100,
     };
   },
   props: {
