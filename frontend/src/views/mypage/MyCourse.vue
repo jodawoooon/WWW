@@ -84,6 +84,7 @@ export default {
   },
   data() {
     return {
+      isRecent: true,
       curID: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],

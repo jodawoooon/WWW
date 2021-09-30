@@ -130,7 +130,6 @@ export default {
     return {
       dialogVisible: false,
       rating: 1,
-      isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
       isLiked: this.$props.isBookmarked,
     };
