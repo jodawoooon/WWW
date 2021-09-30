@@ -23,6 +23,29 @@
           v-for="(course, idx) in this.wishCourse.courseList"
           v-bind:key="idx"
         >
+          <div>
+            <CourseCard
+              :title="course.courseFlagName"
+              :name="course.courseName"
+              :courseId="course.courseId"
+              :address="course.address"
+              :km="course.courseLength"
+              :min="course.time"
+              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
+              :lat="course.latitude"
+              :lng="course.longitude"
+              :score="course.score"
+              :detail="course.detail"
+              :isBookmarked="course.myLike"
+            />
+          </div>
+        </div>
+      </div>
+      <div v-if="isRecent">
+        <div
+          v-for="(course, idx) in this.recentCourse.courseList"
+          v-bind:key="idx"
+        >
           <el-dialog
             :visible.sync="dialogVisible"
             width="70%"
@@ -71,7 +94,7 @@
                   padding-top: 10px;
                   padding-bottom: 10px;
                 "
-                @click="sendReview()"
+                @click="sendReview"
                 >✨ 제출하기 ✨</el-button
               ><br />
               <el-button
@@ -92,29 +115,6 @@
             </div>
           </el-dialog>
           <div @click="clickReview(course.courseId)">
-            <CourseCard
-              :title="course.courseFlagName"
-              :name="course.courseName"
-              :courseId="course.courseId"
-              :address="course.address"
-              :km="course.courseLength"
-              :min="course.time"
-              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
-              :lat="course.latitude"
-              :lng="course.longitude"
-              :score="course.score"
-              :detail="course.detail"
-              :isBookmarked="course.myLike"
-            />
-          </div>
-        </div>
-      </div>
-      <div v-if="isRecent">
-        <div
-          v-for="(course, idx) in this.recentCourse.courseList"
-          v-bind:key="idx"
-        >
-          <div>
             <CourseCard
               :title="course.courseFlagName"
               :name="course.courseName"
@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       curID: "",
-      dialogVisible: true,
+      dialogVisible: false,
       rating: 0,
       isRecent: true,
       userId: "test",
