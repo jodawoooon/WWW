@@ -15,8 +15,11 @@
       <img class="logo" src="@/assets/sample.png" />
       <div>
         <a
-          href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=http://localhost:8080/kakao/callback&response_type=code"
+          href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code"
         >
+        <!-- <a
+          href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=http://localhost:8080/kakao/callback&response_type=code"
+        > -->
           <img class="kakao" src="@/assets/kakao_login_medium_narrow.png" />
         </a>
       </div>
