@@ -52,7 +52,7 @@
             padding-top: 20px;
           "
         >
-          {{ course.courseFlagName }}
+          {{ $props.title }}
         </div>
         <div
           style="
@@ -67,6 +67,21 @@
         <div slot="footer" class="dialog-footer" style="padding-top: 0px">
           <el-button
             v-if="this.rating > 0"
+            type="danger"
+            style="
+              border: 4px solid #49ab76;
+              width: 80%;
+              background-color: #49ab76;
+              border-radius: 30px;
+
+              padding-top: 10px;
+              padding-bottom: 10px;
+            "
+            @click="sendReview($props.courseId)"
+            >✨ 제출하기 ✨</el-button
+          ><br />
+          <el-button
+            v-if="this.rating == 0"
             disabled
             type="danger"
             style="
@@ -78,22 +93,7 @@
               padding-top: 10px;
               padding-bottom: 10px;
             "
-            @click="sendReview(course.courseId)"
-            >✨ 제출하기 ✨</el-button
-          ><br />
-          <el-button
-            v-if="this.rating == 0"
-            type="danger"
-            style="
-              border: 4px solid #49ab76;
-              width: 80%;
-              background-color: #49ab76;
-              border-radius: 30px;
-
-              padding-top: 10px;
-              padding-bottom: 10px;
-            "
-            @click="sendReview(course.courseId)"
+            @click="sendReview($props.courseId)"
             >✨ 제출하기 ✨</el-button
           ><br />
           <el-button
