@@ -35,6 +35,8 @@ public class ReviewServiceImpl implements ReviewService{
                 .score(courseReviewReq.getScore())
                 .build();
 
+        courseReviewRepository.save(courseReview);
+
         baseResponseBody.setMessage("OK");
         baseResponseBody.setStatusCode(201);
         return baseResponseBody;
