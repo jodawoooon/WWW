@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="goDetail()">
     <el-row>
       <el-col :span="20" style="text-align: left">
         <p
