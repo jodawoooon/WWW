@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    <div style="postion:fixed;">
+    <div style="postion: fixed">
       <div id="space"></div>
       <v-card>
         <v-tabs centered fixed-tabs slider-color="red">
@@ -48,76 +48,8 @@
           v-for="(course, idx) in this.recentCourse.courseList"
           v-bind:key="idx"
         >
-          <el-dialog
-            :visible.sync="dialogVisible"
-            width="70%"
-            center
-            :show-close="false"
-          >
-            <div style="text-align: center">
-              <star-rating
-                :increment="0.5"
-                v-model="rating"
-                @current-rating="setRating"
-                :show-rating="false"
-                :star-size="40"
-              >
-              </star-rating>
-            </div>
-            <div
-              style="
-                font-size: 15pt;
-                text-align: center;
-                font-weight: 700;
-                padding-top: 20px;
-              "
-            >
-              {{ course.courseFlagName }}
-            </div>
-            <div
-              style="
-                font-size: 9pt;
-                text-align: center;
-
-                padding-top: 10px;
-              "
-            >
-              걸어보시니 어떠셨나요? <br />솔직한 별점을 남겨주세요! <br />
-            </div>
-            <div slot="footer" class="dialog-footer" style="padding-top: 0px">
-              <el-button
-                type="danger"
-                style="
-                  border: 4px solid #49ab76;
-                  width: 80%;
-                  background-color: #49ab76;
-                  border-radius: 30px;
-
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                "
-                @click="sendReview(course.courseId)"
-                >✨ 제출하기 ✨</el-button
-              ><br />
-              <el-button
-                type="danger"
-                style="
-                  border: 4px solid #ffffff;
-                  width: 80%;
-                  background-color: #ffffff;
-                  color: #49ab76;
-                  border-radius: 30px;
-                  margin-top: 10px;
-                  padding-top: 10px;
-                  padding-bottom: 10px;
-                "
-                @click="dialogVisible = false"
-                >🙅‍♂️ 다음에 할게요 🙅‍♀️</el-button
-              >
-            </div>
-          </el-dialog>
-          <div @click="clickReview(course.courseId)">
-            <CourseCard
+          <div>
+            <ReviewCard
               :title="course.courseFlagName"
               :name="course.courseName"
               :courseId="course.courseId"
@@ -127,14 +59,13 @@
               :kcal="course.calorie"
               :lat="course.latitude"
               :lng="course.longitude"
-              :score="course.score"
+              :score="course.myScore"
               :detail="course.detail"
               :isBookmarked="course.myLike"
             />
           </div>
         </div>
       </div>
-      
     </div>
     <div id="space"></div>
   </div>
@@ -144,22 +75,22 @@
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 import myCourseApi from "@/api/mycourse.js";
-import CourseCard from "@/views/mypage/ReviewCard";
-import StarRating from "vue-star-rating";
+import ReviewCard from "@/views/mypage/ReviewCard";
+import CourseCard from "@/views/course/CourseCard";
+
+//import router from "@/router/index.js";
+import axios from "@/utils/axios.js";
 
 export default {
   name: "MyCourse",
   components: {
     Header,
+    ReviewCard,
     CourseCard,
-    StarRating,
   },
   data() {
     return {
       curID: "",
-      dialogVisible: false,
-      rating: 1,
-      isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
@@ -175,15 +106,18 @@ export default {
     this.getRecentCourse(this.userId);
   },
   methods: {
-    async sendReview(id) {
-      let data = {
-        courseId: id,
-        score: this.rating,
-        userId: this.userId,
-      };
-      await myCourseApi.setCourseReview(data, {});
-      this.rating = 1;
-      this.dialogVisible = false;
+    sendReview(id) {
+      axios
+        .post("/review/", {
+          courseId: id,
+          score: this.rating,
+          userId: this.userId,
+        })
+        .then((response) => {
+          this.rating = 1;
+          this.dialogVisible = false;
+          console.log(response);
+        });
     },
     clickReview(id) {
       this.curID = id;
