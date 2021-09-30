@@ -190,6 +190,7 @@ export default {
       };
       await myCourseApi.getCourseData(data, {});
       this.rating = 0;
+      this.dialogVisible = false;
     },
     clickReview(id) {
       this.curID = id;
