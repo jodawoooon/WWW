@@ -19,11 +19,11 @@
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
-        <el-button v-if="$props.score > 0" @click="clickBox($props.courseId)"
+        <el-button v-if="$props.myScore > 0" @click="clickBox($props.courseId)"
           >리뷰 남기기</el-button
         >
-        <el-button v-if="$props.score == 0"
-          ><i class="el-icon-star-on"></i>{{ $props.score }}</el-button
+        <el-button v-if="$props.myScore == 0"
+          ><i class="el-icon-star-on"></i>{{ $props.myScore }}</el-button
         >
       </el-col>
     </el-row>
@@ -171,9 +171,7 @@ export default {
       type: String,
       default: "126.986664",
     },
-    score: {
-      type: Number,
-    },
+    myScore: Number,
     detail: {
       type: String,
       default: "test",
