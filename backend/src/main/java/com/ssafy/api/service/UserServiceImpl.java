@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
 
+
     @Override
     public User getUserId(String userId) {
         Optional<User> user = userRepository.findUserByUserId(userId);
@@ -136,6 +137,12 @@ public class UserServiceImpl implements UserService{
                 System.out.println(t);
                 List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
                 double score;
+                int courseId = t.get(0, Integer.class);
+                System.out.println(courseId+" "+userId);
+                Object o = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
+                int myScore=0;
+                if(o!=null)myScore = (int)o;
+
 
                 if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
                     score=0;
@@ -144,7 +151,7 @@ public class UserServiceImpl implements UserService{
                 }
 
                 CourseBody courseBody = new CourseBody();
-                courseBody.setCourseId(t.get(0, Integer.class));
+                courseBody.setCourseId(courseId);
                 courseBody.setCourseName(t.get(1, String.class));
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(score);
@@ -153,6 +160,7 @@ public class UserServiceImpl implements UserService{
                 courseBody.setTimeInt(t.get(5,Integer.class));
                 courseBody.setCourseFlagName(t.get(6, String.class));
                 courseBody.setCalorie(t.get(7, Integer.class));
+                courseBody.setMyScore(myScore);
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
