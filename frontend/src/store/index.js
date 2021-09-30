@@ -12,6 +12,11 @@ export default new Vuex.Store({
       lat: "37.47085376325646",
       lng: "126.95986125726075",
       dong: "봉천동",
+      do: "경기도",
+    },
+    covid: {
+      corona_cnt: "12345",
+      local_corona: "34",
     },
     curCourse: {
       id: 1016,
@@ -47,12 +52,17 @@ export default new Vuex.Store({
       state.location.lat = payload.lat;
       state.location.lng = payload.lng;
       state.location.dong = payload.dong;
+      state.location.do = payload.do;
     },
     SET_CUR_COURSE(state, payload) {
       state.curCourse.id = payload.id;
       state.curCourse.title = payload.title;
       state.curCourse.address = payload.address;
       //..... 현재 선택한 산책로 정보 commit
+    },
+    SET_COVID(state, payload) {
+      state.covid.corona_cnt = payload.corona_cnt;
+      state.covid.local_corona = payload.local_corona;
     },
   },
   actions: {},
@@ -62,6 +72,9 @@ export default new Vuex.Store({
     },
     getDong(state) {
       return state.location.dong;
+    },
+    getDo(state) {
+      return state.location.do;
     },
     getLocation(state) {
       return state.location;

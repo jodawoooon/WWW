@@ -1,9 +1,10 @@
-const URL = 'http://localhost:8080'
+const URL = "http://localhost:8080";
 
 export default {
   URL,
   ROUTES: {
-    users: '/api/users',
-    myCourse: '/api/mypage',
-  }
-}
+    users: "/api/users",
+    myCourse: "/api/mypage",
+    main: "/api/main",
+  },
+};

@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import axios from "axios";
 
 export const requestGet = async (url, headers) => {
   try {
@@ -9,7 +8,6 @@ export const requestGet = async (url, headers) => {
     }
     throw new Error();
   } catch (e) {
-
     throw new Error(e);
   }
 };
@@ -32,7 +30,7 @@ export const requestPut = async (url, data, headers) => {
     if (response.status === 200) {
       return response.data;
     }
-    throw new Error(); 
+    throw new Error();
   } catch (e) {
     throw new Error(e);
   }

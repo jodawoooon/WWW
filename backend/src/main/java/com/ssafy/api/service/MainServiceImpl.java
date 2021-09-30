@@ -56,21 +56,15 @@ public class MainServiceImpl implements MainService {
         List<Walk> walklist = walkRepository.findByDate(date);
         if (walklist.size()==0){//오늘 걸은 기록이 없음
             TodayWalkTimeRes resbody = new TodayWalkTimeRes();
-            resbody.setHour(0);
-            resbody.setMinute(0);
             resbody.setSecond(0);
             return resbody;
         }
-        int[] HM = new int[3];
+        int totalTime = 0;
         for(int i=0;i<walklist.size();i++){
-            HM[0] += walklist.get(i).getDate().getHour();
-            HM[1] += walklist.get(i).getDate().getMinute();
-            HM[2] += walklist.get(i).getDate().getSecond();
+            totalTime += walklist.get(i).getDate().getSecond();
         }
         TodayWalkTimeRes resbody = new TodayWalkTimeRes();
-        resbody.setHour(HM[0]);
-        resbody.setMinute(HM[1]);
-        resbody.setSecond(HM[2]);
+        resbody.setSecond(totalTime);
         return resbody;
     }
 
@@ -112,25 +106,5 @@ public class MainServiceImpl implements MainService {
         }catch (Exception e){
             return null;
         }
-
-//        int a=0;
-//        String[] recommends = new String[15];
-//        String[] temp = new String[14];
-//        for(Course b : bestCourses) {
-//            recommends[a++] = Integer.toString(b.getCourseId());
-//            recommends[a++] = b.getFlagName();
-//            recommends[a++] = b.getName();
-//            recommends[a++] = b.getRoute();
-//            recommends[a++] = Double.toString(b.getDistance());
-//            recommends[a++] = b.getLevel();
-//            recommends[a++] = b.getTime();
-//            recommends[a++] = b.getDetail();
-//            recommends[a++] = b.getOption();
-//            recommends[a++] = b.getToilet();
-//            recommends[a++] = b.getConvStore();
-//            recommends[a++] = Double.toString(b.getLatitude());
-//            recommends[a++] = Double.toString(b.getLongitude());
-//            recommends[a++] = b.getAddress();
-//        }
     }
 }
