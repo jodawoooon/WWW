@@ -6,12 +6,12 @@
       <v-card>
         <v-tabs centered fixed-tabs slider-color="red">
           <v-tab
-            v-on:click="getRecentCourse(userId)"
+            v-on:click="getRecentCourse(this.userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
             >최근 코스</v-tab
           >
           <v-tab
-            v-on:click="getWishCourse(userId)"
+            v-on:click="getWishCourse(this.userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
             >관심 코스</v-tab
           >
