@@ -73,7 +73,7 @@ public class InfoController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<GugunCodeGetRes> findGugunList(@PathVariable("sido") Long sido){
-
+        System.out.println(sido);
         List<Gugun> gugunList = infoService.getGugunListBySido(sido);
         return ResponseEntity.ok(GugunCodeGetRes.of(200, "Success",gugunList));
     }

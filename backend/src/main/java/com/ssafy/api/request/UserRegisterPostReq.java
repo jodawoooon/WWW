@@ -11,9 +11,9 @@ import lombok.Setter;
 public class UserRegisterPostReq {
     String userId;
 
-    String nickname;
-
     String name;
+
+    String nickname;
 
     String city;
 

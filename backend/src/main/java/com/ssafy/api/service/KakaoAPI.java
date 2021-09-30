@@ -39,7 +39,8 @@ public class KakaoAPI {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=1e31c0b3e807829e950f0236c26efec6");
-            sb.append("&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback");
+            sb.append("&redirect_uri=http://localhost:8080/kakao/callback");
+            //sb.append("&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback");
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
             bw.flush();
@@ -115,10 +116,10 @@ public class KakaoAPI {
 
             String userId = element.getAsJsonObject().get("id").getAsString();
             //String email = kakao_account.getAsJsonObject().get("email").getAsString();
-            String nickname = kakao_account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
+            String name = kakao_account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
 
             userInfo.put("userId", userId);
-            userInfo.put("nickname",nickname);
+            userInfo.put("name",name);
 
         } catch (IOException e) {
             e.printStackTrace();

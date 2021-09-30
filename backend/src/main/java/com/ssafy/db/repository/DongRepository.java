@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface DongRepository extends JpaRepository<Dong, Long> {
 
     Optional<List<Dong>> findDongsByGugunCode(Gugun gugun);
+
+    Optional<Dong> findDongById(Long id);
 }

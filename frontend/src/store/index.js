@@ -18,13 +18,17 @@ export default new Vuex.Store({
       refreshTokenExpire: "",
     },
     loginUserInfo: {
-      userId: "",
-      nickname: "",
+      userId: '',
+      name: '',
+      nickname: '',
+      sido: '',
+      gugun:'',
+      dong:'',
     },
     userProfile: {
-      userId: "",
-      name: "",
-      nickname: "",
+      userId:'',
+      name: '',
+      nickname: '',
     },
     userInfo: {
       name: "김싸피",
@@ -124,6 +128,9 @@ export default new Vuex.Store({
       ],
 
       isBookmarked: false,
+      sidoList: [],
+      gugunList: [],
+      dongList: []
     },
   },
   mutations: {
@@ -143,9 +150,13 @@ export default new Vuex.Store({
       state.isIndex = false;
     },
     SET_USER_INFO(state, payload) {
-      console.log(payload);
       state.loginUserInfo.userId = payload.userId;
-      state.loginUserInfo.nickname = payload.nickname;
+      state.loginUserInfo.name = payload.name;
+    },
+    SET_MORE_USER_INFO(state, payload){
+      state.userProfile.userId = payload.userId;
+      state.userProfile.nickname = payload.nickname;
+      state.userProfile.name = payload.name;
     },
     SET_USER_TOKEN(state, payload) {
       state.tokens.accessToken = payload.accessToken;
@@ -188,6 +199,15 @@ export default new Vuex.Store({
     SET_PREV_SILDE(state, prevSilde) {
       state.prevSilde = prevSilde;
     },
+    SET_SIDO_LIST(state, payload){
+      state.sidoList = payload.sidoList;
+    },
+    SET_GUGUN_LIST(state, payload){
+      state.gugunList = payload.gugunList;
+    },
+    SET_DONG_LIST(state, payload){
+      state.dongList = payload.dongList;
+    },
   },
   actions: {},
   getters: {
@@ -221,6 +241,15 @@ export default new Vuex.Store({
     getPrevSilde(state) {
       return state.prevSilde;
     },
+    getterSidoList(state){
+      return state.sidoList;
+    },
+    getterGugunList(state){
+      return state.gugunList;
+    },
+    getterDongList(state){
+      return state.dongList;
+    }
   },
   modules: {},
   plugins: [createPersistedState()],

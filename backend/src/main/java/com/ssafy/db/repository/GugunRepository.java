@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface GugunRepository extends JpaRepository<Gugun, Long> {
 
     Optional<List<Gugun>> findGugunsBySidoCode(Sido sido);
+
+    Optional<Gugun> findGugunById(Long id);
 }
