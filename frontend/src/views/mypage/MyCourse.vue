@@ -1,17 +1,17 @@
 <template>
   <div id="main">
-    <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
+    <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
     <div style="postion: fixed">
       <div id="space"></div>
       <v-card>
         <v-tabs centered fixed-tabs slider-color="red">
           <v-tab
-            v-on:click="getRecentCourse(this.userId)"
+            v-on:click="getRecentCourse(userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
             >최근 코스</v-tab
           >
           <v-tab
-            v-on:click="getWishCourse(this.userId)"
+            v-on:click="getWishCourse(userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
             >관심 코스</v-tab
           >
@@ -21,10 +21,7 @@
 
     <div style="margin: 10px; text-algin: left">
       <div v-if="!isRecent">
-        <div
-          v-for="(course, idx) in this.wishCourse.courseList"
-          v-bind:key="idx"
-        >
+        <div v-for="(course, idx) in wishCourse.courseList" v-bind:key="idx">
           <div>
             <CourseCard
               :title="course.courseFlagName"
@@ -44,10 +41,7 @@
         </div>
       </div>
       <div v-if="isRecent">
-        <div
-          v-for="(course, idx) in this.recentCourse.courseList"
-          v-bind:key="idx"
-        >
+        <div v-for="(course, idx) in recentCourse.courseList" v-bind:key="idx">
           <div>
             <ReviewCard
               :title="course.courseFlagName"
