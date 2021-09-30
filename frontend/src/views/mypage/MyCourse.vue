@@ -140,7 +140,7 @@
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 import myCourseApi from "@/api/mycourse.js";
-import CourseCard from "@/views/course/CourseCard";
+import CourseCard from "@/views/mypage/ReviewCard";
 import StarRating from "vue-star-rating";
 //import router from "@/router/index.js";
 
@@ -157,7 +157,7 @@ export default {
       dialogVisible: true,
       rating: 0,
       isRecent: true,
-      userId: "test",
+      userId: this.$store.getter.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
     };
@@ -181,7 +181,7 @@ export default {
     // }
   },
   methods: {
-    async sendRivew() {
+    async sendReview() {
       let data = {
         courseId: this.curId,
         score: this.rating,
@@ -190,6 +190,7 @@ export default {
       };
       await myCourseApi.getCourseData(data, {});
       this.rating = 0;
+      this.dialogVisible = false;
     },
     clickReview(id) {
       this.curID = id;
