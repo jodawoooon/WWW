@@ -143,6 +143,7 @@ import myCourseApi from "@/api/mycourse.js";
 import CourseCard from "@/views/mypage/ReviewCard";
 import StarRating from "vue-star-rating";
 //import router from "@/router/index.js";
+import axios from "@/utils/axios.js";
 
 export default {
   name: "MyCourse",
@@ -181,15 +182,28 @@ export default {
     // }
   },
   methods: {
-    async sendReview(id) {
-      let data = {
-        courseId: id,
-        score: this.rating,
-        userId: this.userId,
-      };
-      await myCourseApi.setCourseReview(data, {});
-      this.rating = 1;
-      this.dialogVisible = false;
+    // async sendReview(id) {
+    //   let data = {
+    //     courseId: id,
+    //     score: this.rating,
+    //     userId: this.userId,
+    //   };
+    //   await myCourseApi.setCourseReview(data, {});
+    //   this.rating = 1;
+    //   this.dialogVisible = false;
+    // },
+    sendReview(id) {
+      axios
+        .post("/review/", {
+          courseId: id,
+          score: this.rating,
+          userId: this.userId,
+        })
+        .then((response) => {
+          this.rating = 1;
+          this.dialogVisible = false;
+          console.log(response);
+        });
     },
     clickReview(id) {
       this.curID = id;

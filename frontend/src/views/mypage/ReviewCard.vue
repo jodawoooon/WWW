@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <el-row style="display: flex; align-items: center">
+    <el-row>
       <el-col :span="20">
         <p
           class="title"
