@@ -1,5 +1,4 @@
-import { requestGet } from "@/api/request.js";
-import { requestPost } from "@/api/request.js";
+import { requestGet, requestPost } from "@/api/request.js";
 import SERVER from "./drf.js";
 
 export const myCourseApi = {

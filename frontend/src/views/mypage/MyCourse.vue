@@ -17,7 +17,7 @@
       </v-tabs>
     </v-card>
 
-    <div style="margin-left: 10px; margin-right: 10px">
+    <div style="margin: 10px; text-algin: left">
       <div v-if="!isRecent">
         <div
           v-for="(course, idx) in this.wishCourse.courseList"
@@ -185,7 +185,6 @@ export default {
       let data = {
         courseId: id,
         score: this.rating,
-        type: "wish",
         userId: this.userId,
       };
       await myCourseApi.setCourseReview(data, {});
