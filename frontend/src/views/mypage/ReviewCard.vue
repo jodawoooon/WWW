@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <el-row>
-      <el-col :span="20">
+      <el-col :span="20" style="text-align: left">
         <p
           class="title"
           style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
@@ -19,7 +19,7 @@
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
-        <el-button v-if="$props.myScore == 0" @click="clickBox($props.courseId)"
+        <el-button v-if="$props.myScore > 0" @click="clickBox($props.courseId)"
           >리뷰 남기기</el-button
         >
         <el-button v-if="$props.myScore == 0"
