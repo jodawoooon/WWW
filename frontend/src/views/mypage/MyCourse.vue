@@ -57,7 +57,7 @@
               :kcal="course.calorie"
               :lat="course.latitude"
               :lng="course.longitude"
-              :score="course.myScore"
+              :myScore="course.myScore"
               :detail="course.detail"
               :isBookmarked="course.myLike"
             />

@@ -165,6 +165,9 @@ export default {
       type: Number,
       default: 0,
     },
+    myScore: {
+      type: Number,
+    },
     lat: {
       type: String,
       default: "37.4265296",
