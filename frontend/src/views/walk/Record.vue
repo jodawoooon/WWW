@@ -222,7 +222,7 @@ export default {
 
       https
         .post("/main/finishrecord", {
-          userId: "test",
+          userId: this.$store.getters.getLoginUserInfo.userId,
           courseId: this.course.id,
           distance: this.accumulated_distance,
           time: this.accumulated_time,

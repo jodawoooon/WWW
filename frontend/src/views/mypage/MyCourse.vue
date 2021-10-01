@@ -19,11 +19,13 @@
       </v-card>
     </div>
 
-    <div style="margin: 10px; text-algin: left">
+    <div style="margin: 10px; text-algin: left; margin-top: 20px">
       <div v-if="!isRecent">
         <div v-for="(course, idx) in wishCourse.courseList" v-bind:key="idx">
           <div>
             <CourseCard
+              @refresh-wish-course="getWishCourse"
+              :isWish="true"
               :title="course.courseFlagName"
               :name="course.courseName"
               :courseId="course.courseId"
@@ -35,7 +37,7 @@
               :lng="course.longitude.toString()"
               :score="course.score"
               :detail="course.detail"
-              :isBookmarked="course.myLike"
+              :isBookmarked="true"
             />
           </div>
         </div>
@@ -44,16 +46,17 @@
         <div v-for="(course, idx) in recentCourse.courseList" v-bind:key="idx">
           <div>
             <ReviewCard
+              @refresh-recent-course="getRecentCourse"
               :title="course.courseFlagName"
               :name="course.courseName"
               :courseId="course.courseId"
               :address="course.address"
               :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
-              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
+              :kcal="Math.round(course.time * 60 * 0.06 * 10)"
               :lat="course.latitude.toString()"
               :lng="course.longitude.toString()"
-              :score="course.myScore"
+              :myScore="course.myScore"
               :detail="course.detail"
               :isBookmarked="course.myLike"
             />

@@ -1,30 +1,39 @@
 <template>
-  <div class="card" @click="goDetail()">
-    <el-row>
-      <el-col :span="20" style="text-align: left">
-        <p
-          class="title"
-          style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
-        >
-          {{ $props.title }}
-          <span v-if="$props.title !== $props.name">- {{ $props.name }}</span>
-        </p>
-        <p class="content">
-          <i class="el-icon-location" style="color: #ee684a" />{{
-            $props.address
-          }}
-        </p>
-        <p class="content">
-          {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}kcal
-        </p>
+  <div class="card">
+    <el-row style="display: flex; align-items: center">
+      <el-col :span="19" style="text-align: left">
+        <div @click="goDetail()">
+          <p
+            class="title"
+            style="
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+          >
+            {{ $props.title }}
+            <span v-if="$props.title !== $props.name">- {{ $props.name }}</span>
+          </p>
+          <p class="content">
+            <i class="el-icon-location" style="color: #ee684a" />{{
+              $props.address
+            }}
+          </p>
+          <p class="content">
+            {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}kcal
+          </p>
+        </div>
       </el-col>
-      <el-col :span="4" style="text-align: center">
-        <el-button v-if="$props.myScore > 0" @click="clickBox($props.courseId)"
-          >리뷰 남기기</el-button
+      <el-col :span="5" style="text-align: center">
+        <el-button
+          size="mini"
+          v-if="$props.myScore == 0"
+          @click="clickBox($props.courseId)"
+          >리뷰 <br />남기기</el-button
         >
-        <el-button v-if="$props.myScore == 0"
-          ><i class="el-icon-star-on"></i>{{ $props.myScore }}</el-button
-        >
+        <div v-if="$props.myScore != 0">
+          <i class="el-icon-star-on"></i>{{ $props.myScore }}
+        </div>
       </el-col>
     </el-row>
     <div>
@@ -62,7 +71,8 @@
             padding-top: 10px;
           "
         >
-          걸어보시니 어떠셨나요? <br />솔직한 별점을 남겨주세요! <br />
+          걸어보시니 어떠셨나요? <br />솔직한 별점⭐을 남겨주세요! <br />
+          🎙 작성하신 리뷰는 수정할 수 없어요
         </div>
         <div slot="footer" class="dialog-footer" style="padding-top: 0px">
           <el-button
@@ -85,10 +95,12 @@
             disabled
             type="danger"
             style="
+              cursor: not-allowed;
               border: 4px solid #49ab76;
               width: 80%;
               background-color: #49ab76;
               border-radius: 30px;
+
               padding-top: 10px;
               padding-bottom: 10px;
             "
@@ -118,9 +130,9 @@
 
 <script>
 import router from "@/router/index.js";
-import axios from "axios";
+import axios from "@/utils/axios.js";
 import StarRating from "vue-star-rating";
-import myCourseApi from "@/api/mycourse.js";
+// import myCourseApi from "@/api/mycourse.js";
 export default {
   name: "CourseCard",
   components: {
@@ -130,6 +142,7 @@ export default {
     return {
       dialogVisible: false,
       rating: 1,
+      isRecent: true,
       userId: this.$store.getters.getLoginUserInfo.userId,
       isLiked: this.$props.isBookmarked,
     };
@@ -163,6 +176,9 @@ export default {
       type: Number,
       default: 0,
     },
+    myScore: {
+      type: Number,
+    },
     lat: {
       type: String,
       default: "37.4265296",
@@ -171,7 +187,6 @@ export default {
       type: String,
       default: "126.986664",
     },
-    myScore: Number,
     detail: {
       type: String,
       default: "test",
@@ -182,15 +197,20 @@ export default {
     },
   },
   methods: {
-    async sendReview(id) {
-      let data = {
-        courseId: id,
-        score: this.rating,
-        userId: this.userId,
-      };
-      await myCourseApi.setCourseReview(data, {});
-      this.rating = 1;
-      this.dialogVisible = false;
+    sendReview(id) {
+      console.log("send");
+      axios
+        .post("/review/", {
+          courseId: id,
+          score: this.rating,
+          userId: this.userId,
+        })
+        .then((response) => {
+          this.rating = 1;
+          this.dialogVisible = false;
+          this.$emit("refresh-recent-course", this.userId);
+          console.log(response);
+        });
     },
     // 산책로 세부 정보를 가져오기
     goDetail() {
@@ -198,7 +218,7 @@ export default {
       console.log(this.$props.lat);
       console.log(this.$store.getters.getLoginUserInfo.userId);
       axios
-        .get("/api/course/", {
+        .get("/course/", {
           params: {
             courseId: this.$props.courseId,
             userId: this.$store.getters.getLoginUserInfo.userId,
