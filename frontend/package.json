@@ -19,6 +19,7 @@
     "sass": "^1.39.2",
     "sass-loader": "^10.2.0",
     "vue": "^2.6.11",
+    "vue-cookies": "^1.7.4",
     "vue-geolocation-api": "^0.1.21",
     "vue-infinite-loading": "^2.4.5",
     "vue-kakao-login": "^1.0.5",

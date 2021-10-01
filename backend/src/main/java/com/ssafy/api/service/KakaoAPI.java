@@ -115,7 +115,6 @@ public class KakaoAPI {
             JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
             String userId = element.getAsJsonObject().get("id").getAsString();
-            //String email = kakao_account.getAsJsonObject().get("email").getAsString();
             String name = kakao_account.getAsJsonObject().get("profile").getAsJsonObject().get("nickname").getAsString();
 
             userInfo.put("userId", userId);

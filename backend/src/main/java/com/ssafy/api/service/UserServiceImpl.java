@@ -27,9 +27,6 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Autowired
-    RedisService redisService;
-
-    @Autowired
     WalkQueryRepository walkQueryRepository;
 
     @Autowired
@@ -70,9 +67,6 @@ public class UserServiceImpl implements UserService{
 
         // DB에 user 정보 저장
         userRepository.save(user);
-
-        // redis에 refreshToken 저장
-        redisService.setDataExpire(refreshToken,id,refreshTokenExpire);
 
         return user;
     }

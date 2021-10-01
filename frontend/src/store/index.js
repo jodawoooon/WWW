@@ -159,6 +159,8 @@ export default new Vuex.Store({
       state.userProfile.name = payload.name;
     },
     SET_USER_TOKEN(state, payload) {
+      console.log(payload)
+      console.log(1);
       state.tokens.accessToken = payload.accessToken;
       state.tokens.refreshToken = payload.refreshToken;
       state.tokens.accessTokenExpire = payload.accessTokenExpire;

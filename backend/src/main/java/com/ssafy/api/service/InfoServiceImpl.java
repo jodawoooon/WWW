@@ -31,6 +31,9 @@ public class InfoServiceImpl implements InfoService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RedisService redisService;
+
     @Override
     public List<Sido> getSidoList() {
         return sidoRepository.findAll();
@@ -59,7 +62,7 @@ public class InfoServiceImpl implements InfoService {
     public void register(UserRegisterPostReq userRegistPostReq) {
         User user = new User();
 
-        System.out.println(userRegistPostReq);
+        System.out.println(userRegistPostReq.toString());
 
         user.setUserId(userRegistPostReq.getUserId());
         user.setNickname(userRegistPostReq.getNickname());
@@ -82,6 +85,14 @@ public class InfoServiceImpl implements InfoService {
             Dong dong = dongRepository.findDongById(dongId).get();
             user.setDong(dong.getName());
         }
+
+        String userId = userRegistPostReq.getUserId();
+        String refreshToken = userRegistPostReq.getRefreshToken();
+        Long refreshTokenExpire = Long.parseLong(userRegistPostReq.getRefreshTokenExpire());
+
+        // redis에 refreshToken 저장
+        redisService.setDataExpire(userId,refreshToken,refreshTokenExpire);
+
 
         userRepository.save(user);
     }

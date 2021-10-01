@@ -21,4 +21,8 @@ public class UserRegisterPostReq {
 
     String dong;
 
+    String refreshToken;
+
+    String refreshTokenExpire;
+
 }

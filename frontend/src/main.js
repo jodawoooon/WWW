@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import VueCookies from "vue-cookies";
 
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap-vue/dist/bootstrap-vue.css";
@@ -23,6 +24,9 @@ Vue.use(BootstrapVue);
 // Install BootstrapVue icon
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
+
+Vue.use(VueCookies);
+Vue.$cookies.config("7d");
 
 new Vue({
   router,

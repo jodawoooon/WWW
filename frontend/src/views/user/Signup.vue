@@ -89,6 +89,8 @@
 
 <script>
 import axios from "@/utils/axios.js";
+import VueCookies from 'vue-cookies';
+
  export default {
     data() {
       return {
@@ -105,6 +107,8 @@ import axios from "@/utils/axios.js";
           sido:'',
           gugun:'',
           dong:'',
+          refreshToken:'',
+          refreshTokenExpire:''
         },
         sidoList:[],
         gugunList:[],
@@ -158,10 +162,14 @@ import axios from "@/utils/axios.js";
         this.userInfo.city = data.sido;
         this.userInfo.gu = data.gugun;
         this.userInfo.dong = data.dong;
+        this.userInfo.refreshToken = this.$store.state.tokens.refreshToken;
+        this.userInfo.refreshTokenExpire = this.$store.state.tokens.refreshTokenExpire;
 
         axios
           .post("/info/register", this.userInfo)
           .then((result)=>{
+              VueCookies.set("accessToken", this.$store.state.tokens.accessToken, this.$store.state.tokens.accessTokenExpire)
+              VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
               console.log(result);
               alert("회원가입 완료")
               this.$router.push({name: "Main"});
