@@ -102,7 +102,7 @@ public class CourseServiceImpl implements CourseService {
             courseDetailResponseBody.setCafeList(cafeQueryRepository.findCafeList(course));
             courseDetailResponseBody.setConvList(convQueryRepository.findConvList(course));
             List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(courseId);
-            Integer myScore = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
+            Double myScore = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
 
             double score;
 

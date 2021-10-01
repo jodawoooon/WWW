@@ -1,65 +1,67 @@
 <template>
   <div id="main">
-    <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    <div id="space"></div>
-    <v-card>
-      <v-tabs centered fixed-tabs slider-color="red">
-        <v-tab
-          v-on:click="getRecentCourse(userId)"
-          style="font-size: 20px; color: gray; font-weight: bold"
-          >최근 코스</v-tab
-        >
-        <v-tab
-          v-on:click="getWishCourse(userId)"
-          style="font-size: 20px; color: gray; font-weight: bold"
-          >관심 코스</v-tab
-        >
-      </v-tabs>
-    </v-card>
-    <div>
+    <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
+    <div style="postion: fixed">
+      <div id="space"></div>
+      <v-card>
+        <v-tabs centered fixed-tabs slider-color="red">
+          <v-tab
+            v-on:click="getRecentCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >최근 코스</v-tab
+          >
+          <v-tab
+            v-on:click="getWishCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >관심 코스</v-tab
+          >
+        </v-tabs>
+      </v-card>
+    </div>
+
+    <div style="margin: 10px; text-algin: left">
       <div v-if="!isRecent">
-        <div
-          v-for="(course, idx) in this.wishCourse.courseList"
-          v-bind:key="idx"
-        >
-          <CourseCard
-            :title="course.courseFlagName"
-            :name="course.courseName"
-            :courseId="course.courseId"
-            :address="course.address"
-            :km="course.courseLength"
-            :min="course.time"
-            :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
-            :lat="course.latitude"
-            :lng="course.longitude"
-            :score="course.score"
-            :detail="course.detail"
-            :isBookmarked="course.myLike"
-          />
+        <div v-for="(course, idx) in wishCourse.courseList" v-bind:key="idx">
+          <div>
+            <CourseCard
+              :title="course.courseFlagName"
+              :name="course.courseName"
+              :courseId="course.courseId"
+              :address="course.address"
+              :km="course.courseLength"
+              :min="course.time"
+              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
+              :lat="course.latitude.toString()"
+              :lng="course.longitude.toString()"
+              :score="course.score"
+              :detail="course.detail"
+              :isBookmarked="course.myLike"
+            />
+          </div>
         </div>
       </div>
       <div v-if="isRecent">
-        <div
-          v-for="(course, idx) in this.recentCourse.courseList"
-          v-bind:key="idx"
-        >
-          <CourseCard
-            :title="course.courseFlagName"
-            :name="course.courseName"
-            :courseId="course.courseId"
-            :address="course.address"
-            :km="course.courseLength"
-            :min="timeText(course.time)"
-            :kcal="course.calorie"
-            :lat="course.latitude"
-            :lng="course.longitude"
-            :score="course.score"
-            :detail="course.detail"
-            :isBookmarked="course.myLike"
-          />
+        <div v-for="(course, idx) in recentCourse.courseList" v-bind:key="idx">
+          <div>
+            <ReviewCard
+              :title="course.courseFlagName"
+              :name="course.courseName"
+              :courseId="course.courseId"
+              :address="course.address"
+              :km="course.courseLength.toFixed(2)"
+              :min="timeText(course.time)"
+              :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
+              :lat="course.latitude.toString()"
+              :lng="course.longitude.toString()"
+              :score="course.myScore"
+              :detail="course.detail"
+              :isBookmarked="course.myLike"
+            />
+          </div>
         </div>
       </div>
     </div>
+    <div id="space"></div>
   </div>
 </template>
 
@@ -67,18 +69,23 @@
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
 import myCourseApi from "@/api/mycourse.js";
+import ReviewCard from "@/views/mypage/ReviewCard";
 import CourseCard from "@/views/course/CourseCard";
-import router from "@/router/index.js";
+
+//import router from "@/router/index.js";
+import axios from "@/utils/axios.js";
 
 export default {
   name: "MyCourse",
   components: {
     Header,
+    ReviewCard,
     CourseCard,
   },
   data() {
     return {
       isRecent: true,
+      curID: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
       wishCourse: [],
@@ -86,23 +93,35 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
-    // this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
     console.log(this.userId);
   },
   created() {
-    // this.userId = "test"; // for test
-
-    //this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
-
-    if(this.userId == ""){
-      alert("로그인 이후 이용해주세요");
-      router.push("/main");
-    }
   },
   methods: {
+    sendReview(id) {
+      axios
+        .post("/review/", {
+          courseId: id,
+          score: this.rating,
+          userId: this.userId,
+        })
+        .then((response) => {
+          this.rating = 1;
+          this.dialogVisible = false;
+          console.log(response);
+        });
+    },
+    clickReview(id) {
+      this.curID = id;
+      this.dialogVisible = true;
+    },
+    setRating(rating) {
+      console.log(rating);
+    },
+
     async getWishCourse(userId) {
       let data = {
         type: "wish",
@@ -121,12 +140,12 @@ export default {
       this.recentCourse = await myCourseApi.getCourseData(data, {});
       console.log(this.recentCourse);
     },
-    timeText(time){
+    timeText(time) {
       var t = parseInt(time);
-      var text="";
-      if(t>=3600)text+=parseInt(t/3600)+"시간 ";
-      if(t>=60)text+=parseInt(t%3600/60) +"분 ";
-      text += parseInt(t%3600%60) +"초";
+      var text = "";
+      if (t >= 3600) text += parseInt(t / 3600) + "시간 ";
+      if (t >= 60) text += parseInt((t % 3600) / 60) + "분 ";
+      text += parseInt((t % 3600) % 60) + "초";
       return text;
     },
   },
