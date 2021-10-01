@@ -11,12 +11,6 @@
     >
       <img src="../../assets/test.png" width="250px" />
     </div>
-    <el-dialog :visible.sync="dialogVisible" width="70%" center>
-      <span>위치 정보 수집에 동의하셔야 서비스 이용이 가능합니다 🏃‍♀️🏃‍♂️</span>
-      <span slot="footer" class="dialog-footer" style="padding-top: 0px">
-        <el-button @click="dialogVisible = false">닫기</el-button>
-      </span>
-    </el-dialog>
     <el-row
       style="
         margin-top: 140px;
@@ -40,6 +34,7 @@
 
 <script>
 import router from "@/router/index.js";
+import Swal from "sweetalert2";
 
 import("@/assets/style/Main.css");
 
@@ -74,7 +69,12 @@ export default {
         },
         (err) => {
           console.log("fail");
-          this.dialogVisible = true;
+          Swal.fire({
+            width: 250,
+            titleSize: 10,
+            title:
+              "위치 정보 수집을 허용하셔야 <br/> 서비스 이용이 가능합니다🏃‍♂️",
+          });
           this.$store.commit("SET_IS_NOT_AGREE");
           this.textContent = err.message;
         }

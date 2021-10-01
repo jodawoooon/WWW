@@ -12,6 +12,27 @@
   text-align: left;
 }
 
+.swal2-modal {
+  padding: 10px;
+}
+
+.swal2-title {
+  margin: 0px;
+  font-size: 16px;
+}
+.swal2-styled.swal2-confirm:focus {
+  box-shadow: 0 0 0 3px #49ab76;
+}
+
+.swal2-styled.swal2-confirm {
+  padding: 7px 19px;
+  border-radius: 2px;
+  background-color: #49ab76;
+  font-size: 12px;
+  border: 1px solid #49ab76;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
 .el-slider__marks-text {
   font-size: 10px !important;
 }
@@ -69,7 +90,7 @@
   z-index: 3;
 }
 
-.dong_status{
+.dong_status {
   border-radius: 50%;
   text-align: center;
   height: 80px;
@@ -77,10 +98,10 @@
   padding: 15px 0;
   margin-top: 20px;
 }
-.dong_status>p{
+.dong_status > p {
   font-size: 8px;
 }
-.dong_status>span{
+.dong_status > span {
   font-size: 22px;
   font-weight: bold;
 }

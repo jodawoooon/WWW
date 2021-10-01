@@ -1,12 +1,6 @@
 <template>
   <div>
     <Header :showArrow="true" back="/main" message="산책 기록" id="navBar" />
-    <el-dialog :visible.sync="centerDialogVisible" width="70%" center>
-      <span>산책 기록이 저장되었습니다 📬</span>
-      <span slot="footer" class="dialog-footer" style="padding-top: 0px">
-        <el-button @click="goMain()">확인</el-button>
-      </span>
-    </el-dialog>
     <div>
       <div id="map" class="map"></div>
     </div>
@@ -126,6 +120,7 @@ import Header from "@/components/common/Header";
 import axios from "axios";
 import https from "@/utils/axios.js";
 import router from "@/router/index.js";
+import Swal from "sweetalert2";
 
 import("@/assets/style/Main.css");
 
@@ -136,7 +131,6 @@ export default {
   },
   data() {
     return {
-      centerDialogVisible: false,
       current: { lat: 0, lng: 0 },
       previous: { lat: 0, lng: 0 },
       address: "",
@@ -234,7 +228,11 @@ export default {
     },
     endLocationUpdates() {
       this.stopLocationUpdates();
-      this.centerDialogVisible = true;
+      Swal.fire({
+        width: 250,
+        titleSize: 10,
+        title: "산책 기록이 저장되었습니다 📬",
+      });
       this.speed = (this.accumulated_distance * 1000) / this.accumulated_time;
 
       this.savePosition();
@@ -248,9 +246,6 @@ export default {
       this.checkOneKm = 0;
       this.endTime = new Date();
       this.endTime = this.$moment(this.endTime).format("YYYY-MM-DDTHH:mm:ss");
-    },
-    goMain() {
-      this.centerDialogVisible = false;
       router.push("/main");
     },
     stopLocationUpdates() {

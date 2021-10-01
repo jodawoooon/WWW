@@ -37,7 +37,7 @@
               class="el-icon-star-on"
               style="color: #eec24a; padding-left: 25px"
             ></i
-            >{{ this.course.score }}</span
+            >{{ this.courseDetail.score }}</span
           >
         </p>
         <p class="small-desc">

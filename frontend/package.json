@@ -18,6 +18,7 @@
     "register-service-worker": "^1.7.1",
     "sass": "^1.39.2",
     "sass-loader": "^10.2.0",
+    "sweetalert2": "^11.1.7",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
     "vue-geolocation-api": "^0.1.21",
