@@ -155,13 +155,14 @@ export default {
           data: req,
         })
         .then(() => {
-          this.isLiked = !this.isLiked;
           if (this.$props.isWish) {
             console.log("refresh WishCourse");
             this.$emit(
               "refresh-wish-course",
               this.$store.getters.getLoginUserInfo.userId
             );
+          } else {
+            this.isLiked = !this.isLiked;
           }
         });
     },
