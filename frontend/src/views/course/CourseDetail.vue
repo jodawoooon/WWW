@@ -262,8 +262,9 @@ export default {
         userId: userId,
         courseId: courseId,
       };
-      this.courseDetail = await courseApi.getCourseData(data, {}).then(()=>{
-        console.log(this.courseDetail);
+      await courseApi.getCourseData(data, {}).then((response)=>{
+        this.courseDetail=response;
+        console.log(response);
       });
     },
   },
