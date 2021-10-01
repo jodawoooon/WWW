@@ -41,7 +41,7 @@
       <div class="content-middle">
         <el-tabs v-model="activeName">
           <el-tab-pane label="산책로 소개" name="first">
-            <div class="mini-desc">{{ this.course.detail }}</div>
+            <div class="mini-desc">{{ this.courseDetail.detail }}</div>
           </el-tab-pane>
           <el-tab-pane label="주변 편의시설" name="second">
             <el-tabs :tab-position="tabPosition" style="height: 200px">
@@ -117,7 +117,7 @@ export default {
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
       prevPage:this.$store.getters.getPrevPage,
-      courseDetail: [],
+      courseDetail: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
