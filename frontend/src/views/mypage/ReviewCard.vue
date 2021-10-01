@@ -32,6 +32,7 @@
           style="
             border: 1px solid #49ab76;
             background-color: #49ab76;
+            color: #ffffff;
             border-radius: 10px;
           "
           >리뷰<br />작성</el-button
