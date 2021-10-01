@@ -121,7 +121,7 @@ export default {
         (pos) => {
           this.lat = pos.coords.latitude;
           this.lng = pos.coords.longitude;
-
+          this.$store.commit("SET_IS_AGREE");
           axios
             .get(
               "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
@@ -151,7 +151,9 @@ export default {
             });
         },
         (err) => {
-          this.textContent = err.message;
+          console.log(err);
+          this.$store.commit("SET_IS_NOT_AGREE");
+          router.push("/index");
         }
       );
     },
