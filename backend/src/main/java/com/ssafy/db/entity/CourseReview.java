@@ -33,10 +33,10 @@ public class CourseReview extends BaseTimeEntity {
     private Course course;
 
     @Column
-    private int score;
+    private double score;
 
     // update문 실행시 setter 대신 변경할 컬럼 수정용 메소드 사용
-    public void updateScore(int score) {
+    public void updateScore(double score) {
         this.score = score;
     }
 }

@@ -1,30 +1,31 @@
 <template>
   <div id="main">
-    <Header :showArrow="false" message="우리 동네 산책로" id="navBar" />
-    <div id="space"></div>
-    <v-card>
-      <v-tabs centered fixed-tabs slider-color="red">
-        <v-tab
-          v-on:click="getRecentCourse(userId)"
-          style="font-size: 20px; color: gray; font-weight: bold"
-          >최근 코스</v-tab
-        >
-        <v-tab
-          v-on:click="getWishCourse(userId)"
-          style="font-size: 20px; color: gray; font-weight: bold"
-          >관심 코스</v-tab
-        >
-      </v-tabs>
-    </v-card>
+    <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
+    <div style="postion: fixed">
+      <div id="space"></div>
+      <v-card>
+        <v-tabs centered fixed-tabs slider-color="red">
+          <v-tab
+            v-on:click="getRecentCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >최근 코스</v-tab
+          >
+          <v-tab
+            v-on:click="getWishCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >관심 코스</v-tab
+          >
+        </v-tabs>
+      </v-card>
+    </div>
 
-    <div style="margin: 10px; text-algin: left">
+    <div style="margin: 10px; text-algin: left; margin-top: 20px">
       <div v-if="!isRecent">
-        <div
-          v-for="(course, idx) in this.wishCourse.courseList"
-          v-bind:key="idx"
-        >
+        <div v-for="(course, idx) in wishCourse.courseList" v-bind:key="idx">
           <div>
             <CourseCard
+              @refresh-wish-course="getWishCourse"
+              :isWish="true"
               :title="course.courseFlagName"
               :name="course.courseName"
               :courseId="course.courseId"
@@ -32,31 +33,29 @@
               :km="course.courseLength"
               :min="course.time"
               :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
-              :lat="course.latitude"
-              :lng="course.longitude"
+              :lat="course.latitude.toString()"
+              :lng="course.longitude.toString()"
               :score="course.score"
               :detail="course.detail"
-              :isBookmarked="course.myLike"
+              :isBookmarked="true"
             />
           </div>
         </div>
       </div>
       <div v-if="isRecent">
-        <div
-          v-for="(course, idx) in this.recentCourse.courseList"
-          v-bind:key="idx"
-        >
+        <div v-for="(course, idx) in recentCourse.courseList" v-bind:key="idx">
           <div>
             <ReviewCard
+              @refresh-recent-course="getRecentCourse"
               :title="course.courseFlagName"
               :name="course.courseName"
               :courseId="course.courseId"
               :address="course.address"
               :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
-              :kcal="course.calorie"
-              :lat="course.latitude"
-              :lng="course.longitude"
+              :kcal="Math.round(course.time * 60 * 0.06 * 10)"
+              :lat="course.latitude.toString()"
+              :lng="course.longitude.toString()"
               :myScore="course.myScore"
               :detail="course.detail"
               :isBookmarked="course.myLike"
@@ -65,6 +64,7 @@
         </div>
       </div>
     </div>
+    <div id="space"></div>
   </div>
 </template>
 
@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      isRecent: true,
       curID: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
       recentCourse: [],
@@ -95,21 +96,12 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
-    // this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
     console.log(this.userId);
   },
   created() {
-    // this.userId = "test"; // for test
-
-    //this.getWishCourse(this.userId);
     this.getRecentCourse(this.userId);
-
-    // if(this.userId == ""){
-    //   alert("로그인 이후 이용해주세요");
-    //   router.push("/main");
-    // }
   },
   methods: {
     sendReview(id) {

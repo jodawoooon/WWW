@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="goDetail()">
     <el-row style="display: flex; align-items: center">
-      <el-col :span="20">
+      <el-col :span="20" style="text-align: left">
         <p
           class="title"
           style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
@@ -15,16 +15,14 @@
           }}
         </p>
         <p class="content">
-          {{ $props.km }}km | {{ $props.min }} | {{ $props.kcal }}kcal
+          {{ roundKm }}km | {{ $props.min }} | {{ $props.kcal }}kcal
         </p>
       </el-col>
       <el-col :span="4" style="text-align: center">
         <i
           v-if="this.$store.getters.getLoginUserInfo.userId"
           @click.stop="clickStar()"
-          :class="[
-            isLiked ? 'el-icon-star-on' : 'el-icon-star-off',
-          ]"
+          :class="[isLiked ? 'el-icon-star-on' : 'el-icon-star-off']"
           style="font-size: 25pt; color: #ee684a"
         />
       </el-col>
@@ -42,6 +40,7 @@ export default {
     return {
       userId: this.$store.getters.getLoginUserInfo.userId,
       isLiked: this.$props.isBookmarked,
+      roundKm: Math.round(this.$props.km * 100) / 100,
     };
   },
   props: {
@@ -86,6 +85,10 @@ export default {
       default: "test",
     },
     isBookmarked: {
+      type: Boolean,
+      default: false,
+    },
+    isWish: {
       type: Boolean,
       default: false,
     },
@@ -134,7 +137,7 @@ export default {
       }
     },
     createLike() {
-      const req =  {
+      const req = {
         courseId: this.$props.courseId,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
@@ -143,15 +146,24 @@ export default {
       });
     },
     deleteLike() {
-      const req =  {
+      const req = {
         courseId: this.$props.courseId,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
-      axios.delete("/api/course/like", {
-        data: req,
-      }).then(() => {
-        this.isLiked = !this.isLiked;
-      });
+      axios
+        .delete("/api/course/like", {
+          data: req,
+        })
+        .then(() => {
+          this.isLiked = !this.isLiked;
+          if (this.$props.isWish) {
+            console.log("refresh WishCourse");
+            this.$emit(
+              "refresh-wish-course",
+              this.$store.getters.getLoginUserInfo.userId
+            );
+          }
+        });
     },
   },
 };

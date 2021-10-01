@@ -26,7 +26,7 @@ public class CourseReviewQueryRepository {
     }
 
     // 로그인 사용자의 코스 리뷰 점수
-    public Integer findScoreByCourseIdAndUserId(int courseId, String userId) {
+    public Double findScoreByCourseIdAndUserId(int courseId, String userId) {
         return queryFactory.select(courseReview.score)
                 .from(courseReview)
                 .where(courseReview.course.courseId.eq(courseId)
