@@ -5,6 +5,7 @@ import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.DongCodeGetRes;
 import com.ssafy.api.response.GugunCodeGetRes;
 import com.ssafy.api.response.SidoCodeGetRes;
+import com.ssafy.api.response.UserProfileGetRes;
 import com.ssafy.api.service.InfoService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -105,6 +106,22 @@ public class InfoController {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "사용할 수 있는 ID입니다."));
         }
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "이미 존재하는 사용자 ID입니다."));
+    }
+
+    @GetMapping("/{userId}")
+    @ApiOperation(value = "회원 정보 확인", notes = "해당 userID를 사용하는 사용자의 정보를 불러온다.")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<UserProfileGetRes> getUserProfile(@PathVariable("userId") String userId) {
+        User user = userService.getUserId(userId);
+        if(user == null){
+            return null;
+        }
+        return ResponseEntity.ok(UserProfileGetRes.of(200, "Success",user));
     }
 
 }

@@ -154,13 +154,12 @@ export default new Vuex.Store({
       state.loginUserInfo.name = payload.name;
     },
     SET_MORE_USER_INFO(state, payload){
-      state.userProfile.userId = payload.userId;
-      state.userProfile.nickname = payload.nickname;
-      state.userProfile.name = payload.name;
+      state.loginUserInfo.nickname = payload.nickname;
+      state.loginUserInfo.sido = payload.sido;
+      state.loginUserInfo.gugun = payload.gugun;
+      state.loginUserInfo.dong = payload.dong;
     },
     SET_USER_TOKEN(state, payload) {
-      console.log(payload)
-      console.log(1);
       state.tokens.accessToken = payload.accessToken;
       state.tokens.refreshToken = payload.refreshToken;
       state.tokens.accessTokenExpire = payload.accessTokenExpire;

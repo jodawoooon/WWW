@@ -48,6 +48,15 @@ export default {
                     VueCookies.set("accessToken", this.tokens.accessToken, this.tokens.accessTokenExpire)
                     console.log(this.$store.state.loginUserInfo);
                     VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
+                    axios
+                    .get("/info/" + this.userInfo.userId)
+                    .then((res) =>{
+                      console.log(res);
+                      this.$store.state.loginUserInfo.nickname = res.data.user.nickname;
+                      this.$store.state.loginUserInfo.sido = res.data.user.city;
+                      this.$store.state.loginUserInfo.gugun = res.data.user.gu;
+                      this.$store.state.loginUserInfo.dong = res.data.user.dong;
+                    })
                     this.$router.push({name: "Main"});
                     console.log(this.$store.state.loginUserInfo);
                 })
