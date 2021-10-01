@@ -53,7 +53,7 @@
               :address="course.address"
               :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
-              :kcal="Math.round(course.time * 60 * 0.06 * 10)"
+              :kcal="course.calorie"
               :lat="course.latitude.toString()"
               :lng="course.longitude.toString()"
               :myScore="course.myScore"
