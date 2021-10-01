@@ -1,7 +1,7 @@
 import { requestGet } from "@/api/request.js";
 import SERVER from "./drf.js";
 
-export const userApi = {
+export const mainApi = {
   getWalkData: (data, headers) => {
     let check = true;
     let url = SERVER.URL + SERVER.ROUTES.users + `/${data.type}`;
@@ -27,4 +27,4 @@ export const userApi = {
     // return requestGet(SERVER.URL + SERVER.ROUTES.users + `/${data.type}` +`?userId=${data.userId}`, headers);
   },
 };
-export default userApi;
+export default mainApi;
