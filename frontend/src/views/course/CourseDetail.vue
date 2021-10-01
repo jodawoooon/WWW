@@ -32,7 +32,7 @@
             class="el-icon-location"
             style="color: #ee684a; margin-right: 5px; margin-bottom: 8px"
           />{{ this.course.address }}
-          <span v-if="this.course.score != 0">
+          <span v-if="this.courseDetail.score != 0">
             <i
               class="el-icon-star-on"
               style="color: #eec24a; padding-left: 25px"
