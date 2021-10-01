@@ -96,9 +96,6 @@ export default {
   methods: {
     // 산책로 세부 정보를 가져오기
     async goDetail() {
-      console.log(this.$props.courseId);
-      console.log(this.$props.lat);
-      console.log(this.$store.getters.getLoginUserInfo.userId);
       await axios
         .get("/api/course/", {
           params: {

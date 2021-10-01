@@ -220,11 +220,8 @@ export default {
         });
     },
     // 산책로 세부 정보를 가져오기
-    goDetail() {
-      console.log(this.$props.courseId);
-      console.log(this.$props.lat);
-      console.log(this.$store.getters.getLoginUserInfo.userId);
-      axios
+    async goDetail() {
+      await axios
         .get("/course/", {
           params: {
             courseId: this.$props.courseId,
