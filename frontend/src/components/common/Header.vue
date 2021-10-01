@@ -77,6 +77,12 @@ export default {
             userId: "",
             name : "",
           });
+          this.$store.commit("SET_MORE_USER_INFO", {
+            nickname: "",
+            sido : "",
+            gugun : "",
+            dong: ""
+          });
           this.$store.commit("SET_USER_TOKEN", {
             accessToken : "",
             refreshToken : "",

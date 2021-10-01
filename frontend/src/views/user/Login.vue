@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <img class="logo" src="@/assets/sample.png" />
+      <img class="logo" src="@/assets/test.png" />
       <div>
         <!-- <a
           href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code"
