@@ -121,9 +121,8 @@ export default {
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
-  async mounted() {
+  mounted() {
     
-    await this.getCourseDetail(this.userId, this.course.id);
     
     this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
@@ -142,7 +141,10 @@ export default {
 
   },
   created(){
-    this.course = this.$store.getters.getCourseDetail;
+    (async ()=>{
+      this.course = await this.$store.getters.getCourseDetail;
+    });
+    this.getCourseDetail(this.userId, this.course.id);
   },
   methods: {
     clickStar() {
