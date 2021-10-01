@@ -226,7 +226,7 @@ export default {
           courseId: this.course.id,
           distance: this.accumulated_distance,
           time: this.accumulated_time,
-          calorie: 0,
+          calorie: Math.round(this.accumulated_time * 60 * 0.06 * 10) / 10,
         })
         .then((response) => {
           console.log(response);
