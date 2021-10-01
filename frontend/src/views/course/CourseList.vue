@@ -56,7 +56,7 @@ export default {
       courseReq: {
         userId: this.$store.getters.getLoginUserInfo.userId,
         page: 0,
-        size: 10,
+        size: 5,
         sort: this.filter.sort,
         criteria: this.filter.criteria,
         minTime: this.filter.minTime,
