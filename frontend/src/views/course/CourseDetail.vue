@@ -34,14 +34,14 @@
           />{{ this.course.address }}
         </p>
         <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }} |
-          {{ this.course.kcal }}kcal
+          {{ this.courseDetail.courseLength }}km | {{ this.courseDetail.time }} |
+          {{ Math.round((this.courseDetail.timeInt * 60) * 0.06 * 10) / 10 }}kcal
         </p>
       </div>
       <div class="content-middle">
         <el-tabs v-model="activeName">
           <el-tab-pane label="산책로 소개" name="first">
-            <div class="mini-desc">{{ this.course.detail }}</div>
+            <div class="mini-desc">{{ this.courseDetail.detail }}</div>
           </el-tab-pane>
           <el-tab-pane label="주변 편의시설" name="second">
             <el-tabs :tab-position="tabPosition" style="height: 200px">
@@ -117,11 +117,13 @@ export default {
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
       prevPage:this.$store.getters.getPrevPage,
-      courseDetail: [],
+      courseDetail: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
   mounted() {
+    
+    
     this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -135,9 +137,13 @@ export default {
     }
     console.log(this.prevPage);
 
-    this.getCourseDetail(this.userId, this.course.id);
-    console.log(this.courseDetail);
+    
 
+  },
+  created(){
+    this.course = this.$store.getters.getCourseDetail;
+    console.log(this.course);
+    this.getCourseDetail(this.userId, this.course.id);
   },
   methods: {
     clickStar() {
@@ -257,8 +263,10 @@ export default {
         userId: userId,
         courseId: courseId,
       };
-      this.courseDetail = await courseApi.getCourseData(data, {});
-
+      await courseApi.getCourseData(data, {}).then((response)=>{
+        this.courseDetail=response;
+        console.log(response);
+      });
     },
   },
 };

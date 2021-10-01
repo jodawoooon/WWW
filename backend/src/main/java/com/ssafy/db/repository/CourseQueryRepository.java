@@ -163,6 +163,7 @@ public class CourseQueryRepository {
                         course.convStore.as("convStore"),
                         course.distance.as("courseLength"),
                         course.time.as("time"),
+                        course.timeInt.as("timeInt"),
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),

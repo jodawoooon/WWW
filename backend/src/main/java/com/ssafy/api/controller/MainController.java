@@ -33,8 +33,8 @@ public class MainController {
     public ResponseEntity<TodayWalkTimeRes> getTodayWalk(@RequestBody @PathVariable("userId") String userId, @PathVariable("date") LocalDateTime date){
         TodayWalkTimeRes todayWalkTimeRes = mainService.getTodayWalk(userId,date);
 
-        if(todayWalkTimeRes != null) return ResponseEntity.ok(TodayWalkTimeRes.of(200,"Success",todayWalkTimeRes.getHour(),todayWalkTimeRes.getMinute(),todayWalkTimeRes.getSecond()));
-        return ResponseEntity.status(401).body(TodayWalkTimeRes.of(401,"Failed", -1,-1,-1));
+        if(todayWalkTimeRes != null) return ResponseEntity.ok(TodayWalkTimeRes.of(200,"Success",todayWalkTimeRes.getSecond()));
+        return ResponseEntity.status(401).body(TodayWalkTimeRes.of(401,"Failed", -1));
     }
 
     //산책 기록 저장

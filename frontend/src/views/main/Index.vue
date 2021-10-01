@@ -32,7 +32,7 @@
         >시작하기</el-button
       ></el-row
     >
-    <span style="font-size: 9pt" v-if="!this.$store.getters.getIsAgree"
+    <span style="font-size: 9pt"
       >위치 수집에 동의하셔야 서비스 이용이 가능합니다</span
     >
   </div>

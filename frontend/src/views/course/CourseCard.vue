@@ -95,11 +95,11 @@ export default {
   },
   methods: {
     // 산책로 세부 정보를 가져오기
-    goDetail() {
+    async goDetail() {
       console.log(this.$props.courseId);
       console.log(this.$props.lat);
       console.log(this.$store.getters.getLoginUserInfo.userId);
-      axios
+      await axios
         .get("/api/course/", {
           params: {
             courseId: this.$props.courseId,
@@ -155,13 +155,14 @@ export default {
           data: req,
         })
         .then(() => {
-          this.isLiked = !this.isLiked;
           if (this.$props.isWish) {
             console.log("refresh WishCourse");
             this.$emit(
               "refresh-wish-course",
               this.$store.getters.getLoginUserInfo.userId
             );
+          } else {
+            this.isLiked = !this.isLiked;
           }
         });
     },
