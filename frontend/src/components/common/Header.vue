@@ -13,14 +13,29 @@
           style="color: #ffffff"
         ></i>
       </span>
-      <span id="title">{{ $props.message }}</span>
+      <span v-if="$props.message != 'WWW'" id="title">{{
+        $props.message
+      }}</span>
+      <span style="font-size: 16pt" v-if="$props.message == 'WWW'" id="title">
+        <span style="color: #737373; font-weight: 800">W</span>
+        <span style="color: #49ab76; font-weight: 800">W</span>
+        <span style="color: #737373; font-weight: 800">W</span>
+      </span>
       <el-dropdown style="float: right; line-height: 57px; padding-right: 30px">
         <span class="el-dropdown-link">
-          <i class="el-icon-more"></i>
+          <i class="el-icon-user-solid"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>로그인</el-dropdown-item>
-          <el-dropdown-item>로그아웃</el-dropdown-item>
+          <el-dropdown-item>
+            <el-button @click="login()" size="mini"
+              >로그인</el-button
+            ></el-dropdown-item
+          >
+          <!-- <el-dropdown-item>
+            <el-button @click="logout()" size="mini"
+              >로그아웃</el-button
+            ></el-dropdown-item
+          > -->
         </el-dropdown-menu>
       </el-dropdown>
     </nav>
@@ -39,7 +54,18 @@ export default {
     showArrow: Boolean,
     back: String,
   },
+  data() {
+    return {
+      userInfo: this.$store.getters.getLoginUserInfo,
+    };
+  },
   methods: {
+    login() {
+      router.push("/login");
+    },
+    logout() {
+      router.push("/main");
+    },
     goBack(back) {
       router.push(back);
     },
@@ -72,5 +98,9 @@ export default {
 
 #title {
   font-weight: 700;
+}
+
+.el-button {
+  border: 0px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header :showArrow="false" message="Home" id="navBar" />
+    <Header :showArrow="false" message="WWW" id="navBar" />
     <div class="default">
       <div class="main-top">
         <div style="margin-top: 20px">
@@ -35,6 +35,20 @@
             </div>
           </div>
         </div>
+        <div>
+          <el-row
+            style="
+              padding-top: 10px;
+              margin-bottom: 10px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <el-button type="danger" @click="startWalk()"
+              >START</el-button
+            ></el-row
+          >
+        </div>
       </div>
       <el-divider></el-divider>
       <div>
@@ -56,6 +70,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
 <script>
 import axios from "axios";
+import router from "@/router/index.js";
 
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
@@ -72,9 +87,6 @@ export default {
 
       dong: "",
       do: "",
-      userName: this.$store.getters.getUserName,
-      userInfo: [],
-
       temp: "",
       min_temp: "",
       max_temp: "",
@@ -84,20 +96,22 @@ export default {
 
       corona_cnt: "",
       local_corona: "",
+
+      userName: this.$store.getters.getLoginUserInfo.nickname,
     };
   },
-  computed: {
-    getDo() {
-      return this.$store.state.location.do;
-    },
-    // getCovid() {
-    //   return this.$store.state.covid.corona_cnt;
-    // },
+  mounted() {
+    this.$store.commit("SET_IS_NOT_INDEX");
   },
   methods: {
+    startWalk() {
+      this.$store.commit("SET_MAIN_TO_START");
+      router.push("/record");
+    },
     geofind() {
       if (!("geolocation" in navigator)) {
         this.textContent = "Geolocation is not available.";
+        alert(this.textContent);
         return;
       }
       this.textContent = "Locating...";
@@ -208,12 +222,12 @@ export default {
     // },
   },
   created() {
+    this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
     // this.getMicroDust();
     // this.getCoronaStatus();
   },
-  mounted() {},
 };
 </script>
 

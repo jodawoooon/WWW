@@ -27,9 +27,6 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Autowired
-    RedisService redisService;
-
-    @Autowired
     WalkQueryRepository walkQueryRepository;
 
     @Autowired
@@ -43,6 +40,7 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
+
 
     @Override
     public User getUserId(String userId) {
@@ -63,16 +61,13 @@ public class UserServiceImpl implements UserService{
         User user = new User();
 
         String id = (String) userInfo.get("userId");
-        String name = (String) userInfo.get("name");
+        String nickname = (String) userInfo.get("nickname");
 
         user.setUserId(id);
-        user.setName(name);
+        user.setNickname(nickname);
 
         // DB에 user 정보 저장
         userRepository.save(user);
-
-        // redis에 refreshToken 저장
-        redisService.setDataExpire(refreshToken,id,refreshTokenExpire);
 
         return user;
     }
@@ -133,9 +128,15 @@ public class UserServiceImpl implements UserService{
             courseResponseBody.setStatusCode(200);
 
             for (Tuple t : result) {
-
+                System.out.println(t);
                 List<Double> scoreL = courseReviewQueryRepository.findAvgScoreByCourseId(t.get(0, Integer.class));
                 double score;
+                int courseId = t.get(0, Integer.class);
+                System.out.println(courseId+" "+userId);
+                Object o = courseReviewQueryRepository.findScoreByCourseIdAndUserId(courseId, userId);
+                double myScore=0;
+                if(o!=null)myScore = (double)o;
+
 
                 if(scoreL==null || scoreL.size()==0 || scoreL.get(0)==null){
                     score=0;
@@ -144,11 +145,20 @@ public class UserServiceImpl implements UserService{
                 }
 
                 CourseBody courseBody = new CourseBody();
-                courseBody.setCourseId(t.get(0, Integer.class));
+                courseBody.setCourseId(courseId);
                 courseBody.setCourseName(t.get(1, String.class));
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(score);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(""+t.get(4, Integer.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
+                courseBody.setCourseFlagName(t.get(6, String.class));
+                courseBody.setCalorie(t.get(7, Integer.class));
+                courseBody.setMyScore(myScore);
+
+                courseBody.setLatitude((t.get(8, Double.class)));
+                courseBody.setLongitude((t.get(9, Double.class)));
+
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -178,6 +188,12 @@ public class UserServiceImpl implements UserService{
                 courseBody.setAddress(t.get(2, String.class));
                 courseBody.setCourseCnt(0.0);
                 courseBody.setCourseLength(t.get(3, Double.class));
+                courseBody.setTime(t.get(4, String.class));
+                courseBody.setTimeInt(t.get(5,Integer.class));
+                courseBody.setCourseFlagName(t.get(6, String.class));
+
+                courseBody.setLatitude(t.get(7, Double.class));
+                courseBody.setLongitude(t.get(8, Double.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -196,13 +212,8 @@ public class UserServiceImpl implements UserService{
         try {
             int time = -1;
             List<Integer> result = walkQueryRepository.TotalWalkTime(userId);
-            if(result.get(0)!=null)time=result.get(0);
-            System.out.println(time);
-            if (time != -1) {
-                return new TotalTimeResponseBody(200, "OK", time);
-            } else {
-                return new TotalTimeResponseBody(404, "Not Found", time);
-            }
+            if(result.get(0)!=null)return new TotalTimeResponseBody(200, "OK", result.get(0));
+            else return new TotalTimeResponseBody(200, "OK", 0);
         }
         catch (Exception e){
             e.printStackTrace();

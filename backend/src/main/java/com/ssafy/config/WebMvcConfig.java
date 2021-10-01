@@ -3,6 +3,7 @@ package com.ssafy.config;
 
 import com.ssafy.api.service.KakaoAPI;
 import com.ssafy.common.Interceptor.AuthInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,9 @@ import java.util.HashMap;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    @Autowired
+    AuthInterceptor authInterceptor;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -100,8 +104,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor())
+        registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/api/users/**")
+                .addPathPatterns("/api/course/**")
                 .addPathPatterns("/api/review/**");
     }
 

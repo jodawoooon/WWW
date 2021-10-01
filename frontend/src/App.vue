@@ -2,19 +2,76 @@
   <div id="app">
     <div id="app-wrap">
       <router-view />
-      <Footer id="footer" />
+      <el-dialog :visible.sync="dialogVisible" width="70%" center>
+        <span>위치 정보 수집에 동의하셔야 서비스 이용이 가능합니다 🏃‍♀️🏃‍♂️</span>
+        <span slot="footer" class="dialog-footer" style="padding-top: 0px">
+          <el-button @click="dialogVisible = false">닫기</el-button>
+        </span>
+      </el-dialog>
+      <Footer id="footer" v-if="!getIsIndex" />
     </div>
   </div>
 </template>
 
 <script>
 import Footer from "@/components/common/Footer";
+import { mapGetters } from "vuex";
+import router from "@/router/index.js";
 
 export default {
   name: "App",
 
   components: {
     Footer,
+  },
+  data() {
+    return {
+      dialogVisible: false,
+      isIndex: false,
+    };
+  },
+  methods: {
+    geofind() {
+      if (!("geolocation" in navigator)) {
+        console.log("TEST");
+        return;
+      }
+      // get position
+      navigator.geolocation.watchPosition(
+        (pos) => {
+          this.lat = pos.coords.latitude;
+          this.lng = pos.coords.longitude;
+        },
+        (err) => {
+          console.log("fail");
+          this.dialogVisible = true;
+          this.$store.commit("SET_IS_NOT_AGREE");
+          router.push("/index");
+          this.textContent = err.message;
+        }
+      );
+    },
+  },
+  // created() {
+  //   this.geofind();
+  // },
+  // mounted() {
+  //   this.geofind();
+  // },
+  computed: {
+    ...mapGetters(["getIsIndex"]),
+    requireCurPage: function () {
+      console.log(this.$store.getters.getIsIndex);
+      return this.$store.getters.getIsIndex;
+    },
+  },
+  watch: {
+    getIsIndex() {
+      this.isIndex = this.getIsIndex;
+    },
+    $route() {
+      //this.geofind();
+    },
   },
 };
 </script>

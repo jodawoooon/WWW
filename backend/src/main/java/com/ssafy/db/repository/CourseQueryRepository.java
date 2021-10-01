@@ -42,6 +42,14 @@ public class CourseQueryRepository {
         return course.address.contains(dong);
     }
 
+    // 동 검색에 실패할 경우 현재 위치부터 반경 10km까지 위치한 코스 검색
+    private BooleanExpression nearbyGeoDistance(String dong, NumberTemplate geoDistance) {
+        if (StringUtils.isEmpty(dong)) {
+            return geoDistance.lt(10);
+        }
+        return null;
+    }
+
     // 코스 목록 검색 조건: 동으로 검색(기본값), 로그인 사용자 관심 코스 검색
     private BooleanExpression eqUserIdAndLike(String userId, String criteria) {
         if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(criteria)) {
@@ -59,8 +67,13 @@ public class CourseQueryRepository {
                 .select(course.courseId.as("courseId"),
                         course.name.as("courseName"),
                         course.address.as("address"),
-                        course.distance.as("courseLength"),
-                        course.time.as("courseTime")
+                        walk.distance.as("courseLength"),
+                        walk.time.as("courseTime"),
+                        course.timeInt.as("timeInt"),
+                        course.flagName.as("flagName"),
+                        walk.calorie.as("calorie"),
+                        course.latitude.as("latitude"),
+                        course.longitude.as("longitude")
                 )
                 .from(walk)
                 .join(walk.course,course)
@@ -106,18 +119,21 @@ public class CourseQueryRepository {
                         course.address.as("address"),
                         course.distance.as("courseLength"),
                         course.time.as("time"),
+                        course.timeInt.as("timeInt"),
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().gt(1).as("myLike"),
+                        my_cl.countDistinct().gt(0).as("myLike"),
+                        my_cl.countDistinct().intValue().as("testLike"),
                         geoDistance.as("geoDistance"))
                 )
                 .from(course)
                 .leftJoin(cl).on(cl.course.eq(course))
                 .leftJoin(my_cl).on(my_cl.course.eq(course).and(my_cl.user.userId.eq(courseReq.getUserId())))
                 .where(course.distance.between(courseReq.getMinDistance(), courseReq.getMaxDistance())
-                        .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
+                                .and(course.timeInt.between(courseReq.getMinTime(), courseReq.getMaxTime()))
                         ,containsDong(courseReq.getDong())
+                        ,nearbyGeoDistance(courseReq.getDong(), geoDistance)
                         ,eqUserIdAndLike(courseReq.getUserId(), courseReq.getCriteria()))
                 .groupBy(course.courseId)
                 .orderBy(orderSpecifier, course.courseId.asc())
@@ -133,7 +149,6 @@ public class CourseQueryRepository {
 
     // 선택한 코스 상세 정보 조회
     public CourseDetailResponseBody findCourseById(int courseId, String userId) {
-
         return queryFactory
                 .select(Projections.fields(CourseDetailResponseBody.class,
                         course.courseId.as("courseId"),
@@ -151,7 +166,7 @@ public class CourseQueryRepository {
                         course.latitude.as("latitude"),
                         course.longitude.as("longitude"),
                         cl.count().intValue().as("likes"),
-                        my_cl.countDistinct().gt(1).as("myLike"))
+                        my_cl.countDistinct().gt(0).as("myLike"))
                 )
                 .from(course)
                 .leftJoin(cl).on(cl.course.eq(course))
@@ -159,5 +174,4 @@ public class CourseQueryRepository {
                 .where(course.courseId.eq(courseId))
                 .fetchOne();
     }
-
 }

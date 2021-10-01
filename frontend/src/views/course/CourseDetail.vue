@@ -1,15 +1,19 @@
 <template>
   <div>
+    
     <Header
       :showArrow="true"
-      back="/course"
+      :back="prevPage"
       message="산책로 상세 정보"
       id="navBar"
     />
 
     <div>
       <div id="map" class="map"></div>
-      <div class="bookmark" @click="clickStar()">
+      <div class="bookmark" 
+        v-if="this.$store.getters.getLoginUserInfo.userId"
+        @click="clickStar()"
+        >
         <i
           :class="[
             this.course.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
@@ -21,7 +25,7 @@
     <div class="box">
       <div class="content-top">
         <h3 style="font-weight: 700; margin-bottom: 8px">
-          {{ this.course.title }}
+          🏁 {{ this.course.title }}
         </h3>
         <p class="small-desc">
           <i
@@ -30,8 +34,8 @@
           />{{ this.course.address }}
         </p>
         <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }}분 |
-          {{ this.course.kcal }}Kcal
+          {{ this.course.distance }}km | {{ this.course.time }} |
+          {{ this.course.kcal }}kcal
         </p>
       </div>
       <div class="content-middle">
@@ -40,16 +44,39 @@
             <div class="mini-desc">{{ this.course.detail }}</div>
           </el-tab-pane>
           <el-tab-pane label="주변 편의시설" name="second">
-            <div class="mini-desc" style="margin-bottom: 10px">
-              주변 편의점 개수는 {{ this.course.conv.length }}개 입니다.
-            </div>
-            <div v-for="(card, idx) in this.course.conv" :key="idx">
-              <ConvCard
-                :title="card.title"
-                :address="card.address"
-                @click="moveMap(card)"
-              />
-            </div>
+            <el-tabs :tab-position="tabPosition" style="height: 200px">
+              <el-tab-pane label="편의점">
+                <div class="mini-desc" style="margin-bottom: 10px">
+                  산책로 주변 편의점은 {{ this.course.conv.length }}개 입니다.
+                </div>
+                <div v-for="(card, idx) in this.course.conv" :key="idx">
+                  <div  @click="moveMap(card)">
+                    <ConvCard
+                      :name="card.name"
+                      :address="card.address"                 
+                    />
+                  </div>
+                  
+
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="카페">
+                <div class="mini-desc" style="margin-bottom: 10px">
+                  산책로 주변 카페는 {{ this.course.cafe.length }}개 입니다.
+                </div>
+                <div v-for="(card, idx) in this.course.cafe" :key="idx">
+                  <div  @click="moveMap(card)">
+                    <ConvCard
+                      :name="card.name"
+                      :address="card.address"
+                      :latitude="card.latitude"
+                      :longitude="card.longitude"
+                      @click="moveMap(card)"
+                    />
+                  </div>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
           </el-tab-pane>
         </el-tabs>
         <el-row
@@ -73,6 +100,8 @@
 import Header from "@/components/common/Header";
 import ConvCard from "@/views/course/ConvCard";
 import router from "@/router/index.js";
+import axios from "axios";
+import courseApi from "@/api/course.js";
 
 import("@/assets/style/Main.css");
 
@@ -84,11 +113,16 @@ export default {
   },
   data() {
     return {
+      tabPosition: "left",
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
+      prevPage:this.$store.getters.getPrevPage,
+      courseDetail: [],
+      userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
   mounted() {
+    this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -99,19 +133,48 @@ export default {
         "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
       document.head.appendChild(script);
     }
+    console.log(this.prevPage);
+
+    this.getCourseDetail(this.userId, this.course.id);
+    console.log(this.courseDetail);
+
   },
   methods: {
     clickStar() {
       if (this.course.isBookmarked) {
-        //axios 북마크 삭제
+        this.deleteLike();
       } else {
-        //axios 북마크 등록
+        this.createLike();
       }
-
-      this.course.isBookmarked = !this.course.isBookmarked;
+    },
+    createLike() {
+      const req =  {
+        courseId: this.course.id,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.post("/api/course/like", req, {}).then(() => {
+        this.course.isBookmarked = !this.course.isBookmarked;
+        this.$store.commit("SET_CUR_COURSE_LIKE", {
+            isBookmarked: this.course.isBookmarked,
+        });
+      });
+    },
+    deleteLike() {
+      const req =  {
+        courseId: this.course.id,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      axios.delete("/api/course/like", {
+        data: req,
+      }).then(() => {
+        this.course.isBookmarked = !this.course.isBookmarked;
+        this.$store.commit("SET_CUR_COURSE_LIKE", {
+            isBookmarked: this.course.isBookmarked,
+        });
+      });
     },
     initMap() {
-      console.log(this.course.lat);
+
       var container = document.getElementById("map");
       var options = {
         center: new kakao.maps.LatLng(this.course.lat, this.course.lng),
@@ -135,16 +198,68 @@ export default {
       console.log(tab, event);
     },
     moveMap(data) {
+      
+
       //
       // 이동할 위도 경도 위치를 생성합니다
-      var moveLatLon = new kakao.maps.LatLng(data.lat, data.lng);
+      var moveLatLon = new kakao.maps.LatLng(data.latitude, data.longitude);
 
       // 지도 중심을 이동 시킵니다
       this.map.setCenter(moveLatLon);
-      console.log(data);
+      console.log(moveLatLon);
+      //Map 현재위치 마커
+      var convMarkerSrc = require("@/assets/location.png");
+      var convMarkerSize = new kakao.maps.Size(30, 30);
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(
+        convMarkerSrc,
+        convMarkerSize
+      );
+
+      var convMarkerPosition = new kakao.maps.LatLng(
+        data.latitude,
+        data.longitude
+      );
+
+      console.log(convMarkerPosition);
+
+      if(this.marker!=null){
+        this.marker.setPosition(convMarkerPosition);
+      }else{
+        var marker = new kakao.maps.Marker({
+              position: convMarkerPosition,
+              image: markerImage, // 마커이미지 설정
+        });
+        marker.setMap(this.map);
+
+        this.marker = marker;
+      }
+
+   
+
+      // var marker = new kakao.maps.Marker({
+      //   map: this.map,
+      //   title: "현재위치",
+      //   position: runningMarkerPosition,
+      //   icon: runningMarker,
+      // });
+
+
     },
     startWalk() {
       router.push("/record");
+    },
+
+    async getCourseDetail(userId, courseId){
+      console.log(userId+" "+courseId);
+      let data = {
+        type: "",
+        courseId: this.course.id,
+        userId: this.$store.getters.getLoginUserInfo.userId,
+      };
+      this.courseDetail = await courseApi.getCourseData(data, {});
+
     },
   },
 };
@@ -160,8 +275,6 @@ export default {
   margin-top: -200px;
   z-index: 1;
   position: relative;
-
-  box-shadow: 2px 2px 7px 5px #c5c5c5;
 }
 
 .bookmark {

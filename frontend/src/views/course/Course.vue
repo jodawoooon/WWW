@@ -111,7 +111,6 @@
         >
         <el-divider />
       </div>
-      <span style="font-weight: 700">{{ dong }}</span> 일대의 산책로 코스입니다.
 
       <div class="course-content">
         <CourseList :filter="filter" />
@@ -165,15 +164,21 @@ export default {
         dong: this.$store.getters.getDong,
         longitude: parseFloat(this.$store.getters.getLocation.lng),
         latitude: parseFloat(this.$store.getters.getLocation.lat),
-      }
+      },
     };
+  },
+  mounted() {
+    this.$store.commit("SET_IS_NOT_INDEX");
+    this.$store.commit("SET_PREV_PAGE", "/course");
   },
   methods: {
     setData() {
       this.filter.minTime = this.filterTime[0];
-      this.filter.maxTime = (this.filterTime[1] < 180) ? this.filterTime[1] : 1440;
+      this.filter.maxTime =
+        this.filterTime[1] < 180 ? this.filterTime[1] : 1440;
       this.filter.minDistance = this.filterDist[0];
-      this.filter.maxDistance = (this.filterDist[1] < 15) ? this.filterDist[1] : 40;
+      this.filter.maxDistance =
+        this.filterDist[1] < 15 ? this.filterDist[1] : 40;
     },
     resetData() {
       this.filterTime = [0, 180];

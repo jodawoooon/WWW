@@ -19,19 +19,17 @@ import java.util.HashMap;
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
-    private KakaoAPI kakaoAPI;
+    CookieUtil cookieUtil;
 
     @Autowired
-    private CookieUtil cookieUtil;
-
-    @Autowired
-    private RedisService redisService;
+    RedisService redisService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("Inteceptor start!!");
         Cookie[] cookies = request.getCookies();
         String accessToken = null;
-        String refreshToken = null;
+        String userId = null;
 
         // 현재 로그인 된 상태인지 체크
         if(cookies == null || cookies.length == 0){
@@ -41,21 +39,26 @@ public class AuthInterceptor implements HandlerInterceptor {
         for(Cookie cookie : cookies){
             if(cookie.getName().equals("accessToken"))
                 accessToken = cookie.getValue();
-            else if(cookie.getName().equals("refreshToken"))
-                refreshToken = cookie.getValue();
+            if(cookie.getName().equals("userId"))
+                userId = cookie.getValue();
         }
 
         // 현재 로그인 된 상태인지 체크
-        if(accessToken == null || refreshToken == null) {
+        if(userId == null) {
             throw new AuthorizationServiceException("로그인이 필요합니다!");
         }
 
+        System.out.println("userId: " + userId + " " + accessToken);
         KakaoAPI kakaoAPI = new KakaoAPI();
+        System.out.println(redisService);
+        String refreshToken = redisService.getData(userId);
+        System.out.println("redis get token : " + refreshToken);
+
         int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
         System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
+
         // accessToken이 만료되어 401 Error 발생
         if(responseCode == 401){
-            //Cookie refreshTokenCookie = cookieUtil.getCookie(request, "refreshToken");
             // 새로운 토큰 갱신
             HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshToken);
             System.out.println(Token);
@@ -70,23 +73,19 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (Token.get("refreshToken") != null && Token.get("refreshTokenExpire") != null) {
                 String newRefreshToken = (String) Token.get("refreshToken");
                 Long newRefreshTokenExpire = Long.parseLong((String) Token.get("refreshTokenExpire"));
-                String userId = redisService.getData(refreshToken);
-                // redis에 저장된 refreshToken이 만료되지 않은 경우
-                if (userId != null) {
-                    // 유효기간이 1개월 미만인 refreshToken 삭제 후 새로운 refreshToken 발급
-                    redisService.deleteData(refreshToken);
-                }
+
+                // 유효기간이 1개월 미만인 refreshToken 삭제 후 새로운 refreshToken 발급
+                redisService.deleteData(refreshToken);
+
                 // redis에 새로운 refreshToken값 저장
                 redisService.setDataExpire(newRefreshToken, userId, newRefreshTokenExpire);
-                // 새로운 refreshToken에 대한 cookie값 설정
-                Cookie newRefreshTokenCookie = cookieUtil.createCookie("refreshToken", newRefreshTokenExpire, newRefreshToken);
-                response.addCookie(newRefreshTokenCookie);
             }
         }
 
         if(responseCode == 400){
             throw new AuthorizationServiceException("잘못된 접근입니다!");
         }
+
         return true;
     }
 
