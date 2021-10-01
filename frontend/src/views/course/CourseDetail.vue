@@ -34,8 +34,8 @@
           />{{ this.course.address }}
         </p>
         <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }} |
-          {{ this.course.kcal }}kcal
+          {{ this.courseDetail.courseLength }}km | {{ this.courseDetail.time }} |
+          {{ this.course.kcal }}kcal"작업필요!"
         </p>
       </div>
       <div class="content-middle">
@@ -121,7 +121,9 @@ export default {
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
-  mounted() {
+  async mounted() {
+    await this.getCourseDetail(this.userId, this.course.id);
+
     this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -135,8 +137,7 @@ export default {
     }
     console.log(this.prevPage);
 
-    this.getCourseDetail(this.userId, this.course.id);
-    console.log(this.courseDetail);
+    
 
   },
   methods: {
@@ -177,7 +178,7 @@ export default {
 
       var container = document.getElementById("map");
       var options = {
-        center: new kakao.maps.LatLng(this.course.lat, this.course.lng),
+        center: new kakao.maps.LatLng(this.courseDetail.lat, this.courseDetail.lng),
         level: 5,
       };
 
