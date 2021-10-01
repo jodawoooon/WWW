@@ -121,9 +121,9 @@ export default {
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
-  mounted() {
-     
-    this.getCourseDetail(this.userId, this.course.id);
+  async mounted() {
+    
+    await this.getCourseDetail(this.userId, this.course.id);
     
     this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
