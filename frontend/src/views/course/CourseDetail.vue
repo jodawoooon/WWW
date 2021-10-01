@@ -140,10 +140,9 @@ export default {
     
 
   },
-  async created(){
-    await (async ()=>{
-      this.course = await this.$store.getters.getCourseDetail;
-    });
+  created(){
+    this.course = this.$store.getters.getCourseDetail;
+    console.log(this.course);
     this.getCourseDetail(this.userId, this.course.id);
   },
   methods: {
