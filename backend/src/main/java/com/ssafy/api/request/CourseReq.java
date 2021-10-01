@@ -14,10 +14,10 @@ public class CourseReq {
     @Schema(description = "페이지", defaultValue = "0", example = "0")
     int page;
 
-    @Schema(description = "페이지 크기", defaultValue = "10", example = "10")
+    @Schema(description = "페이지 크기", defaultValue = "5", example = "5")
     int size;
 
-    @Schema(description = "distance(거리순), likes(좋아요순)", defaultValue = "distance", example = "distance")
+    @Schema(description = "distance(가까운 순), likes(인기 순)", defaultValue = "distance", example = "distance")
     String sort;
 
     @Schema(description = "코스 목록 찾기 조건(dong = 동 검색, likes = 로그인 사용자의 좋아요 코스", defaultValue = "dong", example = "dong")
