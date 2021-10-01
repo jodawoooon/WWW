@@ -61,7 +61,8 @@
             padding-top: 20px;
           "
         >
-          {{ $props.title }}
+          {{ $props.title }}<br />
+          <span v-if="$props.title !== $props.name">{{ $props.name }}</span>
         </div>
         <div
           style="
@@ -72,7 +73,7 @@
           "
         >
           걸어보시니 어떠셨나요? <br />솔직한 별점⭐을 남겨주세요! <br />
-          🎙 작성하신 리뷰는 수정할 수 없어요
+          한 번 작성하신 리뷰는 수정할 수 없어요 📬
         </div>
         <div slot="footer" class="dialog-footer" style="padding-top: 0px">
           <el-button
@@ -115,7 +116,7 @@
               background-color: #ffffff;
               color: #49ab76;
               border-radius: 30px;
-              margin-top: 10px;
+
               padding-top: 10px;
               padding-bottom: 10px;
             "
