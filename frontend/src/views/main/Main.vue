@@ -124,22 +124,16 @@ export default {
               this.dong = response.data.documents[0].region_3depth_name;
               this.do = response.data.documents[0].region_1depth_name.replace(
                 "도",
-                "" 
+                ""
               );
-              this.getMicroDust();
-              console.log(this.dust)
-              // console.log("abcc")
-              console.log(this.dong)
-              console.log(this.do)
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
                 dong: this.dong,
                 do: this.do,
               });
-              // this.getWeather(this.lat,this.lng);
-              // await this.getMicroDust(this.do);
-              // await this.getCoronaStatus();
+              this.getMicroDust();
+              this.getCoronaStatus();
             });
         },
         (err) => {
@@ -148,7 +142,6 @@ export default {
       );
     },
     getWeather() {
-      console.log("a")
       axios
         .get(
           "http://api.openweathermap.org/data/2.5/weather?lat=" +
@@ -167,7 +160,6 @@ export default {
         });
     },
     getMicroDust() {
-      console.log("b")
       // console.log(this.do)
       // console.log(this.$store.state.location.do)
       axios
@@ -186,7 +178,6 @@ export default {
         });
     },
     getCoronaStatus() {
-      console.log("c")
       axios
         .get(
           "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=BzaLot6kNeh07KbZkzyJuXRdK5iGd0RvcK540gVbI%2F0aJy%2FlA0wHtckzM6t986i4LUkYJogx%2BeEktaXqnCbBzw%3D%3D"
@@ -219,11 +210,10 @@ export default {
   created() {
     this.geofind();
     this.getWeather();
-    this.getMicroDust();
-    this.getCoronaStatus();
+    // this.getMicroDust();
+    // this.getCoronaStatus();
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

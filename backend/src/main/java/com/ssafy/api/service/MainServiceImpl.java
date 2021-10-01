@@ -6,6 +6,7 @@ import com.ssafy.api.response.main.GetRankRes;
 import com.ssafy.api.response.main.GetRecommendListRes;
 import com.ssafy.api.response.main.TodayWalkTimeRes;
 import com.ssafy.db.entity.Course;
+import com.ssafy.db.entity.CourseFinish;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.Walk;
 import com.ssafy.db.repository.*;
@@ -33,6 +34,8 @@ public class MainServiceImpl implements MainService {
     CourseLikeQueryRepository courseLikeQueryRepository;
     @Autowired
     CourseFinishQueryRepository courseFinishQueryRepository;
+    @Autowired
+    CourseFinishRepository courseFinishRepository;
 
     @Override
     public GetRankRes getRank(){
@@ -75,7 +78,9 @@ public class MainServiceImpl implements MainService {
 
         try {
             Walk walk = new Walk(0,user,course,distance,time,calorie);
+            CourseFinish courseFinish = new CourseFinish(user,course);
             walkRepository.save(walk);
+            courseFinishRepository.save(courseFinish);
             return true;
         }catch (Exception e){
             return false;

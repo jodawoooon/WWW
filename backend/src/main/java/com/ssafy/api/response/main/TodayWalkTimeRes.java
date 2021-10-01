@@ -13,7 +13,7 @@ public class TodayWalkTimeRes extends BaseResponseBody {
     @ApiModelProperty(name = "초", example = "55")
     int second;
 
-    public static TodayWalkTimeRes of(Integer statusCode, String message, int hour, int minute, int second){
+    public static TodayWalkTimeRes of(Integer statusCode, String message, int second){
         TodayWalkTimeRes body = new TodayWalkTimeRes();
         body.setStatusCode(statusCode);
         body.setMessage(message);
