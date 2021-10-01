@@ -252,11 +252,10 @@ export default {
     },
 
     async getCourseDetail(userId, courseId){
-      console.log(userId+" "+courseId);
       let data = {
         type: "",
-        courseId: this.course.id,
-        userId: this.$store.getters.getLoginUserInfo.userId,
+        userId: userId,
+        courseId: courseId,
       };
       this.courseDetail = await courseApi.getCourseData(data, {});
 
