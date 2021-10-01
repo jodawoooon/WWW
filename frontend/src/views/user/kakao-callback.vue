@@ -6,6 +6,7 @@
 
 <script>
 import axios from "@/utils/axios.js";
+import VueCookies from 'vue-cookies';
 
 export default {
   name: "Signup",
@@ -23,7 +24,7 @@ export default {
       },
       userInfo: {
         userId: "",
-        nickname: "",
+        name: "",
       },
     };
   },
@@ -36,13 +37,17 @@ export default {
       axios
         .post("/kakao/login", this.tokens)
         .then((result)=>{
+            this.userInfo.userId = result.data.user.userId;
+            this.userInfo.name = result.data.user.name;
             console.log(result)
             this.$store.commit("SET_USER_INFO", {userId: result.data.user.userId, name : result.data.user.name});
-            console.log(this.$store.state.loginUserInfo);
             axios
                 .get("/info/present/" + this.userInfo.userId)
                 .then((result)=>{
                     console.log(result);
+                    VueCookies.set("accessToken", this.tokens.accessToken, this.tokens.accessTokenExpire)
+                    console.log(this.$store.state.loginUserInfo);
+                    VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
                     this.$router.push({name: "Main"});
                     console.log(this.$store.state.loginUserInfo);
                 })
@@ -61,6 +66,14 @@ export default {
         this.tokens.accessTokenExpire = result.data.user.accessTokenExpire;
         this.tokens.refreshToken = result.data.user.refreshToken;
         this.tokens.refreshTokenExpire = result.data.user.refreshTokenExpire;
+        console.log(this.tokens)
+        this.$store.commit("SET_USER_TOKEN", {
+          accessToken : result.data.user.accessToken,
+          accessTokenExpire : result.data.user.accessTokenExpire,
+          refreshToken : result.data.user.refreshToken,
+          refreshTokenExpire : result.data.user.refreshTokenExpire,
+        });
+        console.log(2);
 
         this.login();
       });

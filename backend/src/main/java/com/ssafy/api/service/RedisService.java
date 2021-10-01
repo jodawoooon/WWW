@@ -20,6 +20,7 @@ public class RedisService {
 
 
     public String getData(String key){
+        System.out.println("key: " + key);
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         return valueOperations.get(key);
     }
