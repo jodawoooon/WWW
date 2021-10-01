@@ -83,7 +83,7 @@
           style="
             padding-top: 10px;
             margin-bottom: 10px;
-            
+            display: flex;
             justify-content: center;
           "
         >
