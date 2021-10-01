@@ -121,9 +121,8 @@ export default {
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
-  async mounted() {
-    await this.getCourseDetail(this.userId, this.course.id);
-
+  mounted() {
+    console.log("detail"+this.courseDetail);
     this.$store.commit("SET_IS_NOT_INDEX");
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -139,6 +138,9 @@ export default {
 
     
 
+  },
+  created(){
+    this.courseDetail = this.getCourseDetail(this.userId, this.course.id);
   },
   methods: {
     clickStar() {
@@ -258,7 +260,7 @@ export default {
         userId: userId,
         courseId: courseId,
       };
-      this.courseDetail = await courseApi.getCourseData(data, {});
+      return await courseApi.getCourseData(data, {});
 
     },
   },
