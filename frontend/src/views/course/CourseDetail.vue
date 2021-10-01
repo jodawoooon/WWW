@@ -35,7 +35,7 @@
           <span v-if="this.courseDetail.score != 0">
             <i
               class="el-icon-star-on"
-              style="color: #eec24a; padding-left: 25px"
+              style="color: #eec24a; padding-left: 25px; padding-right: 5px"
             ></i
             >{{ this.courseDetail.score }}</span
           >
