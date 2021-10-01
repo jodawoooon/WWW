@@ -192,8 +192,8 @@ public class UserServiceImpl implements UserService{
                 courseBody.setTimeInt(t.get(5,Integer.class));
                 courseBody.setCourseFlagName(t.get(6, String.class));
 
-                courseBody.setLatitude((t.get(8, Double.class)));
-                courseBody.setLongitude((t.get(9, Double.class)));
+                courseBody.setLatitude(t.get(7, Double.class));
+                courseBody.setLongitude(t.get(8, Double.class));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
