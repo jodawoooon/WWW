@@ -18,6 +18,7 @@ public class CourseDetailResponseBody extends BaseResponseBody {
     String toilet;
     String convStore;
     String time;
+    int timeInt;
     double courseLength;    // KM 단위 코스 길이
     double latitude;
     double longitude;

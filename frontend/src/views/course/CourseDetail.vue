@@ -35,7 +35,7 @@
         </p>
         <p class="small-desc">
           {{ this.courseDetail.courseLength }}km | {{ this.courseDetail.time }} |
-          {{ this.course.kcal }}kcal"작업필요!"
+          {{ Math.round((this.courseDetail.timeInt * 60) * 0.06 * 10) / 10 }}kcal
         </p>
       </div>
       <div class="content-middle">
