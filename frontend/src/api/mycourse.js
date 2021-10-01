@@ -4,7 +4,7 @@ import SERVER from "./drf.js";
 export const myCourseApi = {
   getCourseData: (data, headers) => {
     let check = true;
-    let url = SERVER.URL + SERVER.ROUTES.course + `/${data.type}`;
+    let url = SERVER.URL + SERVER.ROUTES.myCourse + `/${data.type}`;
     if (data.userId) {
       if (check) {
         url += `?`;
