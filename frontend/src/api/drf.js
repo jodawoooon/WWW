@@ -6,5 +6,6 @@ export default {
     users: "/api/users",
     myCourse: "/api/users/mypage",
     review: "/api/review/",
+    course: "/api/course",
   },
 };

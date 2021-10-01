@@ -101,6 +101,7 @@ import Header from "@/components/common/Header";
 import ConvCard from "@/views/course/ConvCard";
 import router from "@/router/index.js";
 import axios from "axios";
+import courseApi from "@/api/course.js";
 
 import("@/assets/style/Main.css");
 
@@ -116,6 +117,8 @@ export default {
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
       prevPage:this.$store.getters.getPrevPage,
+      courseDetail: [],
+      userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
   mounted() {
@@ -131,6 +134,10 @@ export default {
       document.head.appendChild(script);
     }
     console.log(this.prevPage);
+
+    this.getCourseDetail(this.userId, this.course.id);
+    console.log(this.courseDetail);
+
   },
   methods: {
     clickStar() {
@@ -242,6 +249,16 @@ export default {
     },
     startWalk() {
       router.push("/record");
+    },
+
+    async getCourseDetail(userId, courseId){
+      let data = {
+        type: "",
+        userId: userId,
+        courseId: courseId,
+      };
+      this.courseDetail = await courseApi.getCourseData(data, {});
+
     },
   },
 };
