@@ -121,34 +121,21 @@ export default {
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
-  mounted() {
+  async mounted() {
     
-    this.getCourseDetail(this.userId, this.course.id).then(()=>{
-      console.log(this.courseDetail)
-      this.$store.commit("SET_IS_NOT_INDEX");
-      if (window.kakao && window.kakao.maps) {
-        this.initMap();
-      } else {
-        const script = document.createElement("script");
-        /* global kakao */
-        script.onload = () => kakao.maps.load(this.initMap);
-        script.src =
-          "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
-        document.head.appendChild(script);
-      }
-    });
+    await this.getCourseDetail(this.userId, this.course.id);
     
-    // this.$store.commit("SET_IS_NOT_INDEX");
-    // if (window.kakao && window.kakao.maps) {
-    //   this.initMap();
-    // } else {
-    //   const script = document.createElement("script");
-    //   /* global kakao */
-    //   script.onload = () => kakao.maps.load(this.initMap);
-    //   script.src =
-    //     "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
-    //   document.head.appendChild(script);
-    // }
+    this.$store.commit("SET_IS_NOT_INDEX");
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+    } else {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
+      document.head.appendChild(script);
+    }
     console.log(this.prevPage);
 
     
@@ -275,8 +262,9 @@ export default {
         userId: userId,
         courseId: courseId,
       };
-      this.courseDetail = await courseApi.getCourseData(data, {});
-
+      this.courseDetail = await courseApi.getCourseData(data, {}).then(()=>{
+        console.log(this.courseDetail);
+      });
     },
   },
 };
