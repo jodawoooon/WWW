@@ -155,6 +155,10 @@ public class UserServiceImpl implements UserService{
                 courseBody.setCourseFlagName(t.get(6, String.class));
                 courseBody.setCalorie(t.get(7, Integer.class));
                 courseBody.setMyScore(myScore);
+
+                courseBody.setLatitude((t.get(8, Double.class)));
+                courseBody.setLongitude((t.get(9, Double.class)));
+
                 courseResponseBody.getCourseList().add(courseBody);
             }
 
@@ -187,6 +191,9 @@ public class UserServiceImpl implements UserService{
                 courseBody.setTime(t.get(4, String.class));
                 courseBody.setTimeInt(t.get(5,Integer.class));
                 courseBody.setCourseFlagName(t.get(6, String.class));
+
+                courseBody.setLatitude((t.get(8, Double.class)));
+                courseBody.setLongitude((t.get(9, Double.class)));
                 courseResponseBody.getCourseList().add(courseBody);
             }
 

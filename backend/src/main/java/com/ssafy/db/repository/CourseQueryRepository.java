@@ -71,7 +71,9 @@ public class CourseQueryRepository {
                         walk.time.as("courseTime"),
                         course.timeInt.as("timeInt"),
                         course.flagName.as("flagName"),
-                        walk.calorie.as("calorie")
+                        walk.calorie.as("calorie"),
+                        course.latitude.as("latitude"),
+                        course.longitude.as("longitude")
                 )
                 .from(walk)
                 .join(walk.course,course)

@@ -27,7 +27,9 @@ public class CourseLikeQueryRepository {
                         course.distance.as("courseLength"),
                         course.time.as("courseTime"),
                         course.timeInt.as("timeInt"),
-                        course.flagName.as("flagName")
+                        course.flagName.as("flagName"),
+                        course.latitude.as("latitude"),
+                        course.longitude.as("longitude")
                         )
                 .from(courseLike)
                 .join(courseLike.course, course)
