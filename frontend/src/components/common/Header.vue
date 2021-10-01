@@ -27,12 +27,12 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
-            <el-button @click="login()" size="mini" v-if="userInfo.userId == null || userInfo.userId == '' | userInfo.userId == undefind"
+            <el-button @click="login()" size="mini" v-if="isLogoutGetters"
               >로그인</el-button
             ></el-dropdown-item
           >
           <el-dropdown-item>
-            <el-button @click="logout()" size="mini" v-if="userInfo.userId != null || userInfo.userId != '' | userInfo.userId != undefind"
+            <el-button @click="logout()" size="mini" v-if="isLoginGetters"
               >로그아웃</el-button
             ></el-dropdown-item
           >
@@ -83,6 +83,10 @@ export default {
             gugun : "",
             dong: ""
           });
+          this.$store.commit("SET_IS_LOGIN", {
+            isLogin : false,
+            isLogout :true
+          });
           this.$store.commit("SET_USER_TOKEN", {
             accessToken : "",
             refreshToken : "",
@@ -96,6 +100,14 @@ export default {
       router.push(back);
     },
   },
+  computed:{
+    isLoginGetters(){
+      return this.$store.getters.getterLoginInfo;
+    },
+    isLogoutGetters(){
+      return this.$store.getters.getterLogoutInfo;
+    }
+  }
 };
 </script>
 

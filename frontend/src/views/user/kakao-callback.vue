@@ -41,6 +41,10 @@ export default {
             this.userInfo.name = result.data.user.name;
             console.log(result)
             this.$store.commit("SET_USER_INFO", {userId: result.data.user.userId, name : result.data.user.name});
+            this.$store.commit("SET_IS_LOGIN", {
+              isLogin : true,
+              isLogout : false
+            });
             axios
                 .get("/info/present/" + this.userInfo.userId)
                 .then((result)=>{

@@ -18,6 +18,8 @@ export default new Vuex.Store({
       refreshTokenExpire: "",
     },
     loginUserInfo: {
+      isLogin: false,
+      isLogout: true,
       userId: '',
       name: '',
       nickname: '',
@@ -209,6 +211,10 @@ export default new Vuex.Store({
     SET_DONG_LIST(state, payload){
       state.dongList = payload.dongList;
     },
+    SET_IS_LOGIN(state,payload){
+      state.loginUserInfo.isLogin = payload.isLogin;
+      state.loginUserInfo.isLogout = payload.isLogout;
+    },
   },
   actions: {},
   getters: {
@@ -250,6 +256,12 @@ export default new Vuex.Store({
     },
     getterDongList(state){
       return state.dongList;
+    },
+    getterLoginInfo(state){
+      return state.loginUserInfo.isLogin;
+    },
+    getterLogoutInfo(state){
+      return state.loginUserInfo.isLogout;
     }
   },
   modules: {},

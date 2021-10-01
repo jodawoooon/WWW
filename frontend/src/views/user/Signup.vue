@@ -147,7 +147,6 @@ import VueCookies from 'vue-cookies';
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert(this.form.nickname + "님 성공적으로 회원가입 완료!");
             this.register(this.form);
           } else {
             console.log('error submit!!');
@@ -170,6 +169,10 @@ import VueCookies from 'vue-cookies';
           .then((result)=>{
               VueCookies.set("accessToken", this.$store.state.tokens.accessToken, this.$store.state.tokens.accessTokenExpire)
               VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
+              this.$store.commit("SET_IS_LOGIN", {
+                isLogin : true,
+                isLogout : false
+              });
               console.log(result);
               alert("회원가입 완료")
               this.$router.push({name: "Main"});
