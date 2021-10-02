@@ -20,6 +20,7 @@
     "sass-loader": "^10.2.0",
     "sweetalert2": "^11.1.7",
     "vue": "^2.6.11",
+    "vue-cli-plugin-vuetify": "^2.4.2",
     "vue-cookies": "^1.7.4",
     "vue-geolocation-api": "^0.1.21",
     "vue-infinite-loading": "^2.4.5",
