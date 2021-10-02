@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app id="app-wrap">
+    <div id="app-wrap">
       <router-view />
       <el-dialog :visible.sync="dialogVisible" width="70%" center>
         <span>위치 정보 수집에 동의하셔야 서비스 이용이 가능합니다 🏃‍♀️🏃‍♂️</span>
@@ -9,7 +9,7 @@
         </span>
       </el-dialog>
       <Footer id="footer" v-if="!getIsIndex" />
-    </v-app>
+    </div>
   </div>
 </template>
 
