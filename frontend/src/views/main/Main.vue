@@ -39,32 +39,23 @@
                   </p>
                 </el-col>
                 <el-col :span="12">
-                  <span style="font-size: 9pt; font-weight: 5600"
-                    >🌈 {{ today.split("-")[0] }}년 {{ today.split("-")[1] }}월
-                    {{ today.split("-")[2] }}일 🌈</span
+                  <span style="font-size: 9pt; font-weight: 700"
+                    >{{ weatherList[0].dt_txt.split(" ")[0] }} 날씨 🌈</span
                   >
-                  <div style="height: 60px; overflow: auto; margin-top: 2px">
+                  <div style="height: 60px; overflow: auto">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
-                      <div>
+                      <div v-if="idx < 5">
                         <div style="line-height: 3px">
                           <img
                             style="
                               width: 25px;
-                              margin-right: 2px;
+                              margin-right: 5px;
                               vertical-align: middle;
                             "
                             :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
                           />
-                          <span style="font-size: 2px; margin-right: 3px"
-                            >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
-                              weather.dt_txt.split(" ")[0].split("-")[2]
-                            }}</span
-                          >
-                          <span style="font-size: 8pt"
-                            ><strong>{{
-                              weather.dt_txt.split(" ")[1].split(":")[0]
-                            }}</strong
-                            >시
+                          <span style="font-size: 9pt"
+                            >{{ weather.dt_txt.split(" ")[1].split(":")[0] }}시
                             <strong style="font-size: 10pt; margin-left: 2px"
                               >{{
                                 (weather.main.temp - 273.15).toFixed(1)
@@ -86,7 +77,10 @@
           >
             <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
             <div style="font-size: 20pt; margin-top: 5px">
-              <strong>00</strong>시간 <strong>00</strong>분
+              <strong>{{ h }}</strong
+              >시간 <strong>{{ m }}</strong
+              >분<strong>{{ s }}</strong
+              >초
             </div>
             <el-row
               style="margin-top: 10px; display: flex; justify-content: center"
@@ -127,13 +121,29 @@
       </div>
 
       <el-divider></el-divider>
+      <!-- v-if="recommendList.length!=0" -->
       <div>
         <p style="font-weight: 700">오늘의 추천 코스 👍</p>
-        <div class="main-box"></div>
+        <div class="main-box">{{ recommendList }}</div>
       </div>
       <div>
         <p style="font-weight: 700">이번주 걷기왕 👑</p>
-        <div class="main-box"></div>
+        <div
+          class="main-box"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+          "
+        >
+          <div style="text-align: center; font-weight: bold">
+            🥇 {{ ranking.ranking[0] }}
+          </div>
+          <div style="display: flex; justify-content: space-around">
+            <div style="font-weight: bold">🥈 {{ ranking.ranking[1] }}</div>
+            <div style="font-weight: bold">🥉 {{ ranking.ranking[2] }}</div>
+          </div>
+        </div>
       </div>
       <div>
         <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
@@ -143,12 +153,14 @@
   </div>
 </template>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
 <script>
 import axios from "axios";
 import router from "@/router/index.js";
+import mainApi from "@/api/main.js";
+// import courseApi from "@/api/course.js";
 
 import Header from "@/components/common/Header";
+// import CourseCard from "@/views/course/CourseCard";
 import("@/assets/style/Main.css");
 
 export default {
@@ -168,23 +180,22 @@ export default {
       lng: "",
       icon: [0, 0],
       weatherCode: "",
-      icon: "",
       today: "",
       weatherList: [],
       dong: "",
       si: "",
-      do: "",
+      sigu: "",
       temp: "",
       min_temp: "",
       max_temp: "",
 
-      dust: "",
-      dust_grade: "",
-
-      corona_cnt: "",
-      local_corona: "",
-
       userName: this.$store.getters.getLoginUserInfo.nickname,
+
+      recommendList: [],
+      h: "00",
+      m: "00",
+      s: "00",
+      ranking: [],
     };
   },
   mounted() {
@@ -227,18 +238,14 @@ export default {
             .then((response) => {
               this.dong = response.data.documents[0].region_3depth_name;
               this.si = response.data.documents[0].region_2depth_name;
-              this.do = response.data.documents[0].region_1depth_name.replace(
-                "도",
-                ""
-              );
+              this.sigu =
+                response.data.documents[0].region_2depth_name.split(" ")[0];
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
                 dong: this.dong,
-                do: this.do,
               });
-              // this.getMicroDust();
-              // this.getCoronaStatus();
+              this.getRecommendData();
             });
         },
         (err) => {
@@ -248,22 +255,8 @@ export default {
         }
       );
     },
-    getForecast() {
-      axios
-        .get(
-          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-            this.$store.state.location.lat +
-            "&lon=" +
-            this.$store.state.location.lng +
-            "&appid=51f278e92de05bac589367d013849016"
-        )
-        .then((response) => {
-          this.today = response.data.list[0].dt_txt.split(" ")[0];
-          this.weatherList = response.data.list;
-        });
-    },
-    getWeather() {
-      axios
+    async getWeather() {
+      await axios
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
             this.$store.state.location.lat +
@@ -272,6 +265,7 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
+          console.log(response);
           const temp = response.data.main.temp - 273.15;
           const minTemp = response.data.main.temp_min - 273.15;
           const maxTemp = response.data.main.temp_max - 273.15;
@@ -284,13 +278,65 @@ export default {
           this.min_temp = minTemp.toFixed(1);
           this.max_temp = maxTemp.toFixed(1);
         });
+
+      await axios
+        .get(
+          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+            this.$store.state.location.lat +
+            "&lon=" +
+            this.$store.state.location.lng +
+            "&appid=51f278e92de05bac589367d013849016"
+        )
+        .then((response) => {
+          console.log(response.data.list[0].dt_txt);
+          this.weatherList = response.data.list;
+        });
+    },
+    async getRecommendData() {
+      let data = {
+        type: "today",
+        sigu: this.sigu,
+      };
+      this.recommendList = await mainApi.getRecommendData(data, {});
+      console.log(this.recommendList);
+    },
+    async getRecommendList() {
+      // let data = {
+      //   type: "",
+      // };
+    },
+    async getRankData() {
+      let data = {
+        type: "rank",
+      };
+      this.ranking = await mainApi.getRankData(data, {});
+    },
+    async getTodayWalk() {
+      if (this.userName != "") {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = ("0" + (today.getMonth() + 1)).slice(-2);
+        var day = ("0" + today.getDate()).slice(-2);
+        var dateString = year + "-" + month + "-" + day;
+        console.log(dateString);
+        let data = {
+          type: "todaywalk",
+          userId: this.userName,
+          date: dateString,
+        };
+        const today_walk_time = await mainApi.getTodayWalk(data, {});
+        this.h = today_walk_time / 60 / 60;
+        this.m = today_walk_time / 60;
+        this.s = today_walk_time % 60;
+      }
     },
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
-    this.getForecast();
+    this.getRankData();
+    this.getTodayWalk();
   },
   computed: {
     isLoginGetters() {
@@ -321,18 +367,5 @@ export default {
 .introimg {
   margin-top: 10px;
   width: 120px;
-}
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #ffffff7a;
-  border-radius: 10px;
-  background-clip: padding-box;
-  border: 2px solid transparent;
-}
-::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0);
-  border-radius: 10px;
 }
 </style>

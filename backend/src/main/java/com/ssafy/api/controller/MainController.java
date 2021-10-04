@@ -29,9 +29,9 @@ public class MainController {
     }
 
     //오늘 걸은 시간
-    @GetMapping("/todaywalk/{userId}/{date}")
-    public ResponseEntity<TodayWalkTimeRes> getTodayWalk(@RequestBody @PathVariable("userId") String userId, @PathVariable("date") LocalDateTime date){
-        TodayWalkTimeRes todayWalkTimeRes = mainService.getTodayWalk(userId,date);
+    @GetMapping("/todaywalk/{nickname}/{date}")
+    public ResponseEntity<TodayWalkTimeRes> getTodayWalk(@RequestBody @PathVariable("nickname") String nickname, @PathVariable("date") String date){
+        TodayWalkTimeRes todayWalkTimeRes = mainService.getTodayWalk(nickname, date);
 
         if(todayWalkTimeRes != null) return ResponseEntity.ok(TodayWalkTimeRes.of(200,"Success",todayWalkTimeRes.getSecond()));
         return ResponseEntity.status(401).body(TodayWalkTimeRes.of(401,"Failed", -1));
@@ -53,9 +53,9 @@ public class MainController {
     }
 
     //오늘의 추천 코스>알고리즘 결정 필요
-    @GetMapping("/today/{dong}")
-    public ResponseEntity<GetRecommendListRes> getRecommendList(@RequestBody @PathVariable("dong") String dong){
-        GetRecommendListRes getRecommendListRes = mainService.getRecommendList(dong);
+    @GetMapping("/today/{sigu}")
+    public ResponseEntity<GetRecommendListRes> getRecommendList(@RequestBody @PathVariable("dong") String sigu){
+        GetRecommendListRes getRecommendListRes = mainService.getRecommendList(sigu);
 
         if(getRecommendListRes!=null) return ResponseEntity.ok(GetRecommendListRes.of(200, "Success",getRecommendListRes.getRecommendList()));
         return ResponseEntity.status(401).body(GetRecommendListRes.of(401,"Failed",null));

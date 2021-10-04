@@ -7,5 +7,6 @@ export default {
     myCourse: "/api/users/mypage",
     review: "/api/review/",
     course: "/api/course",
+    main: "/api/main"
   },
 };

@@ -109,6 +109,12 @@
 .cur_status {
   border-radius: 0px 10px 10px 0px;
   text-align: center;
+  /* height: 80px;
+  width: 80px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; */
   height: 100px;
   width: 160px;
   padding: 7px 0;

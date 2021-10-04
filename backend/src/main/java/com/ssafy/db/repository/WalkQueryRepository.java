@@ -1,6 +1,10 @@
 package com.ssafy.db.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ConstantImpl;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -37,4 +41,12 @@ public class WalkQueryRepository {
                 .fetch();
     }
 
+    //오늘 걸은 시간
+    public List<Integer> TodayWalkTime(String userId, String date){
+        StringTemplate dateToString = Expressions.stringTemplate("DATE_FORMAT({0},{1})",walk.date, ConstantImpl.create("%Y-%m-%d"));
+        return queryFactory.select(walk.time.sum().as("todaytime"))
+                .from(walk)
+                .where(walk.user.userId.eq(userId),dateToString.eq(date))
+                .fetch();
+    }
 }
