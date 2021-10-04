@@ -2,13 +2,14 @@
   <div id="main">
     <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
     <div id="space"></div>
-    <v-app>
+    <v-app style="height:50px;">
       <v-card>
         <v-tabs
           background-color="deep-purple accent-4"
           centered
           fixed-tabs
           slider-color="red"
+          style="position:fixed;z-index:99;"
         >
           <v-tab
             v-on:click="getRecentCourse(userId)"
