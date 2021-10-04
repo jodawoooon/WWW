@@ -100,7 +100,7 @@
                   justify-content: center;
                 "
               >
-                <el-button type="danger" @click="ClickLogin()">Login</el-button>
+                <el-button type="danger" @click="clickLogin()">Login</el-button>
               </el-row>
               <div
                 style="text-align: center; font-size: 10pt; margin-top: 10px"
@@ -181,6 +181,9 @@ export default {
     this.$store.commit("SET_IS_NOT_INDEX");
   },
   methods: {
+    clickLogin() {
+      router.push("/login");
+    },
     startWalk() {
       this.$store.commit("SET_MAIN_TO_START");
       router.push("/record");
