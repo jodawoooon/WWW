@@ -57,7 +57,7 @@
       </div>
       <div>
         <p style="font-weight: 700">이번주 걷기왕 👑</p>
-        <div class="main-box"></div>
+        <div class="main-box">{{ ranking.ranking }}</div>
       </div>
       <div>
         <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
@@ -67,10 +67,10 @@
   </div>
 </template>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
 <script>
 import axios from "axios";
 import router from "@/router/index.js";
+import mainApi from "@/api/main.js"
 
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
@@ -97,7 +97,11 @@ export default {
       corona_cnt: "",
       local_corona: "",
 
+      userId: this.$store.getters.getLoginUserInfo.userId,
       userName: this.$store.getters.getLoginUserInfo.nickname,
+
+      today_walk_time:"",
+      ranking: [],
     };
   },
   mounted() {
@@ -212,19 +216,34 @@ export default {
           });
         });
     },
-    // getTodayWalk(userId,date){
-    //   let data = {
-    //     type: "todaywalk",
-    //     userId: userId,
-    //     date: date,
-    //   };
-    //   this.userInfo = await mainApi.getWalkDate(data,{});
-    // },
+    async getRankData(){
+      let data = {
+        type: "rank",
+      };
+      this.ranking = await mainApi.getRankData(data,{});
+      console.log(this.ranking.ranking)
+    },
+    async getTodayWalk(){
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = ('0' + (today.getMonth() + 1)).slice(-2);
+      var day = ('0' + today.getDate()).slice(-2);
+      var dateString = year + '-' + month  + '-' + day;
+      console.log(dateString);
+      let data = {
+        type: "todaywalk",
+        userId: this.userId,
+        date: dateString
+      };
+      this.today_walk_time = await mainApi.getTodayWalk(data,{});
+    }
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
+    this.getRankData();
+    this.getTodayWalk();
     // this.getMicroDust();
     // this.getCoronaStatus();
   },

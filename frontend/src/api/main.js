@@ -2,29 +2,14 @@ import { requestGet } from "@/api/request.js";
 import SERVER from "./drf.js";
 
 export const mainApi = {
-  getWalkData: (data, headers) => {
-    let check = true;
-    let url = SERVER.URL + SERVER.ROUTES.users + `/${data.type}`;
-    if (data.userId) {
-      if (check) {
-        url += `?`;
-        check = false;
-      } else {
-        url += `&`;
-      }
-      url += `userId=${data.userId}`;
-    }
-    if (data.returnType) {
-      if (check) {
-        url += `?`;
-        check = false;
-      } else {
-        url += `&`;
-      }
-      url += `returnType=${data.returnType}`;
-    }
-    return requestGet(url, headers);
+  getRankData: (data,headers) => {
+    let url = SERVER.URL + SERVER.ROUTES.main + `/${data.type}`;
+    return requestGet(url,headers);
     // return requestGet(SERVER.URL + SERVER.ROUTES.users + `/${data.type}` +`?userId=${data.userId}`, headers);
+  },
+  getTodayWalk: (data,headers)=>{
+    let url = SERVER.URL+SERVER.ROUTES.main+`/${data.type}`+`/test`+`/${data.date}`;
+    return requestGet(url,headers);
   },
 };
 export default mainApi;

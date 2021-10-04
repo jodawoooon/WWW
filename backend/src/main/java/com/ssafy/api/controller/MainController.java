@@ -30,8 +30,8 @@ public class MainController {
 
     //오늘 걸은 시간
     @GetMapping("/todaywalk/{userId}/{date}")
-    public ResponseEntity<TodayWalkTimeRes> getTodayWalk(@RequestBody @PathVariable("userId") String userId, @PathVariable("date") LocalDateTime date){
-        TodayWalkTimeRes todayWalkTimeRes = mainService.getTodayWalk(userId,date);
+    public ResponseEntity<TodayWalkTimeRes> getTodayWalk(@RequestBody @PathVariable("userId") String userId, @PathVariable("date") String date){
+        TodayWalkTimeRes todayWalkTimeRes = mainService.getTodayWalk(userId, date);
 
         if(todayWalkTimeRes != null) return ResponseEntity.ok(TodayWalkTimeRes.of(200,"Success",todayWalkTimeRes.getSecond()));
         return ResponseEntity.status(401).body(TodayWalkTimeRes.of(401,"Failed", -1));

@@ -13,9 +13,7 @@ public interface MainService {
 
     public GetRankRes getRank();
 
-    public TodayWalkTimeRes getTodayWalk(String userId, LocalDateTime date);
-
-//    public boolean startRecord();
+    public TodayWalkTimeRes getTodayWalk(String userId, String date);
 
     public boolean finishRecord(String userId, int courseId, double distance, int time, int calorie);
 

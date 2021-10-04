@@ -13,9 +13,13 @@ import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -55,8 +59,11 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public TodayWalkTimeRes getTodayWalk(String userId, LocalDateTime date){
-        List<Walk> walklist = walkRepository.findByDate(date);
+    public TodayWalkTimeRes getTodayWalk(String userId, String date){
+        //date를 Date()타입으로 바꾸기
+
+        List<Integer> walklist = walkQueryRepository.TodayWalkTime(userId,date);
+//        List<Walk> walklist = walkRepository.findByDate(ddd);
         if (walklist.size()==0){//오늘 걸은 기록이 없음
             TodayWalkTimeRes resbody = new TodayWalkTimeRes();
             resbody.setSecond(0);
@@ -64,7 +71,7 @@ public class MainServiceImpl implements MainService {
         }
         int totalTime = 0;
         for(int i=0;i<walklist.size();i++){
-            totalTime += walklist.get(i).getDate().getSecond();
+            totalTime += walklist.get(i);
         }
         TodayWalkTimeRes resbody = new TodayWalkTimeRes();
         resbody.setSecond(totalTime);
