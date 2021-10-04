@@ -77,7 +77,10 @@
           >
             <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
             <div style="font-size: 20pt; margin-top: 5px">
-              <strong>00</strong>시간 <strong>00</strong>분
+              <strong>{{ h }}</strong
+              >시간 <strong>{{ m }}</strong
+              >분<strong>{{ s }}</strong
+              >초
             </div>
             <el-row
               style="margin-top: 10px; display: flex; justify-content: center"
@@ -118,13 +121,29 @@
       </div>
 
       <el-divider></el-divider>
+      <!-- v-if="recommendList.length!=0" -->
       <div>
         <p style="font-weight: 700">오늘의 추천 코스 👍</p>
-        <div class="main-box"></div>
+        <div class="main-box">{{ recommendList }}</div>
       </div>
       <div>
         <p style="font-weight: 700">이번주 걷기왕 👑</p>
-        <div class="main-box">{{ ranking.ranking }}</div>
+        <div
+          class="main-box"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+          "
+        >
+          <div style="text-align: center; font-weight: bold">
+            🥇 {{ ranking.ranking[0] }}
+          </div>
+          <div style="display: flex; justify-content: space-around">
+            <div style="font-weight: bold">🥈 {{ ranking.ranking[1] }}</div>
+            <div style="font-weight: bold">🥉 {{ ranking.ranking[2] }}</div>
+          </div>
+        </div>
       </div>
       <div>
         <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
@@ -137,7 +156,8 @@
 <script>
 import axios from "axios";
 import router from "@/router/index.js";
-import mainApi from "@/api/main.js"
+import mainApi from "@/api/main.js";
+// import courseApi from "@/api/course.js";
 
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
@@ -162,21 +182,17 @@ export default {
       weatherList: [],
       dong: "",
       si: "",
-      do: "",
+      sigu: "",
       temp: "",
       min_temp: "",
       max_temp: "",
 
-      dust: "",
-      dust_grade: "",
-
-      corona_cnt: "",
-      local_corona: "",
-
-      userId: this.$store.getters.getLoginUserInfo.userId,
       userName: this.$store.getters.getLoginUserInfo.nickname,
 
-      today_walk_time:"",
+      recommendList: [],
+      h: "",
+      m: "",
+      s: "",
       ranking: [],
     };
   },
@@ -220,18 +236,14 @@ export default {
             .then((response) => {
               this.dong = response.data.documents[0].region_3depth_name;
               this.si = response.data.documents[0].region_2depth_name;
-              this.do = response.data.documents[0].region_1depth_name.replace(
-                "도",
-                ""
-              );
+              this.sigu =
+                response.data.documents[0].region_2depth_name.split(" ")[0];
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
                 dong: this.dong,
-                do: this.do,
               });
-              // this.getMicroDust();
-              // this.getCoronaStatus();
+              this.getRecommendData();
             });
         },
         (err) => {
@@ -241,8 +253,8 @@ export default {
         }
       );
     },
-    getWeather() {
-      axios
+    async getWeather() {
+      await axios
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
             this.$store.state.location.lat +
@@ -265,7 +277,7 @@ export default {
           this.max_temp = maxTemp.toFixed(1);
         });
 
-      axios
+      await axios
         .get(
           "https://api.openweathermap.org/data/2.5/forecast?lat=" +
             this.$store.state.location.lat +
@@ -274,40 +286,59 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
+          console.log(response.data.list[0].dt_txt);
           this.weatherList = response.data.list;
         });
     },
-    async getRankData(){
+    async getRecommendData() {
+      let data = {
+        type: "today",
+        sigu: this.sigu,
+      };
+      this.recommendList = await mainApi.getRecommendData(data, {});
+      console.log(this.recommendList);
+    },
+    // async getRecommendList() {
+    //   let data = {
+    //     type: "",
+    //   };
+    // },
+    async getRankData() {
       let data = {
         type: "rank",
       };
-      this.ranking = await mainApi.getRankData(data,{});
-      console.log(this.ranking.ranking)
+      this.ranking = await mainApi.getRankData(data, {});
+      console.log("12341234");
+      console.log(this.ranking.ranking);
     },
-    async getTodayWalk(){
-      var today = new Date();
-      var year = today.getFullYear();
-      var month = ('0' + (today.getMonth() + 1)).slice(-2);
-      var day = ('0' + today.getDate()).slice(-2);
-      var dateString = year + '-' + month  + '-' + day;
-      console.log(dateString);
-      let data = {
-        type: "todaywalk",
-        userId: this.userId,
-        date: dateString
-      };
-      this.today_walk_time = await mainApi.getTodayWalk(data,{});
-    }
+    async getTodayWalk() {
+      console.log(this.userName);
+      if (this.userName != "") {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = ("0" + (today.getMonth() + 1)).slice(-2);
+        var day = ("0" + today.getDate()).slice(-2);
+        var dateString = year + "-" + month + "-" + day;
+        console.log(dateString);
+        let data = {
+          type: "todaywalk",
+          userId: this.userName,
+          date: dateString,
+        };
+        const today_walk_time = await mainApi.getTodayWalk(data, {});
+        this.h = today_walk_time / 60 / 60;
+        this.m = today_walk_time / 60;
+        this.s = today_walk_time % 60;
+      }
+    },
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
+    // this.getRecommendData();
     this.getRankData();
     this.getTodayWalk();
-    // this.getMicroDust();
-    // this.getCoronaStatus();
   },
   computed: {
     isLoginGetters() {

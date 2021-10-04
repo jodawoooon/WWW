@@ -17,12 +17,12 @@ public class CourseFinishQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     //가장 많이 산책한 코스 top 5
-    public List<Integer> findTop5CourseByCnt(String dong){
+    public List<Integer> findTop5CourseByCnt(String sigu){
         return queryFactory
                 .select(courseFinish.course.courseId.as("course"))
                 .from(courseFinish)
-                .join(course,courseFinish.course)
-                .where(course.address.contains(dong))
+                .join(courseFinish.course,course)
+                .where(course.address.contains(sigu))
                 .groupBy(courseFinish.course)
                 .orderBy(courseFinish.course.count().desc())
                 .limit(5)

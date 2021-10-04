@@ -39,7 +39,6 @@ export default new Vuex.Store({
       lat: "37.47085376325646",
       lng: "126.95986125726075",
       dong: "봉천동",
-      do: "경기도",
     },
     covid: {
       corona_cnt: "12345",

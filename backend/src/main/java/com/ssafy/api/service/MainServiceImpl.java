@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.google.common.primitives.Ints;
 import com.google.gson.JsonObject;
 import com.querydsl.core.Tuple;
 import com.ssafy.api.response.main.GetRankRes;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -59,11 +61,9 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public TodayWalkTimeRes getTodayWalk(String userId, String date){
-        //date를 Date()타입으로 바꾸기
-
+    public TodayWalkTimeRes getTodayWalk(String nickname, String date){
+        String userId = userRepository.findByNickname(nickname).getUserId();
         List<Integer> walklist = walkQueryRepository.TodayWalkTime(userId,date);
-//        List<Walk> walklist = walkRepository.findByDate(ddd);
         if (walklist.size()==0){//오늘 걸은 기록이 없음
             TodayWalkTimeRes resbody = new TodayWalkTimeRes();
             resbody.setSecond(0);
@@ -95,27 +95,24 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public GetRecommendListRes getRecommendList(String dong){
+    public GetRecommendListRes getRecommendList(String sigu){
         try{
             // 좋아요 많은 순, 리뷰, 다른 사용자가 많이 산책한 코스
-            List<Integer> bestCourses = courseLikeQueryRepository.findTop5CourseByLike(dong);
-            List<Integer> bestReviews = courseReviewQueryRepository.findTop5ReviewsByScore(dong);
-            List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(dong);
+            List<Integer> bestCourses = courseLikeQueryRepository.findTop5CourseByLike(sigu);
+            List<Integer> bestReviews = courseReviewQueryRepository.findTop5ReviewsByScore(sigu);
+            List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(sigu);
             bestCourses.addAll(bestReviews);
             bestCourses.addAll(bestFinishes);
 
-            int a = 0;
-            String[] recommends = new String[15];
+            List<Integer> setBestList = bestCourses.stream().distinct().collect(Collectors.toList());
 
-            for(Integer i : bestCourses){
-                String cName = courseRepository.findByCourseId(i).getName();
-                recommends[a++] = cName;
-            }
+            int[] recommends = Ints.toArray(setBestList);
 
             GetRecommendListRes resbody = new GetRecommendListRes();
             resbody.setRecommendList(recommends);
             return resbody;
         }catch (Exception e){
+            System.out.println(e);
             return null;
         }
     }
