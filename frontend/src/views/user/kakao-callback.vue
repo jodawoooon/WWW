@@ -41,6 +41,10 @@ export default {
             this.userInfo.name = result.data.user.name;
             console.log(result)
             this.$store.commit("SET_USER_INFO", {userId: result.data.user.userId, name : result.data.user.name});
+            this.$store.commit("SET_IS_LOGIN", {
+              isLogin : true,
+              isLogout : false
+            });
             axios
                 .get("/info/present/" + this.userInfo.userId)
                 .then((result)=>{
@@ -48,6 +52,15 @@ export default {
                     VueCookies.set("accessToken", this.tokens.accessToken, this.tokens.accessTokenExpire)
                     console.log(this.$store.state.loginUserInfo);
                     VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
+                    axios
+                    .get("/info/" + this.userInfo.userId)
+                    .then((res) =>{
+                      console.log(res);
+                      this.$store.state.loginUserInfo.nickname = res.data.user.nickname;
+                      this.$store.state.loginUserInfo.sido = res.data.user.city;
+                      this.$store.state.loginUserInfo.gugun = res.data.user.gu;
+                      this.$store.state.loginUserInfo.dong = res.data.user.dong;
+                    })
                     this.$router.push({name: "Main"});
                     console.log(this.$store.state.loginUserInfo);
                 })

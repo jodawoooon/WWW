@@ -4,8 +4,14 @@
     <div class="default">
       <div class="main-top">
         <div style="margin-top: 20px">
-          <span style="font-weight: 700">{{ userName }}님!</span>
-          {{ mention[Math.floor(Math.random() * 4)] }}
+          <span v-if="isLoginGetters">
+            <span style="font-weight: 700">{{ userName }}님!</span>
+            {{ mention[Math.floor(Math.random() * 4)] }}</span
+          >
+          <span v-if="isLogoutGetters">
+            <span style="font-weight: 700">WWW</span>에 오신 것을 환영해요!
+            🏃‍♂️</span
+          >
           <div style="text-align: center; margin-top: 14px; font-size: 10pt">
             <i class="el-icon-location" style="color: #ee684a" />
             {{ si }} {{ dong }}
@@ -65,23 +71,52 @@
             </div>
           </div>
 
-          <div style="text-align: center; margin-top: 20px">
+          <div
+            style="text-align: center; margin-top: 20px"
+            v-if="isLoginGetters"
+          >
             <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
             <div style="font-size: 20pt; margin-top: 5px">
               <strong>00</strong>시간 <strong>00</strong>분
             </div>
+            <el-row
+              style="margin-top: 10px; display: flex; justify-content: center"
+            >
+              <el-button type="danger" @click="startWalk()"
+                >START</el-button
+              ></el-row
+            >
           </div>
-        </div>
-        <div>
-          <el-row
-            style="margin-top: 10px; display: flex; justify-content: center"
+          <div
+            style="text-align: center; margin-top: 20px"
+            v-if="isLogoutGetters"
           >
-            <el-button type="danger" @click="startWalk()"
-              >START</el-button
-            ></el-row
-          >
+            <div>
+              <el-row
+                style="
+                  padding-top: 10px;
+                  margin-bottom: 10px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <el-button type="danger" @click="ClickLogin()">Login</el-button>
+              </el-row>
+              <div
+                style="text-align: center; font-size: 10pt; margin-top: 10px"
+              >
+                <p>
+                  로그인 후 WWW의 산책활동 분석을 통한 <br />
+                  맞춤형 산책 코스 등 특별한 기능을 사용해보세요!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div></div>
         </div>
       </div>
+
       <el-divider></el-divider>
       <div>
         <p style="font-weight: 700">오늘의 추천 코스 👍</p>
@@ -292,6 +327,14 @@ export default {
     // this.getMicroDust();
     // this.getCoronaStatus();
   },
+  computed: {
+    isLoginGetters() {
+      return this.$store.getters.getterLoginInfo;
+    },
+    isLogoutGetters() {
+      return this.$store.getters.getterLogoutInfo;
+    },
+  },
 };
 </script>
 
@@ -306,5 +349,9 @@ export default {
   height: 90px;
   background: #f6f6f6;
   border-radius: 20px;
+}
+.introimg {
+  margin-top: 10px;
+  width: 120px;
 }
 </style>

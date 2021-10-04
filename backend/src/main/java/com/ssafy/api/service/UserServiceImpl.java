@@ -41,6 +41,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     CourseReviewQueryRepository courseReviewQueryRepository;
 
+    @Autowired
+    RedisService redisService;
 
     @Override
     public User getUserId(String userId) {
@@ -303,5 +305,10 @@ public class UserServiceImpl implements UserService{
         timeResponseBody.setPrevAvgTime((double)prevTime/prevDay);
 
         return timeResponseBody;
+    }
+
+    @Override
+    public void deleteRefreshToken(String userId) {
+        redisService.deleteData(userId);
     }
 }

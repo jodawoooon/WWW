@@ -31,6 +31,8 @@ public class KakaoController {
     UserService userService;
     @Autowired
     CookieUtil cookieUtil;
+    @Autowired
+    RedisService redisService;
 
     @GetMapping(value = "/oauth")
     @ApiOperation(value = "code를 통해 accessToken 획득", notes = "Kakao 인증서버에 code를 넘겨주어 accessToken, refreshToken을 발급받는다.")
@@ -62,20 +64,16 @@ public class KakaoController {
         String userId = (String) userInfo.get("userId");
         User user = userService.getUserId(userId);
 
-        // 회원가입이 되어있는 경우
-//        if(!isNull(user)){
-//            Cookie accessTokenCookie = cookieUtil.createCookie("accessToken",accessTokenExpire,accessToken);
-//            Cookie refreshTokenCookie = cookieUtil.createCookie("refreshToken",refreshTokenExpire,refreshToken);
-//            //Cookie userIdCookie = cookieUtil.createCookie("userId",null, user.getUserId());
-//            response.addCookie(accessTokenCookie);
-//            response.addCookie(refreshTokenCookie);
-//            return ResponseEntity.ok(UserLoginPostRes.of(200,"Success", userInfo));
-//        }
-        // 없는 경우 유저 생성
-        //userService.createUser(Token,userInfo);
+        //회원가입이 되어있는 경우
+        if(!isNull(user)){
+            // redis에 refreshToken 저장
+            redisService.setDataExpire(userId,refreshToken,refreshTokenExpire);
+        }
+
 
         return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", userInfo));
     }
+
 
     @ApiOperation(value = "카카오 계정 로그아웃", notes = "Kakao 인증서버에 accessToken을 넘겨주어 로그인된 카카오 계정을 로그아웃 시킨다.")
     @ApiResponses({
@@ -85,31 +83,13 @@ public class KakaoController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     @GetMapping(value = "/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
-        String access_Token = (String) session.getAttribute("access_Token");
-        if (access_Token == null){
+    public ResponseEntity<String> logout(@CookieValue(value = "accessToken", required = false) Cookie access_Token, @CookieValue(value = "userId", required = false) Cookie userId) {
+        if (access_Token == null)
             return ResponseEntity.ok("토큰이 유효하지 않습니다.");
-        }
-        kakaoAPI.Logout(access_Token);
-        session.invalidate();
+        System.out.println("logout accessToken : " + access_Token.getValue());
+        kakaoAPI.Logout(access_Token.getValue());
+        userService.deleteRefreshToken(userId.getValue());
         return ResponseEntity.ok("로그아웃 되었습니다.");
     }
-
-
-//    @ApiOperation(value = "카카오 계정 로그아웃", notes = "Kakao 인증서버에 accessToken을 넘겨주어 로그인된 카카오 계정을 로그아웃 시킨다.")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "성공"),
-//            @ApiResponse(code = 401, message = "인증 실패"),
-//            @ApiResponse(code = 404, message = "사용자 없음"),
-//            @ApiResponse(code = 500, message = "서버 오류")
-//    })
-//    @GetMapping(value = "/logout")
-//    public ResponseEntity<String> logout(@CookieValue(value = "accessToken", required = false) Cookie access_Token) {
-//        if (access_Token == null)
-//            return ResponseEntity.ok("토큰이 유효하지 않습니다.");
-//        System.out.println("logout accessToken : " + access_Token.getValue());
-//        kakaoAPI.Logout(access_Token.getValue());
-//        return ResponseEntity.ok("로그아웃 되었습니다.");
-//    }
 }
 

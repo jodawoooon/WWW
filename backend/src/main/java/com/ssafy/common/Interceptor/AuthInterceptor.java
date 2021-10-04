@@ -54,6 +54,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         String refreshToken = redisService.getData(userId);
         System.out.println("redis get token : " + refreshToken);
 
+        if(refreshToken == null){
+            throw new AuthorizationServiceException("로그인이 필요합니다!");
+        }
+
         int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
         System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
 
