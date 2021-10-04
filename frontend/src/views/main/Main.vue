@@ -85,9 +85,9 @@
           >
             <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
             <div style="font-size: 20pt; margin-top: 5px">
-              <strong>{{ getHour }}</strong
-              >시간 <strong>{{ getMin }}</strong
-              >분<strong>{{ getSec }}</strong
+              <strong>{{ h }}</strong
+              >시간 <strong>{{ m }}</strong
+              >분<strong>{{ s }}</strong
               >초
             </div>
             <el-row
@@ -359,15 +359,6 @@ export default {
     },
     getName() {
       return this.$store.getters.getLoginUserInfo.nickname;
-    },
-    getHour() {
-      return this.h;
-    },
-    getMin() {
-      return this.m;
-    },
-    getSec() {
-      return this.s;
     },
   },
 };
