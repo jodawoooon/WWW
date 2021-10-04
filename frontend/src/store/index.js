@@ -20,129 +20,55 @@ export default new Vuex.Store({
     loginUserInfo: {
       isLogin: false,
       isLogout: true,
-      userId: '',
-      name: '',
-      nickname: '',
-      sido: '',
-      gugun:'',
-      dong:'',
+      userId: "",
+      name: "",
+      nickname: "",
+      sido: "",
+      gugun: "",
+      dong: "",
     },
     userProfile: {
-      userId:'',
-      name: '',
-      nickname: '',
+      userId: "",
+      name: "",
+      nickname: "",
     },
     userInfo: {
-      name: "김싸피",
+      name: "",
     },
     location: {
-      lat: "37.47085376325646",
-      lng: "126.95986125726075",
-      dong: "봉천동",
-      do: "경기도",
+      lat: "",
+      lng: "",
+      dong: "",
+      do: "",
     },
     covid: {
       corona_cnt: "12345",
       local_corona: "34",
     },
     curCourse: {
-      id: 1016,
-      title: "경기도 삼남길 05코스 중복들길",
-      address: "경기 과천시 중앙동",
-      lat: "37.4265296",
-      lng: "126.986664",
-      score: "4.8",
-      distance: "7",
-      time: "120",
-      kcal: "80",
-      detail:
-        "서호공원에서 출발하여 수원시와 화성시의 경계인 배양교에 이르는 구간입니다. 서호(축만제)는 정조임금이 수원을 신도시로 개발하면서 농업을 장려하기 위해 조성한 인공저수지로 제방 너머에는 아직도 농촌진흥청 시험장이 남아있습니다. 서호 남쪽의 항미정에서 바라본 해질녘 풍경은 손꼽히는 절경입니다. 서호공원을 지나 길을 따라가면 지금은 운영하지 않는 옛 수인선 철로를 만날 수도 있습니다. 수원비행장 서쪽으로 펼쳐진 중복들을 따라 계속 걷다보면 배양교에서 화성시와 만나게 됩니다. ",
-      conv: [
-        {
-          name: "test",
-          address: "test",
-          latitude: "37.4265296",
-          longitude: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-      ],
-      cafe: [
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-        {
-          title: "test",
-          address: "test",
-          lat: "37.4265296",
-          lng: "126.986664",
-        },
-      ],
+      id: "",
+      title: "",
+      address: "",
+      lat: "",
+      lng: "",
+      score: "",
+      distance: "",
+      time: "",
+      kcal: "",
+      detail: "",
+      conv: [],
+      cafe: [],
 
       isBookmarked: false,
       sidoList: [],
       gugunList: [],
-      dongList: []
+      dongList: [],
     },
   },
   mutations: {
     SET_MAIN_TO_START(state) {
       state.curCourse.title = " ";
+      state.curCourse.id = "";
     },
     SET_IS_INDEX(state) {
       state.isIndex = true;
@@ -160,7 +86,7 @@ export default new Vuex.Store({
       state.loginUserInfo.userId = payload.userId;
       state.loginUserInfo.name = payload.name;
     },
-    SET_MORE_USER_INFO(state, payload){
+    SET_MORE_USER_INFO(state, payload) {
       state.loginUserInfo.nickname = payload.nickname;
       state.loginUserInfo.sido = payload.sido;
       state.loginUserInfo.gugun = payload.gugun;
@@ -208,20 +134,20 @@ export default new Vuex.Store({
     SET_PREV_SILDE(state, prevSilde) {
       state.prevSilde = prevSilde;
     },
-    SET_SIDO_LIST(state, payload){
+    SET_SIDO_LIST(state, payload) {
       state.sidoList = payload.sidoList;
     },
-    SET_GUGUN_LIST(state, payload){
+    SET_GUGUN_LIST(state, payload) {
       state.gugunList = payload.gugunList;
     },
-    SET_DONG_LIST(state, payload){
+    SET_DONG_LIST(state, payload) {
       state.dongList = payload.dongList;
     },
     SET_COVID(state, payload) {
       state.covid.corona_cnt = payload.corona_cnt;
       state.covid.local_corona = payload.local_corona;
     },
-    SET_IS_LOGIN(state,payload){
+    SET_IS_LOGIN(state, payload) {
       state.loginUserInfo.isLogin = payload.isLogin;
       state.loginUserInfo.isLogout = payload.isLogout;
     },
@@ -261,21 +187,21 @@ export default new Vuex.Store({
     getPrevSilde(state) {
       return state.prevSilde;
     },
-    getterSidoList(state){
+    getterSidoList(state) {
       return state.sidoList;
     },
-    getterGugunList(state){
+    getterGugunList(state) {
       return state.gugunList;
     },
-    getterDongList(state){
+    getterDongList(state) {
       return state.dongList;
     },
-    getterLoginInfo(state){
+    getterLoginInfo(state) {
       return state.loginUserInfo.isLogin;
     },
-    getterLogoutInfo(state){
+    getterLogoutInfo(state) {
       return state.loginUserInfo.isLogout;
-    }
+    },
   },
   modules: {},
   plugins: [createPersistedState()],
