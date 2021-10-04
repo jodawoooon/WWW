@@ -5,7 +5,7 @@
           <p>기본 정보를 입력하고 <br> <span class="title">WWW</span>를 이용해보세요🏃‍♀️🏃‍♂️</p>
 
       </div>
-      <div class="form-content" style="margin-right:30px; margin-left:30px;">
+      <div class="form-content" style="margin-right:40px; margin-left:40px;">
         <el-form :model="form" ref="form" label-position=top; class="demo-ruleForm">
           <el-form-item
             label="닉네임"
@@ -191,7 +191,7 @@ import VueCookies from 'vue-cookies';
 <style scoped>
 .register-content{
     text-align: left;
-    margin : 50px 0px 10px 30px;
+    margin : 80px 0px 40px 40px;
 }
 .register-content h2{
   font-weight: bold;

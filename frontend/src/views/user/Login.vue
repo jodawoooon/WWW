@@ -43,7 +43,7 @@ export default {
 <style scoped>
 .login-content {
   text-align: left;
-  margin: 30% 0% 5% 10%;
+  margin: 80px 0px 20px 40px;
 }
 .login-content h2 {
   font-weight: bold;

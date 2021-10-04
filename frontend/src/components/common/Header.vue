@@ -141,4 +141,8 @@ export default {
 .el-button {
   border: 0px;
 }
+.logo {
+  margin-top: 10%;
+  height: 200px;
+}
 </style>
