@@ -40,22 +40,30 @@
                 </el-col>
                 <el-col :span="12">
                   <span style="font-size: 9pt; font-weight: 700"
-                    >{{ weatherList[0].dt_txt.split(" ")[0] }} 날씨 🌈</span
+                    >🌈 {{ today }} 날씨 🌈</span
                   >
-                  <div style="height: 60px; overflow: auto">
+                  <div style="height: 60px; overflow: auto; margin-top: 2px">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
-                      <div v-if="idx < 5">
+                      <div>
                         <div style="line-height: 3px">
                           <img
                             style="
                               width: 25px;
-                              margin-right: 5px;
+                              margin-right: 2px;
                               vertical-align: middle;
                             "
                             :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
                           />
-                          <span style="font-size: 9pt"
-                            >{{ weather.dt_txt.split(" ")[1].split(":")[0] }}시
+                          <span style="font-size: 2px; margin-right: 3px"
+                            >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
+                              weather.dt_txt.split(" ")[0].split("-")[2]
+                            }}</span
+                          >
+                          <span style="font-size: 8pt"
+                            ><strong>{{
+                              weather.dt_txt.split(" ")[1].split(":")[0]
+                            }}</strong
+                            >시
                             <strong style="font-size: 10pt; margin-left: 2px"
                               >{{
                                 (weather.main.temp - 273.15).toFixed(1)
@@ -160,6 +168,7 @@ export default {
       icon: [0, 0],
       weatherCode: "",
       icon: "",
+      today: "",
       weatherList: [],
       dong: "",
       si: "",
@@ -238,6 +247,21 @@ export default {
         }
       );
     },
+    getForecast() {
+      axios
+        .get(
+          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+            this.$store.state.location.lat +
+            "&lon=" +
+            this.$store.state.location.lng +
+            "&appid=51f278e92de05bac589367d013849016"
+        )
+        .then((response) => {
+          console.log(response);
+          this.today = response.data.list[0].dt_txt.split(" ")[0];
+          this.weatherList = response.data.list;
+        });
+    },
     getWeather() {
       axios
         .get(
@@ -261,27 +285,13 @@ export default {
           this.min_temp = minTemp.toFixed(1);
           this.max_temp = maxTemp.toFixed(1);
         });
-
-      axios
-        .get(
-          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-            this.$store.state.location.lat +
-            "&lon=" +
-            this.$store.state.location.lng +
-            "&appid=51f278e92de05bac589367d013849016"
-        )
-        .then((response) => {
-          console.log(response);
-          this.weatherList = response.data.list;
-        });
     },
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
-    // this.getMicroDust();
-    // this.getCoronaStatus();
+    this.getForecast();
   },
   computed: {
     isLoginGetters() {
