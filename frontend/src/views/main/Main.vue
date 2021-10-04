@@ -2,8 +2,8 @@
   <div>
     <Header :showArrow="false" message="WWW" id="navBar" />
     <div class="default">
-      <div class="main-top">
-        <div style="margin-top: 20px" v-if="isLoginGetters">
+      <div class="main-top" v-if="isLoginGetters">
+        <div style="margin-top: 20px" >
           <span style="font-weight: 700">{{ userName }}님!</span>
           산책하기 좋은 날이네요 🌞
           <div>{{ dong }}</div>
