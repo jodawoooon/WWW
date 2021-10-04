@@ -85,9 +85,9 @@
           >
             <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
             <div style="font-size: 20pt; margin-top: 5px">
-              <strong>{{ h }}</strong
-              >시간 <strong>{{ m }}</strong
-              >분<strong>{{ s }}</strong
+              <strong>{{ getHour }}</strong
+              >시간 <strong>{{ getMin }}</strong
+              >분<strong>{{ getSec }}</strong
               >초
             </div>
             <el-row
@@ -335,10 +335,10 @@ export default {
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
-        this.h = parseInt(today_walk_time.second/3600);
-        this.m = parseInt((today_walk_time.second%3600)/60);
-        this.s = today_walk_time.second%60;
-        console.log(today_walk_time.second, this.h, this.m, this.s)
+        this.h = parseInt(today_walk_time.second / 3600);
+        this.m = parseInt((today_walk_time.second % 3600) / 60);
+        this.s = today_walk_time.second % 60;
+        console.log(today_walk_time.second, this.h, this.m, this.s);
       }
     },
   },
@@ -359,6 +359,15 @@ export default {
     },
     getName() {
       return this.$store.getters.getLoginUserInfo.nickname;
+    },
+    getHour() {
+      return this.h;
+    },
+    getMin() {
+      return this.m;
+    },
+    getSec() {
+      return this.s;
     },
   },
 };
