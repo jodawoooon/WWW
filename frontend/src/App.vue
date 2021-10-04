@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <div id="app">
     <div id="app-wrap">
       <router-view />
       <el-dialog :visible.sync="dialogVisible" width="70%" center>
@@ -10,7 +10,7 @@
       </el-dialog>
       <Footer id="footer" v-if="!getIsIndex" />
     </div>
-  </v-app>
+  </div>
 </template>
 
 <script>
