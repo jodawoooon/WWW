@@ -179,5 +179,6 @@ export default {
 
 .v-application--wrap{
   max-height: 425px;
+  min-height: 50px;
 }
 </style>
