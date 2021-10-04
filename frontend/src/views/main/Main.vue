@@ -331,16 +331,16 @@ export default {
         var month = ("0" + (today.getMonth() + 1)).slice(-2);
         var day = ("0" + today.getDate()).slice(-2);
         var dateString = year + "-" + month + "-" + day;
-        console.log(dateString);
         let data = {
           type: "todaywalk",
-          userId: this.userName,
+          userName: this.userName,
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
-        this.h = today_walk_time / 60 / 60;
-        this.m = today_walk_time / 60;
-        this.s = today_walk_time % 60;
+        this.h = parseInt(today_walk_time.second/3600);
+        this.m = parseInt((today_walk_time.second%3600)/60);
+        this.s = today_walk_time.second%60;
+        console.log(today_walk_time.second, this.h, this.m, this.s)
       }
     },
   },
