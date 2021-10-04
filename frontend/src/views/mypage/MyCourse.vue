@@ -5,10 +5,10 @@
     <v-app style="height:50px;">
       <v-card >
         <v-tabs
-          background-color="deep-purple accent-4"
+          background-color="white"
           centered
           fixed-tabs
-          slider-color="red"
+          slider-color="black"
           style="position:fixed;z-index:99;"
         >
           <v-tab
