@@ -1,10 +1,16 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
-    <div style="postion: fixed">
-      <div id="space"></div>
-      <v-card>
-        <v-tabs background-color="deep-purple accent-4" centered fixed-tabs slider-color="red">
+    <div id="space"></div>
+    <v-app style="height:50px;">
+      <v-card >
+        <v-tabs
+          background-color="white"
+          centered
+          fixed-tabs
+          slider-color="black"
+          style="position:fixed;z-index:99;"
+        >
           <v-tab
             v-on:click="getRecentCourse(userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
@@ -17,7 +23,7 @@
           >
         </v-tabs>
       </v-card>
-    </div>
+    </v-app>
 
     <div style="margin: 10px; text-algin: left; margin-top: 20px">
       <div v-if="!isRecent">
@@ -169,5 +175,10 @@ export default {
   margin: auto;
   bottom: 0;
   background: #ffffff;
+}
+
+.v-application--wrap{
+  max-height: 425px;
+  min-height: 50px;
 }
 </style>

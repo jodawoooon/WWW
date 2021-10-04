@@ -39,23 +39,32 @@
                   </p>
                 </el-col>
                 <el-col :span="12">
-                  <span style="font-size: 9pt; font-weight: 700"
-                    >{{ weatherList[0].dt_txt.split(" ")[0] }} 날씨 🌈</span
+                  <span style="font-size: 9pt; font-weight: 5600"
+                    >🌈 {{ today.split("-")[0] }}년 {{ today.split("-")[1] }}월
+                    {{ today.split("-")[2] }}일 🌈</span
                   >
-                  <div style="height: 60px; overflow: auto">
+                  <div style="height: 60px; overflow: auto; margin-top: 2px">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
-                      <div v-if="idx < 5">
+                      <div>
                         <div style="line-height: 3px">
                           <img
                             style="
                               width: 25px;
-                              margin-right: 5px;
+                              margin-right: 2px;
                               vertical-align: middle;
                             "
                             :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
                           />
-                          <span style="font-size: 9pt"
-                            >{{ weather.dt_txt.split(" ")[1].split(":")[0] }}시
+                          <span style="font-size: 2px; margin-right: 3px"
+                            >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
+                              weather.dt_txt.split(" ")[0].split("-")[2]
+                            }}</span
+                          >
+                          <span style="font-size: 8pt"
+                            ><strong>{{
+                              weather.dt_txt.split(" ")[1].split(":")[0]
+                            }}</strong
+                            >시
                             <strong style="font-size: 10pt; margin-left: 2px"
                               >{{
                                 (weather.main.temp - 273.15).toFixed(1)
@@ -179,6 +188,11 @@ export default {
       lng: "",
       icon: [0, 0],
       weatherCode: "",
+<<<<<<< HEAD
+=======
+      icon: "",
+      today: "",
+>>>>>>> ce3505f01bc36f94c67fd2ca6e5dc478871a77bb
       weatherList: [],
       dong: "",
       si: "",
@@ -253,8 +267,27 @@ export default {
         }
       );
     },
+<<<<<<< HEAD
     async getWeather() {
       await axios
+=======
+    getForecast() {
+      axios
+        .get(
+          "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+            this.$store.state.location.lat +
+            "&lon=" +
+            this.$store.state.location.lng +
+            "&appid=51f278e92de05bac589367d013849016"
+        )
+        .then((response) => {
+          this.today = response.data.list[0].dt_txt.split(" ")[0];
+          this.weatherList = response.data.list;
+        });
+    },
+    getWeather() {
+      axios
+>>>>>>> ce3505f01bc36f94c67fd2ca6e5dc478871a77bb
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
             this.$store.state.location.lat +
@@ -263,7 +296,6 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
           const temp = response.data.main.temp - 273.15;
           const minTemp = response.data.main.temp_min - 273.15;
           const maxTemp = response.data.main.temp_max - 273.15;
@@ -276,6 +308,7 @@ export default {
           this.min_temp = minTemp.toFixed(1);
           this.max_temp = maxTemp.toFixed(1);
         });
+<<<<<<< HEAD
 
       await axios
         .get(
@@ -289,6 +322,8 @@ export default {
           console.log(response.data.list[0].dt_txt);
           this.weatherList = response.data.list;
         });
+=======
+>>>>>>> ce3505f01bc36f94c67fd2ca6e5dc478871a77bb
     },
     async getRecommendData() {
       let data = {
@@ -336,9 +371,13 @@ export default {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
+<<<<<<< HEAD
     // this.getRecommendData();
     this.getRankData();
     this.getTodayWalk();
+=======
+    this.getForecast();
+>>>>>>> ce3505f01bc36f94c67fd2ca6e5dc478871a77bb
   },
   computed: {
     isLoginGetters() {
@@ -369,5 +408,18 @@ export default {
 .introimg {
   margin-top: 10px;
   width: 120px;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff7a;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 10px;
 }
 </style>

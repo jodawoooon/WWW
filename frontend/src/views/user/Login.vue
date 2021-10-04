@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+
     <div>
       <div class="login-content">
         <div style="top-margin: 50px">
@@ -28,14 +28,12 @@
 </template>
 
 <script>
-import Header from "@/components/common/Header";
+
 import("@/assets/style/Main.css");
 
 export default {
   name: "Login",
-  components: {
-    Header,
-  },
+
   methods: {},
 };
 </script>
