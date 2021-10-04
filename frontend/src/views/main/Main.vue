@@ -44,35 +44,33 @@
                     {{ today.split("-")[2] }}일 🌈</span
                   >
 
-                  <div style="height: 60px; overflow: auto; margin-top: 2px">
+                  <div style="height: 60px; overflow: auto">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
-                      <div v-if="idx < 5">
-                        <div style="line-height: 3px">
-                          <img
-                            style="
-                              width: 25px;
-                              margin-right: 5px;
-                              vertical-align: middle;
-                            "
-                            :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
-                          />
-                          <span style="font-size: 2px; margin-right: 3px"
-                            >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
-                              weather.dt_txt.split(" ")[0].split("-")[2]
-                            }}</span
-                          >
-                          <span style="font-size: 8pt"
-                            ><strong>{{
-                              weather.dt_txt.split(" ")[1].split(":")[0]
-                            }}</strong
-                            >시
-                            <strong style="font-size: 10pt; margin-left: 2px"
-                              >{{
-                                (weather.main.temp - 273.15).toFixed(1)
-                              }}°C</strong
-                            ></span
-                          >
-                        </div>
+                      <div style="line-height: 3px">
+                        <img
+                          style="
+                            width: 25px;
+                            margin-right: 5px;
+                            vertical-align: middle;
+                          "
+                          :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
+                        />
+                        <span style="font-size: 2px; margin-right: 3px"
+                          >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
+                            weather.dt_txt.split(" ")[0].split("-")[2]
+                          }}</span
+                        >
+                        <span style="font-size: 8pt"
+                          ><strong>{{
+                            weather.dt_txt.split(" ")[1].split(":")[0]
+                          }}</strong
+                          >시
+                          <strong style="font-size: 10pt; margin-left: 2px"
+                            >{{
+                              (weather.main.temp - 273.15).toFixed(1)
+                            }}°C</strong
+                          ></span
+                        >
                       </div>
                     </div>
                   </div>
