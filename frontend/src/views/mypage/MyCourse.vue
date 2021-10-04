@@ -1,30 +1,28 @@
 <template>
   <div id="main">
     <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
-    <div style="postion: fixed">
-      <div id="space"></div>
-      <v-app>
-        <v-card>
-          <v-tabs
-            background-color="deep-purple accent-4"
-            centered
-            fixed-tabs
-            slider-color="red"
+    <div id="space"></div>
+    <v-app>
+      <v-card>
+        <v-tabs
+          background-color="deep-purple accent-4"
+          centered
+          fixed-tabs
+          slider-color="red"
+        >
+          <v-tab
+            v-on:click="getRecentCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >최근 코스</v-tab
           >
-            <v-tab
-              v-on:click="getRecentCourse(userId)"
-              style="font-size: 20px; color: gray; font-weight: bold"
-              >최근 코스</v-tab
-            >
-            <v-tab
-              v-on:click="getWishCourse(userId)"
-              style="font-size: 20px; color: gray; font-weight: bold"
-              >관심 코스</v-tab
-            >
-          </v-tabs>
-        </v-card>
-      </v-app>
-    </div>
+          <v-tab
+            v-on:click="getWishCourse(userId)"
+            style="font-size: 20px; color: gray; font-weight: bold"
+            >관심 코스</v-tab
+          >
+        </v-tabs>
+      </v-card>
+    </v-app>
 
     <div style="margin: 10px; text-algin: left; margin-top: 20px">
       <div v-if="!isRecent">
