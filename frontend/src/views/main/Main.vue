@@ -39,8 +39,9 @@
                   </p>
                 </el-col>
                 <el-col :span="12">
-                  <span style="font-size: 9pt; font-weight: 700"
-                    >🌈 {{ today }} 날씨 🌈</span
+                  <span style="font-size: 9pt; font-weight: 5600"
+                    >🌈 {{ today.split("-")[0] }}년 {{ today.split("-")[1] }}월
+                    {{ today.split("-")[2] }}일 🌈</span
                   >
                   <div style="height: 60px; overflow: auto; margin-top: 2px">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
@@ -257,7 +258,6 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
           this.today = response.data.list[0].dt_txt.split(" ")[0];
           this.weatherList = response.data.list;
         });
@@ -272,7 +272,6 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
           const temp = response.data.main.temp - 273.15;
           const minTemp = response.data.main.temp_min - 273.15;
           const maxTemp = response.data.main.temp_max - 273.15;
