@@ -3,7 +3,7 @@
     <Header :showArrow="false" message="WWW" id="navBar" />
     <div class="default">
       <div class="main-top">
-        <div style="margin-top: 20px">
+        <div style="margin-top: 20px" v-if="isLoginGetters">
           <span style="font-weight: 700">{{ userName }}님!</span>
           산책하기 좋은 날이네요 🌞
           <div>{{ dong }}</div>
@@ -50,6 +50,34 @@
           >
         </div>
       </div>
+
+      <div class="main-top" v-if="isLogoutGetters">
+        <div style="margin-top: 20px margin-left:10px;">
+          <span style="font-weight: 700">WWW</span>
+          와 함께 산책해보세요🏃‍♀️🏃‍♂️
+        </div>
+        <div style="margin-top: 20px;  text-align:center;">
+        <img class="introimg" src="@/assets/www.png" />
+        </div>
+        <div>
+          <el-row
+            style="
+              padding-top: 10px;
+              margin-bottom: 10px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <el-button type="danger" @click="ClickLogin()"
+              >Login</el-button
+            >
+            </el-row>
+            <div style="text-align:center; margin-top:10px;">
+            <p>로그인 후 WWW의 산책활동 분석을 통한 <br> 맞춤형 산책 코스 등 특별한 기능을 사용해보세요!</p>
+            </div>
+        </div>
+      </div>
+
       <el-divider></el-divider>
       <div>
         <p style="font-weight: 700">오늘의 추천 코스 👍</p>
@@ -230,6 +258,15 @@ export default {
     // this.getMicroDust();
     // this.getCoronaStatus();
   },
+  computed:{
+    isLoginGetters(){
+      return this.$store.getters.getterLoginInfo;
+    },
+    isLogoutGetters(){
+      return this.$store.getters.getterLogoutInfo;
+    }
+  }
+
 };
 </script>
 
@@ -244,4 +281,10 @@ export default {
   background: #f6f6f6;
   border-radius: 20px;
 }
+.introimg {
+  margin-top: 10px;
+  width:120px;
+}
+
 </style>
+

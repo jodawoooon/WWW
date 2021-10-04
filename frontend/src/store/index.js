@@ -18,6 +18,8 @@ export default new Vuex.Store({
       refreshTokenExpire: "",
     },
     loginUserInfo: {
+      isLogin: false,
+      isLogout: true,
       userId: '',
       name: '',
       nickname: '',
@@ -159,13 +161,12 @@ export default new Vuex.Store({
       state.loginUserInfo.name = payload.name;
     },
     SET_MORE_USER_INFO(state, payload){
-      state.userProfile.userId = payload.userId;
-      state.userProfile.nickname = payload.nickname;
-      state.userProfile.name = payload.name;
+      state.loginUserInfo.nickname = payload.nickname;
+      state.loginUserInfo.sido = payload.sido;
+      state.loginUserInfo.gugun = payload.gugun;
+      state.loginUserInfo.dong = payload.dong;
     },
     SET_USER_TOKEN(state, payload) {
-      console.log(payload)
-      console.log(1);
       state.tokens.accessToken = payload.accessToken;
       state.tokens.refreshToken = payload.refreshToken;
       state.tokens.accessTokenExpire = payload.accessTokenExpire;
@@ -220,6 +221,10 @@ export default new Vuex.Store({
       state.covid.corona_cnt = payload.corona_cnt;
       state.covid.local_corona = payload.local_corona;
     },
+    SET_IS_LOGIN(state,payload){
+      state.loginUserInfo.isLogin = payload.isLogin;
+      state.loginUserInfo.isLogout = payload.isLogout;
+    },
   },
   actions: {},
   getters: {
@@ -264,6 +269,12 @@ export default new Vuex.Store({
     },
     getterDongList(state){
       return state.dongList;
+    },
+    getterLoginInfo(state){
+      return state.loginUserInfo.isLogin;
+    },
+    getterLogoutInfo(state){
+      return state.loginUserInfo.isLogout;
     }
   },
   modules: {},
