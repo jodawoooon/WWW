@@ -91,12 +91,28 @@
 }
 
 .dong_status {
-  border-radius: 50%;
+  border-radius: 10px;
   text-align: center;
-  height: 80px;
-  width: 80px;
-  padding: 15px 0;
-  margin-top: 20px;
+  height: 100px;
+  width: 300px;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+.dong_status > p {
+  font-size: 8px;
+}
+.dong_status > span {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.cur_status {
+  border-radius: 0px 10px 10px 0px;
+  text-align: center;
+  height: 100px;
+  width: 160px;
+  padding: 7px 0;
+  margin-top: 10px;
 }
 .dong_status > p {
   font-size: 8px;
