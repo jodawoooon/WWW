@@ -5,7 +5,7 @@
       <div class="main-top">
         <div style="margin-top: 20px">
           <span v-if="isLoginGetters">
-            <span style="font-weight: 700">{{ userName }}님!</span>
+            <span style="font-weight: 700">{{ getName }}님!</span>
             {{ mention[Math.floor(Math.random() * 4)] }}</span
           >
           <span v-if="isLogoutGetters">
@@ -275,53 +275,6 @@ export default {
           this.weatherList = response.data.list;
         });
     },
-    // getMicroDust() {
-    //   // console.log(this.do)
-    //   // console.log(this.$store.state.location.do)
-    //   axios
-    //     .get(
-    //       "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?sidoName=" +
-    //         this.$store.state.location.do +
-    //         "&returnType=json&serviceKey=BzaLot6kNeh07KbZkzyJuXRdK5iGd0RvcK540gVbI%2F0aJy%2FlA0wHtckzM6t986i4LUkYJogx%2BeEktaXqnCbBzw%3D%3D"
-    //     )
-    //     .then((response) => {
-    //       this.dust = response.data.response.body.items[0].pm10Value;
-    //       const grade = response.data.response.body.items[0].pm10Grade;
-    //       if (grade == 1) this.dust_grade = "좋음";
-    //       else if (grade == 2) this.dust_grade = "보통";
-    //       else if (grade == 3) this.dust_grade = "나쁨";
-    //       else if (grade == 4) this.dust_grade = "매우 나쁨";
-    //     });
-    // },
-    // getCoronaStatus() {
-    //   axios
-    //     .get(
-    //       "https://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=BzaLot6kNeh07KbZkzyJuXRdK5iGd0RvcK540gVbI%2F0aJy%2FlA0wHtckzM6t986i4LUkYJogx%2BeEktaXqnCbBzw%3D%3D"
-    //     )
-    //     .then((response) => {
-    //       const cStatus = response.data.response.body.items.item;
-    //       for (var i = 0; i < cStatus.length; i++) {
-    //         if (cStatus[i].gubun == this.do) {
-    //           // console.log(cStatus[i].gubun);
-    //           // console.log(this.do);
-    //           this.corona_cnt = cStatus[i].defCnt;
-    //           this.local_corona = cStatus[i].localOccCnt;
-    //         }
-    //       }
-    //       this.$store.commit("SET_COVID", {
-    //         corona_cnt: this.corona_cnt,
-    //         local_corona: this.local_corona,
-    //       });
-    //     });
-    // },
-    // getTodayWalk(userId,date){
-    //   let data = {
-    //     type: "todaywalk",
-    //     userId: userId,
-    //     date: date,
-    //   };
-    //   this.userInfo = await mainApi.getWalkDate(data,{});
-    // },
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
@@ -336,6 +289,9 @@ export default {
     },
     isLogoutGetters() {
       return this.$store.getters.getterLogoutInfo;
+    },
+    getName() {
+      return this.$store.getters.getLoginUserInfo.nickname;
     },
   },
 };
