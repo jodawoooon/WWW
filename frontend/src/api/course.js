@@ -21,7 +21,7 @@ export const myCourseApi = {
       } else {
         url += `&`;
       }
-      url += `courseId=${data.userId}`;
+      url += `courseId=${data.courseId}`;
     }
     return requestGet(url, headers);
   },

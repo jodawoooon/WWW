@@ -29,7 +29,13 @@
           size="mini"
           v-if="$props.myScore == 0"
           @click="clickBox($props.courseId)"
-          >리뷰 <br />남기기</el-button
+          style="
+            border: 1px solid #49ab76;
+            background-color: #49ab76;
+            color: #ffffff;
+            border-radius: 10px;
+          "
+          >리뷰<br />작성</el-button
         >
         <div v-if="$props.myScore != 0">
           <i class="el-icon-star-on"></i>{{ $props.myScore }}
@@ -73,7 +79,7 @@
           "
         >
           걸어보시니 어떠셨나요? <br />솔직한 별점⭐을 남겨주세요! <br />
-          한 번 작성하신 리뷰는 수정할 수 없어요 📬
+          한 번 작성하신 리뷰는 수정할 수 없어요
         </div>
         <div slot="footer" class="dialog-footer" style="padding-top: 0px">
           <el-button
@@ -214,11 +220,8 @@ export default {
         });
     },
     // 산책로 세부 정보를 가져오기
-    goDetail() {
-      console.log(this.$props.courseId);
-      console.log(this.$props.lat);
-      console.log(this.$store.getters.getLoginUserInfo.userId);
-      axios
+    async goDetail() {
+      await axios
         .get("/course/", {
           params: {
             courseId: this.$props.courseId,

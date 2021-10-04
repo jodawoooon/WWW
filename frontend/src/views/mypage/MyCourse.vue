@@ -4,7 +4,7 @@
     <div style="postion: fixed">
       <div id="space"></div>
       <v-card>
-        <v-tabs centered fixed-tabs slider-color="red">
+        <v-tabs background-color="deep-purple accent-4" centered fixed-tabs slider-color="red">
           <v-tab
             v-on:click="getRecentCourse(userId)"
             style="font-size: 20px; color: gray; font-weight: bold"
@@ -53,7 +53,7 @@
               :address="course.address"
               :km="course.courseLength.toFixed(2)"
               :min="timeText(course.time)"
-              :kcal="Math.round(course.time * 60 * 0.06 * 10)"
+              :kcal="course.calorie"
               :lat="course.latitude.toString()"
               :lng="course.longitude.toString()"
               :myScore="course.myScore"

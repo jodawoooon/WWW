@@ -12,12 +12,12 @@
         </div>
       </div>
 
-      <img class="logo" src="@/assets/sample.png" />
+      <img class="logo" src="@/assets/test.png" />
       <div>
         <a
           href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code"
         >
-        <!-- <a
+          <!-- <a
           href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=http://localhost:8080/kakao/callback&response_type=code"
         > -->
           <img class="kakao" src="@/assets/kakao_login_medium_narrow.png" />
@@ -43,7 +43,7 @@ export default {
 <style scoped>
 .login-content {
   text-align: left;
-  margin: 30% 0% 5% 10%;
+  margin: 80px 0px 20px 40px;
 }
 .login-content h2 {
   font-weight: bold;

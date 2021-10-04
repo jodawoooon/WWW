@@ -15,7 +15,7 @@
               padding-bottom: 0px;
             "
           >
-            거리순
+            가까운 순
           </el-button>
           <el-button
             type="primary"
@@ -40,7 +40,7 @@
               padding-bottom: 0px;
             "
           >
-            인기순
+            인기 순
           </el-button>
           <el-button
             type="primary"

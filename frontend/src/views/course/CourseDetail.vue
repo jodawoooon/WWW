@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <Header
       :showArrow="true"
       :back="prevPage"
@@ -10,10 +9,11 @@
 
     <div>
       <div id="map" class="map"></div>
-      <div class="bookmark" 
+      <div
+        class="bookmark"
         v-if="this.$store.getters.getLoginUserInfo.userId"
         @click="clickStar()"
-        >
+      >
         <i
           :class="[
             this.course.isBookmarked ? 'el-icon-star-on' : 'el-icon-star-off',
@@ -32,32 +32,38 @@
             class="el-icon-location"
             style="color: #ee684a; margin-right: 5px; margin-bottom: 8px"
           />{{ this.course.address }}
+          <span v-if="this.courseDetail.score != 0">
+            <i
+              class="el-icon-star-on"
+              style="color: #eec24a; padding-left: 25px; padding-right: 5px"
+            ></i
+            >{{ this.courseDetail.score }}</span
+          >
         </p>
         <p class="small-desc">
-          {{ this.course.distance }}km | {{ this.course.time }} |
-          {{ this.course.kcal }}kcal
+          {{ this.courseDetail.courseLength }}km |
+          {{ this.courseDetail.time }} |
+          {{ Math.round(this.courseDetail.timeInt * 60 * 0.06 * 10) / 10 }}kcal
         </p>
       </div>
       <div class="content-middle">
         <el-tabs v-model="activeName">
           <el-tab-pane label="산책로 소개" name="first">
-            <div class="mini-desc">{{ this.course.detail }}</div>
+            <div class="mini-desc">{{ this.courseDetail.detail }}</div>
           </el-tab-pane>
           <el-tab-pane label="주변 편의시설" name="second">
-            <el-tabs :tab-position="tabPosition" style="height: 200px">
+            <el-tabs
+              :tab-position="tabPosition"
+              style="height: 200px; overflow: auto"
+            >
               <el-tab-pane label="편의점">
                 <div class="mini-desc" style="margin-bottom: 10px">
                   산책로 주변 편의점은 {{ this.course.conv.length }}개 입니다.
                 </div>
                 <div v-for="(card, idx) in this.course.conv" :key="idx">
-                  <div  @click="moveMap(card)">
-                    <ConvCard
-                      :name="card.name"
-                      :address="card.address"                 
-                    />
+                  <div @click="moveMap(card)">
+                    <ConvCard :name="card.name" :address="card.address" />
                   </div>
-                  
-
                 </div>
               </el-tab-pane>
               <el-tab-pane label="카페">
@@ -65,7 +71,7 @@
                   산책로 주변 카페는 {{ this.course.cafe.length }}개 입니다.
                 </div>
                 <div v-for="(card, idx) in this.course.cafe" :key="idx">
-                  <div  @click="moveMap(card)">
+                  <div @click="moveMap(card)">
                     <ConvCard
                       :name="card.name"
                       :address="card.address"
@@ -116,8 +122,8 @@ export default {
       tabPosition: "left",
       activeName: "first",
       course: this.$store.getters.getCourseDetail,
-      prevPage:this.$store.getters.getPrevPage,
-      courseDetail: [],
+      prevPage: this.$store.getters.getPrevPage,
+      courseDetail: "",
       userId: this.$store.getters.getLoginUserInfo.userId,
     };
   },
@@ -134,10 +140,11 @@ export default {
       document.head.appendChild(script);
     }
     console.log(this.prevPage);
-
+  },
+  created() {
+    this.course = this.$store.getters.getCourseDetail;
+    console.log(this.course);
     this.getCourseDetail(this.userId, this.course.id);
-    console.log(this.courseDetail);
-
   },
   methods: {
     clickStar() {
@@ -148,33 +155,34 @@ export default {
       }
     },
     createLike() {
-      const req =  {
+      const req = {
         courseId: this.course.id,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
       axios.post("/api/course/like", req, {}).then(() => {
         this.course.isBookmarked = !this.course.isBookmarked;
         this.$store.commit("SET_CUR_COURSE_LIKE", {
-            isBookmarked: this.course.isBookmarked,
+          isBookmarked: this.course.isBookmarked,
         });
       });
     },
     deleteLike() {
-      const req =  {
+      const req = {
         courseId: this.course.id,
         userId: this.$store.getters.getLoginUserInfo.userId,
       };
-      axios.delete("/api/course/like", {
-        data: req,
-      }).then(() => {
-        this.course.isBookmarked = !this.course.isBookmarked;
-        this.$store.commit("SET_CUR_COURSE_LIKE", {
+      axios
+        .delete("/api/course/like", {
+          data: req,
+        })
+        .then(() => {
+          this.course.isBookmarked = !this.course.isBookmarked;
+          this.$store.commit("SET_CUR_COURSE_LIKE", {
             isBookmarked: this.course.isBookmarked,
+          });
         });
-      });
     },
     initMap() {
-
       var container = document.getElementById("map");
       var options = {
         center: new kakao.maps.LatLng(this.course.lat, this.course.lng),
@@ -198,8 +206,6 @@ export default {
       console.log(tab, event);
     },
     moveMap(data) {
-      
-
       //
       // 이동할 위도 경도 위치를 생성합니다
       var moveLatLon = new kakao.maps.LatLng(data.latitude, data.longitude);
@@ -224,19 +230,17 @@ export default {
 
       console.log(convMarkerPosition);
 
-      if(this.marker!=null){
+      if (this.marker != null) {
         this.marker.setPosition(convMarkerPosition);
-      }else{
+      } else {
         var marker = new kakao.maps.Marker({
-              position: convMarkerPosition,
-              image: markerImage, // 마커이미지 설정
+          position: convMarkerPosition,
+          image: markerImage, // 마커이미지 설정
         });
         marker.setMap(this.map);
 
         this.marker = marker;
       }
-
-   
 
       // var marker = new kakao.maps.Marker({
       //   map: this.map,
@@ -244,22 +248,21 @@ export default {
       //   position: runningMarkerPosition,
       //   icon: runningMarker,
       // });
-
-
     },
     startWalk() {
       router.push("/record");
     },
 
-    async getCourseDetail(userId, courseId){
-      console.log(userId+" "+courseId);
+    async getCourseDetail(userId, courseId) {
       let data = {
         type: "",
-        courseId: this.course.id,
-        userId: this.$store.getters.getLoginUserInfo.userId,
+        userId: userId,
+        courseId: courseId,
       };
-      this.courseDetail = await courseApi.getCourseData(data, {});
-
+      await courseApi.getCourseData(data, {}).then((response) => {
+        this.courseDetail = response;
+        console.log(response);
+      });
     },
   },
 };

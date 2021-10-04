@@ -1,12 +1,6 @@
 <template>
   <div>
     <Header :showArrow="true" back="/main" message="산책 기록" id="navBar" />
-    <el-dialog :visible.sync="centerDialogVisible" width="70%" center>
-      <span>산책 기록이 저장되었습니다 📬</span>
-      <span slot="footer" class="dialog-footer" style="padding-top: 0px">
-        <el-button @click="goMain()">확인</el-button>
-      </span>
-    </el-dialog>
     <div>
       <div id="map" class="map"></div>
     </div>
@@ -126,6 +120,7 @@ import Header from "@/components/common/Header";
 import axios from "axios";
 import https from "@/utils/axios.js";
 import router from "@/router/index.js";
+import Swal from "sweetalert2";
 
 import("@/assets/style/Main.css");
 
@@ -136,7 +131,6 @@ export default {
   },
   data() {
     return {
-      centerDialogVisible: false,
       current: { lat: 0, lng: 0 },
       previous: { lat: 0, lng: 0 },
       address: "",
@@ -226,7 +220,7 @@ export default {
           courseId: this.course.id,
           distance: this.accumulated_distance,
           time: this.accumulated_time,
-          calorie: 0,
+          calorie: Math.round(this.accumulated_time * 60 * 0.06 * 10) / 10,
         })
         .then((response) => {
           console.log(response);
@@ -234,7 +228,11 @@ export default {
     },
     endLocationUpdates() {
       this.stopLocationUpdates();
-      this.centerDialogVisible = true;
+      Swal.fire({
+        width: 250,
+        titleSize: 10,
+        title: "산책 기록이 저장되었습니다 📬",
+      });
       this.speed = (this.accumulated_distance * 1000) / this.accumulated_time;
 
       this.savePosition();
@@ -248,9 +246,6 @@ export default {
       this.checkOneKm = 0;
       this.endTime = new Date();
       this.endTime = this.$moment(this.endTime).format("YYYY-MM-DDTHH:mm:ss");
-    },
-    goMain() {
-      this.centerDialogVisible = false;
       router.push("/main");
     },
     stopLocationUpdates() {
@@ -385,72 +380,79 @@ export default {
       this.course.isBookmarked = !this.course.isBookmarked;
     },
     initMap() {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.current.lat = position.coords.latitude;
-        this.current.lng = position.coords.longitude;
-
-        axios
-          .get(
-            "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
-              this.current.lng +
-              "&y=" +
-              this.current.lat,
-            {
-              headers: {
-                Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
-              },
-            }
-          )
-          .then((response) => {
-            var dong = response.data.documents[0].region_3depth_name;
-            this.$store.commit("SET_USER_LOCATION", {
-              lat: this.current.lat,
-              lng: this.current.lng,
-              dong: dong,
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.current.lat = position.coords.latitude;
+          this.current.lng = position.coords.longitude;
+          this.$store.commit("SET_IS_AGREE");
+          axios
+            .get(
+              "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
+                this.current.lng +
+                "&y=" +
+                this.current.lat,
+              {
+                headers: {
+                  Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+                },
+              }
+            )
+            .then((response) => {
+              var dong = response.data.documents[0].region_3depth_name;
+              this.$store.commit("SET_USER_LOCATION", {
+                lat: this.current.lat,
+                lng: this.current.lng,
+                dong: dong,
+              });
+              this.address = response.data.documents[0].address_name;
             });
-            this.address = response.data.documents[0].address_name;
+
+          var container = document.getElementById("map");
+          var options = {
+            center: new kakao.maps.LatLng(this.current.lat, this.current.lng),
+            level: 5,
+          };
+
+          this.map = new kakao.maps.Map(container, options);
+
+          //Map 현재위치 마커
+          var runningMarkerSrc = require("@/assets/location.png");
+          var runningMarkerSize = new kakao.maps.Size(30, 30);
+
+          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+          var markerImage = new kakao.maps.MarkerImage(
+            runningMarkerSrc,
+            runningMarkerSize
+          );
+
+          var runningMarkerPosition = new kakao.maps.LatLng(
+            this.current.lat,
+            this.current.lng
+          );
+
+          console.log(runningMarkerPosition);
+
+          var marker = new kakao.maps.Marker({
+            position: runningMarkerPosition,
+            image: markerImage, // 마커이미지 설정
           });
 
-        var container = document.getElementById("map");
-        var options = {
-          center: new kakao.maps.LatLng(this.current.lat, this.current.lng),
-          level: 5,
-        };
+          // var marker = new kakao.maps.Marker({
+          //   map: this.map,
+          //   title: "현재위치",
+          //   position: runningMarkerPosition,
+          //   icon: runningMarker,
+          // });
+          marker.setMap(this.map);
 
-        this.map = new kakao.maps.Map(container, options);
-
-        //Map 현재위치 마커
-        var runningMarkerSrc = require("@/assets/location.png");
-        var runningMarkerSize = new kakao.maps.Size(30, 30);
-
-        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-        var markerImage = new kakao.maps.MarkerImage(
-          runningMarkerSrc,
-          runningMarkerSize
-        );
-
-        var runningMarkerPosition = new kakao.maps.LatLng(
-          this.current.lat,
-          this.current.lng
-        );
-
-        console.log(runningMarkerPosition);
-
-        var marker = new kakao.maps.Marker({
-          position: runningMarkerPosition,
-          image: markerImage, // 마커이미지 설정
-        });
-
-        // var marker = new kakao.maps.Marker({
-        //   map: this.map,
-        //   title: "현재위치",
-        //   position: runningMarkerPosition,
-        //   icon: runningMarker,
-        // });
-        marker.setMap(this.map);
-
-        this.marker = marker;
-      });
+          this.marker = marker;
+        },
+        (err) => {
+          console.log(err);
+          this.$store.commit("SET_IS_NOT_AGREE");
+          router.push("/index");
+        }
+      );
     },
 
     watchLocationUpdates() {
@@ -482,7 +484,7 @@ export default {
             position.coords.latitude,
             position.coords.longitude
           );
-
+          this.$store.commit("SET_IS_AGREE");
           // var gugun = this.gugun;
           // var currentCity = this.currentCity;
 
@@ -571,6 +573,8 @@ export default {
         },
         (error) => {
           console.log(error.message);
+          this.$store.commit("SET_IS_NOT_AGREE");
+          router.push("/index");
         },
         {
           timeout: 5000,

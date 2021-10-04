@@ -9,12 +9,20 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
+import java.util.Date;
+import java.util.TimeZone;
 
 @EnableJpaAuditing
 @CrossOrigin(origins = "*")
 @SpringBootApplication
 public class WalkServerApplication {
+
+	@PostConstruct
+	public void started() {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(WalkServerApplication.class, args);

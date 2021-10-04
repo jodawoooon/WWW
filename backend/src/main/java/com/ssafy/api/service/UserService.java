@@ -20,4 +20,6 @@ public interface UserService {
     public BaseResponseBody readTotalTime(String userId);
 
     public BaseResponseBody readTime(String userId, String type);
+
+    void deleteRefreshToken(String userId);
 }

@@ -27,15 +27,15 @@
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
-            <el-button @click="login()" size="mini"
+            <el-button @click="login()" size="mini" v-if="isLogoutGetters"
               >로그인</el-button
             ></el-dropdown-item
           >
-          <!-- <el-dropdown-item>
-            <el-button @click="logout()" size="mini"
+          <el-dropdown-item>
+            <el-button @click="logout()" size="mini" v-if="isLoginGetters"
               >로그아웃</el-button
             ></el-dropdown-item
-          > -->
+          >
         </el-dropdown-menu>
       </el-dropdown>
     </nav>
@@ -46,6 +46,8 @@
 // import {mapGetters, mapState} from "vuex";
 
 import router from "@/router/index.js";
+import axios from "@/utils/axios.js";
+import VueCookies from 'vue-cookies';
 
 export default {
   name: "Header",
@@ -64,12 +66,48 @@ export default {
       router.push("/login");
     },
     logout() {
-      router.push("/main");
+
+      axios
+        .get("/kakao/logout")
+        .then((result)=>{
+          VueCookies.remove("userId")
+          VueCookies.remove("accessToken")
+          console.log(result)
+          this.$store.commit("SET_USER_INFO", {
+            userId: "",
+            name : "",
+          });
+          this.$store.commit("SET_MORE_USER_INFO", {
+            nickname: "",
+            sido : "",
+            gugun : "",
+            dong: ""
+          });
+          this.$store.commit("SET_IS_LOGIN", {
+            isLogin : false,
+            isLogout :true
+          });
+          this.$store.commit("SET_USER_TOKEN", {
+            accessToken : "",
+            refreshToken : "",
+            accessTokenExpire : "",
+            refreshTokenExpire : ""
+          });
+        })
+      router.push("/index");
     },
     goBack(back) {
       router.push(back);
     },
   },
+  computed:{
+    isLoginGetters(){
+      return this.$store.getters.getterLoginInfo;
+    },
+    isLogoutGetters(){
+      return this.$store.getters.getterLogoutInfo;
+    }
+  }
 };
 </script>
 
@@ -103,4 +141,5 @@ export default {
 .el-button {
   border: 0px;
 }
+
 </style>
