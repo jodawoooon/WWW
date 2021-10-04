@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <v-app id="main">
     <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
     <div style="postion: fixed">
       <div id="space"></div>
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div id="space"></div>
-  </div>
+  </v-app>
 </template>
 
 <script>
