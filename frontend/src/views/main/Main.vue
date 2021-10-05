@@ -130,20 +130,31 @@
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList.length!=0">
-        <p style="font-weight: 700">{{dong}} 인기 코스 👍</p>
-        <div class="main-box" style="display:flex; justify-content:space-between; padding: 0 25px">
+      <div v-if="recommendList.length != 0">
+        <p style="font-weight: 700">{{ dong }} 인기 코스 👍</p>
+        <div
+          class="main-box"
+          style="display: flex; justify-content: space-between; padding: 0 25px"
+        >
           <div class="bestCourse">
-            <div style="font-weight: 600; font-size: 15pt"> {{ recommendList[1] }} </div>
-            <div class="detail-color" style="margin: 3px 0;">
-              <i class="el-icon-location icon-color"/>
+            <div style="font-weight: 600; font-size: 15pt">
+              {{ recommendList[1] }}
+            </div>
+            <div class="detail-color" style="margin: 3px 0">
+              <i class="el-icon-location icon-color" />
               {{ recommendList[0] }}
             </div>
-            <div class="detail-color">{{ recommendList[2] }} | {{recommendList[3]}}</div>
+            <div class="detail-color">
+              {{ recommendList[2] }} | {{ recommendList[3] }}
+            </div>
           </div>
-          <div class="detail-color" style="text-align: center; display: flex; align-items: center">
-            <i class="el-icon-star-on icon-color" style="font-size: 18pt;"/>
-            {{ recommendList[4] }} </div>
+          <div
+            class="detail-color"
+            style="text-align: center; display: flex; align-items: center"
+          >
+            <i class="el-icon-star-on icon-color" style="font-size: 18pt" />
+            {{ recommendList[4] }}
+          </div>
         </div>
       </div>
       <div>
@@ -318,9 +329,9 @@ export default {
         type: "today",
         sigu: this.sigu,
       };
-      console.log(this.sigu)
+      console.log(this.sigu);
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log("adfasdfasd")
+      console.log("adfasdfasd");
       console.log(this.recommendList.recommendList);
     },
     async getRankData() {
@@ -330,7 +341,7 @@ export default {
       this.ranking = await mainApi.getRankData(data, {});
     },
     async getTodayWalk() {
-      if (this.$store.state.loginUserInfo.nickname != "") {
+      if (this.getName() != "") {
         var today = new Date();
         var year = today.getFullYear();
         var month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -338,7 +349,7 @@ export default {
         var dateString = year + "-" + month + "-" + day;
         let data = {
           type: "todaywalk",
-          userName: this.$store.state.loginUserInfo.nickname,
+          userName: this.getName(),
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
@@ -384,13 +395,13 @@ export default {
   border-radius: 20px;
 }
 
-.detail-color{
+.detail-color {
   font-size: 11pt;
   color: #6f7789;
 }
 
 .icon-color {
-  color: #ee684a
+  color: #ee684a;
 }
 
 .introimg {
