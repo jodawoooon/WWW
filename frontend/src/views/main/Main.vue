@@ -412,7 +412,7 @@ export default {
       axios
         .get(
           "https://dapi.kakao.com/v2/search/web?query=" +
-            encodeURI("기사산책걷기운동"),
+            encodeURI("기사 산책 유산소 기자 걷기 운동"),
           {
             headers: {
               Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
@@ -420,13 +420,14 @@ export default {
           }
         )
         .then((response) => {
-          let item = response.data.documents[0];
+          let item = response.data.documents[1];
           console.log(item.title);
           console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
           item.title = item.title.replaceAll("&quot", "");
           item.title = item.title.replaceAll("&lt", "");
           item.title = item.title.replaceAll("&#39", "");
+          item.title = item.title.replaceAll("&gt", "");
           item.title = item.title.replaceAll("...", "");
           item.title = item.title.replaceAll(";", " ");
           // if (item.title.length > 20) {
