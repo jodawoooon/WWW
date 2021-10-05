@@ -5,8 +5,8 @@
       <div class="main-top">
         <div style="margin-top: 20px">
           <span v-if="isLoginGetters">
-            <span style="font-weight: 700">{{ getName }}님!</span>
-            {{ mention[Math.floor(Math.random() * 4)] }}</span
+            <span style="font-weight: 700">{{ getName }}님!</span> 환영합니다
+            오늘도 화이팅🙌</span
           >
           <span v-if="isLogoutGetters">
             <span style="font-weight: 700">WWW</span>에 오신 것을 환영해요!
@@ -367,7 +367,6 @@ export default {
     this.getWeather();
     this.getForecast();
     this.getRankData();
-    this.getTodayWalk();
   },
   computed: {
     isLoginGetters() {
