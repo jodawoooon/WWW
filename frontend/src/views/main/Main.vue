@@ -419,15 +419,15 @@ export default {
             item.title = item.title.substring(0, 20) + "...";
           }
 
-          item.description = item.description.replaceAll("&quot", "");
-          item.description = item.description.replace(/(<([^>]+)>)/gi, " ");
-          item.description = item.description.replaceAll(";", " ");
+          item.contents = item.contents.replaceAll("&quot", "");
+          item.contents = item.contents.replace(/(<([^>]+)>)/gi, " ");
+          item.contents = item.contents.replaceAll(";", " ");
           // let line1 = item.description.substring(0,20);
 
-          if (item.description.length > 20) {
-            this.content[0] = item.description.substring(0, 20);
+          if (item.contents.length > 20) {
+            this.content[0] = item.contents.substring(0, 20);
             if (item.description.length > 30) {
-              this.content[1] = item.description.substring(20, 30) + "...";
+              this.content[1] = item.contents.substring(20, 30) + "...";
             }
           }
 
@@ -437,7 +437,7 @@ export default {
           console.log(item.title);
           console.log(this.content[0]);
           console.log(this.content[1]);
-          console.log(item.description);
+          console.log(item.contents);
           // let news = {
           //   "title" : item.title,
           //   "link" : item.link,
