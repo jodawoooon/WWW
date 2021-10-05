@@ -104,7 +104,7 @@ export default {
     this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
-    console.log(this.userId);
+    console.log(process.env);
   },
   created() {
     this.getRecentCourse(this.userId);
