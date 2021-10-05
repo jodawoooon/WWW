@@ -189,8 +189,8 @@ e
                 overflow: hidden;
                 padding: 4px;
                 height: 30px;
-                text-overflow: ellipsis;
                 white-space: nowrap;
+                text-overflow: ellipsis;
               "
             >
               {{ newsTitle }}
@@ -199,19 +199,21 @@ e
           <hr style="opacity: 0.1" />
           <el-row style="display: flex; align-items: center">
             <el-col
+              :span="19"
               style="
-                width: 80%;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
                 padding: 1px;
+                font-size: 8pt;
+                margin-top: 10px;
               "
             >
-              <div style="font-size: 8pt; margin-top: 10px">
-                {{ newsContent }}
-              </div>
+              {{ newsContent }}
             </el-col>
-            <el-col style="width: 20%">
+            <el-col :span="5">
               <el-button
                 @click="newsScript()"
                 type="danger"
