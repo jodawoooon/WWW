@@ -18,7 +18,7 @@
         :address="course.address"
         :km="course.courseLength"
         :min="course.time"
-        :kcal="Math.round((course.timeInt * 60) * 0.06 * 10) / 10"
+        :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
         :lat="course.latitude.toString()"
         :lng="course.longitude.toString()"
         :score="course.score"

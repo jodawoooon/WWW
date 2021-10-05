@@ -187,8 +187,7 @@ export default {
           "분 " +
           parseInt((totalTime.time % 3600) % 60) +
           "초";
-        }
-        
+      }
     },
 
     async getUserData(userId, returnType) {
