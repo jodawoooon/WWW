@@ -399,16 +399,12 @@ export default {
     getHealthNews() {
       console.log("들어옴?");
       axios
-        .get(
-          "https://openapi.naver.com/v1/search/news.json?query=" +
-            encodeURI("산책효과"),
-          {
-            headers: {
-              "X-Naver-Client-Id": "_31rtP0lcAbnIArztmNc",
-              "X-Naver-Client-Secret": "E3gE4zjbXA",
-            },
-          }
-        )
+        .get("/v1/search/news.json?query=" + encodeURI("산책효과"), {
+          headers: {
+            "X-Naver-Client-Id": "_31rtP0lcAbnIArztmNc",
+            "X-Naver-Client-Secret": "E3gE4zjbXA",
+          },
+        })
         .then((response) => {
           let item = response.data.items[0];
           console.log(item.title);
