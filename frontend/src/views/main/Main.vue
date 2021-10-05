@@ -132,7 +132,7 @@ e
       <el-divider></el-divider>
       <!-- -->
       <div v-if="recommendList.length != 0">
-        <p style="font-weight: 700">{{ dong }} 인기 코스 👍</p>
+        <p style="font-weight: 700">👍 {{ dong }} 인기 코스</p>
         <div
           class="main-box"
           style="display: flex; justify-content: space-between; padding: 0 25px"
@@ -159,7 +159,7 @@ e
         </div>
       </div>
       <div>
-        <p style="font-weight: 700">이번주 걷기왕 👑</p>
+        <p style="font-weight: 700">🏆 이번주 걷기왕</p>
         <div
           class="main-box"
           style="
@@ -177,8 +177,9 @@ e
           </div>
         </div>
       </div>
-      <div>
-        <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
+      <el-divider></el-divider>
+      <div style="margin-top: 20px">
+        <p style="font-weight: 700">📰 오늘의 건강 뉴스</p>
         <div class="main-box" id="news" style="padding: 10px">
           <el-row>
             <div
@@ -186,15 +187,16 @@ e
                 font-size: 11pt;
                 font-weight: 600;
                 overflow: hidden;
+                padding: 4px;
                 height: 30px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
               "
             >
-              📢 {{ newsTitle }}
+              {{ newsTitle }}
             </div>
           </el-row>
-          <hr style="opacity: 0.2" />
+          <hr style="opacity: 0.1" />
           <el-row style="display: flex; align-items: center">
             <el-col
               style="
