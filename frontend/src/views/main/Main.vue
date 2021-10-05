@@ -399,16 +399,19 @@ export default {
     getHealthNews() {
       console.log("들어옴?");
       axios
-        .get("/v1/search/news.json?query=" + encodeURI("산책효과"), {
-          headers: {
-            "X-Naver-Client-Id": "_31rtP0lcAbnIArztmNc",
-            "X-Naver-Client-Secret": "E3gE4zjbXA",
-          },
-        })
+        .get(
+          "https://dapi.kakao.com/v2/search/web?query=" +
+            encodeURI("기사산책뉴스효과건강"),
+          {
+            headers: {
+              Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+            },
+          }
+        )
         .then((response) => {
-          let item = response.data.items[0];
+          let item = response.data.documents[0];
           console.log(item.title);
-          console.log(item.description);
+          console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
           item.title = item.title.replaceAll("&quot", "");
           item.title = item.title.replaceAll(";", " ");
