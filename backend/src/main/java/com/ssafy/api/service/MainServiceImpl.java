@@ -1,21 +1,24 @@
 package com.ssafy.api.service;
 
+import com.google.common.primitives.Ints;
 import com.google.gson.JsonObject;
 import com.querydsl.core.Tuple;
 import com.ssafy.api.response.main.GetRankRes;
 import com.ssafy.api.response.main.GetRecommendListRes;
 import com.ssafy.api.response.main.TodayWalkTimeRes;
-import com.ssafy.db.entity.Course;
-import com.ssafy.db.entity.CourseFinish;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.entity.Walk;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -29,9 +32,7 @@ public class MainServiceImpl implements MainService {
     @Autowired
     CourseRepository courseRepository;
     @Autowired
-    CourseReviewQueryRepository courseReviewQueryRepository;
-    @Autowired
-    CourseLikeQueryRepository courseLikeQueryRepository;
+    CourseReviewRepository courseReviewRepository;
     @Autowired
     CourseFinishQueryRepository courseFinishQueryRepository;
     @Autowired
@@ -55,8 +56,9 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public TodayWalkTimeRes getTodayWalk(String userId, LocalDateTime date){
-        List<Walk> walklist = walkRepository.findByDate(date);
+    public TodayWalkTimeRes getTodayWalk(String nickname, String date){
+        String userId = userRepository.findByNickname(nickname).getUserId();
+        List<Integer> walklist = walkQueryRepository.TodayWalkTime(userId,date);
         if (walklist.size()==0){//오늘 걸은 기록이 없음
             TodayWalkTimeRes resbody = new TodayWalkTimeRes();
             resbody.setSecond(0);
@@ -64,7 +66,7 @@ public class MainServiceImpl implements MainService {
         }
         int totalTime = 0;
         for(int i=0;i<walklist.size();i++){
-            totalTime += walklist.get(i).getDate().getSecond();
+            totalTime += walklist.get(i);
         }
         TodayWalkTimeRes resbody = new TodayWalkTimeRes();
         resbody.setSecond(totalTime);
@@ -88,27 +90,30 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public GetRecommendListRes getRecommendList(String dong){
+    public GetRecommendListRes getRecommendList(String sigu){
         try{
-            // 좋아요 많은 순, 리뷰, 다른 사용자가 많이 산책한 코스
-            List<Integer> bestCourses = courseLikeQueryRepository.findTop5CourseByLike(dong);
-            List<Integer> bestReviews = courseReviewQueryRepository.findTop5ReviewsByScore(dong);
-            List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(dong);
-            bestCourses.addAll(bestReviews);
-            bestCourses.addAll(bestFinishes);
-
-            int a = 0;
-            String[] recommends = new String[15];
-
-            for(Integer i : bestCourses){
-                String cName = courseRepository.findByCourseId(i).getName();
-                recommends[a++] = cName;
+            // 다른 사용자가 많이 산책한 코스
+            List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(sigu);
+            if(bestFinishes.size()==0){
+                GetRecommendListRes resbody = new GetRecommendListRes();
+                resbody.setRecommendList(null);
+                return resbody;
             }
+            Course bestCourse = courseRepository.findByCourseId(bestFinishes.get(0));
+            CourseReview rate = courseReviewRepository.findByCourse_CourseId(bestFinishes.get(0));
+
+            String[] recommends = new String[5];
+            recommends[0] = bestCourse.getAddress();
+            recommends[1] = bestCourse.getFlagName();
+            recommends[2] = bestCourse.getTime();
+            recommends[3] = Double.toString(bestCourse.getDistance());
+            recommends[4] = Double.toString(rate.getScore());
 
             GetRecommendListRes resbody = new GetRecommendListRes();
             resbody.setRecommendList(recommends);
             return resbody;
         }catch (Exception e){
+            System.out.println(e);
             return null;
         }
     }

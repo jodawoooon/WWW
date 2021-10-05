@@ -39,11 +39,6 @@ export default new Vuex.Store({
       lat: "",
       lng: "",
       dong: "",
-      do: "",
-    },
-    covid: {
-      corona_cnt: "12345",
-      local_corona: "34",
     },
     curCourse: {
       id: "",
@@ -143,10 +138,6 @@ export default new Vuex.Store({
     SET_DONG_LIST(state, payload) {
       state.dongList = payload.dongList;
     },
-    SET_COVID(state, payload) {
-      state.covid.corona_cnt = payload.corona_cnt;
-      state.covid.local_corona = payload.local_corona;
-    },
     SET_IS_LOGIN(state, payload) {
       state.loginUserInfo.isLogin = payload.isLogin;
       state.loginUserInfo.isLogout = payload.isLogout;
@@ -168,9 +159,6 @@ export default new Vuex.Store({
     },
     getDong(state) {
       return state.location.dong;
-    },
-    getDo(state) {
-      return state.location.do;
     },
     getCurPage(state) {
       return state.curPage;

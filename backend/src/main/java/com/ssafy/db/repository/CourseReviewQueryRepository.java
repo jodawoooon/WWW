@@ -35,15 +35,15 @@ public class CourseReviewQueryRepository {
     }
 
     //별점의 평균이 높은 순으로 정렬, 5개 뽑기
-    public List<Integer> findTop5ReviewsByScore(String dong){
-        return queryFactory
-                .select(courseReview.course.courseId.as("course"))
-                .from(courseReview)
-                .join(courseReview.course,course)
-                .where(course.address.contains(dong))
-                .groupBy(courseReview.course)
-                .orderBy(courseReview.score.avg().desc())
-                .limit(5)
-                .fetch();
-    }
+//    public List<Integer> findTop5ReviewsByScore(String sigu){
+//        return queryFactory
+//                .select(courseReview.course.courseId.as("course"))
+//                .from(courseReview)
+//                .join(courseReview.course,course)
+//                .where(course.address.contains(sigu))
+//                .groupBy(courseReview.course)
+//                .orderBy(courseReview.score.avg().desc())
+//                .limit(5)
+//                .fetch();
+//    }
 }
