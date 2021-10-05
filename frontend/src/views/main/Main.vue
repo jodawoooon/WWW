@@ -83,7 +83,7 @@
             style="text-align: center; margin-top: 20px"
             v-if="isLoginGetters"
           >
-            <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
+            <p style="font-size: 9pt">⏱ 오늘 걸은 시간</p>
             <div style="font-size: 20pt; margin-top: 5px">
               <strong>{{ h }}</strong
               >시간 <strong>{{ m }}</strong
