@@ -4,7 +4,7 @@ import SERVER from "./drf.js";
 export const mainApi = {
   getRecommendData: (data, headers) => {
     let url =
-      SERVER.URL + SERVER.ROUTES.main + `/${data.type}` + `/${data.sigu}`;
+    SERVER.URL + SERVER.ROUTES.main + `/${data.type}` + `/${data.sigu}`;
     return requestGet(url, headers);
   },
   getRankData: (data, headers) => {

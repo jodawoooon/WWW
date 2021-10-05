@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CourseReviewRepository extends JpaRepository<CourseReview, CoursePK> {
+    public CourseReview findByCourse_CourseId(int courseId);
 
     // 사용자가 리뷰한 코스 전체 리스트
     public List<CourseReview> findByUser(User user);

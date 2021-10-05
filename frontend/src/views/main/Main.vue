@@ -5,8 +5,8 @@
       <div class="main-top">
         <div style="margin-top: 20px">
           <span v-if="isLoginGetters">
-            <span style="font-weight: 700">{{ getName }}님!</span>
-            {{ mention[Math.floor(Math.random() * 4)] }}</span
+            <span style="font-weight: 700">{{ getName }}님!</span> 환영합니다
+            오늘도 화이팅🙌</span
           >
           <span v-if="isLogoutGetters">
             <span style="font-weight: 700">WWW</span>에 오신 것을 환영해요!
@@ -83,11 +83,11 @@
             style="text-align: center; margin-top: 20px"
             v-if="isLoginGetters"
           >
-            <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
+            <p style="font-size: 9pt">⏱ 오늘 걸은 시간</p>
             <div style="font-size: 20pt; margin-top: 5px">
               <strong>{{ h }}</strong
               >시간 <strong>{{ m }}</strong
-              >분<strong>{{ s }}</strong
+              >분 <strong>{{ s }}</strong
               >초
             </div>
             <el-row
@@ -129,10 +129,33 @@
       </div>
 
       <el-divider></el-divider>
-      <!-- v-if="recommendList.length!=0" -->
-      <div>
-        <p style="font-weight: 700">오늘의 추천 코스 👍</p>
-        <div class="main-box">{{ recommendList }}</div>
+      <!-- -->
+      <div v-if="recommendList.length != 0">
+        <p style="font-weight: 700">{{ dong }} 인기 코스 👍</p>
+        <div
+          class="main-box"
+          style="display: flex; justify-content: space-between; padding: 0 25px"
+        >
+          <div class="bestCourse">
+            <div style="font-weight: 600; font-size: 15pt">
+              {{ recommendList[1] }}
+            </div>
+            <div class="detail-color" style="margin: 3px 0">
+              <i class="el-icon-location icon-color" />
+              {{ recommendList[0] }}
+            </div>
+            <div class="detail-color">
+              {{ recommendList[2] }} | {{ recommendList[3] }}
+            </div>
+          </div>
+          <div
+            class="detail-color"
+            style="text-align: center; display: flex; align-items: center"
+          >
+            <i class="el-icon-star-on icon-color" style="font-size: 18pt" />
+            {{ recommendList[4] }}
+          </div>
+        </div>
       </div>
       <div>
         <p style="font-weight: 700">이번주 걷기왕 👑</p>
@@ -158,7 +181,7 @@
         <div class="main-box">
           <div 
             style="
-              font-size : 14pt;
+              font-size : 13pt;
               font-weight : bold;
               padding-top: 10px;
               margin : 15px;
@@ -189,10 +212,8 @@
 import axios from "axios";
 import router from "@/router/index.js";
 import mainApi from "@/api/main.js";
-// import courseApi from "@/api/course.js";
 
 import Header from "@/components/common/Header";
-// import CourseCard from "@/views/course/CourseCard";
 import("@/assets/style/Main.css");
 
 export default {
@@ -234,6 +255,7 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    this.getTodayWalk();
   },
   methods: {
     clickLogin() {
@@ -274,12 +296,12 @@ export default {
               this.si = response.data.documents[0].region_2depth_name;
               this.sigu =
                 response.data.documents[0].region_2depth_name.split(" ")[0];
+              // this.getRecommendData();
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
                 dong: this.dong,
               });
-              this.getRecommendData();
             });
         },
         (err) => {
@@ -334,13 +356,10 @@ export default {
         type: "today",
         sigu: this.sigu,
       };
+      console.log(this.sigu);
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList);
-    },
-    async getRecommendList() {
-      // let data = {
-      //   type: "",
-      // };
+      console.log("adfasdfasd");
+      console.log(this.recommendList.recommendList);
     },
     async getRankData() {
       let data = {
@@ -349,7 +368,7 @@ export default {
       this.ranking = await mainApi.getRankData(data, {});
     },
     async getTodayWalk() {
-      if (this.userName != "") {
+      if (this.$store.getters.getLoginUserInfo.nickname != "") {
         var today = new Date();
         var year = today.getFullYear();
         var month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -357,7 +376,7 @@ export default {
         var dateString = year + "-" + month + "-" + day;
         let data = {
           type: "todaywalk",
-          userName: this.userName,
+          userName: this.$store.getters.getLoginUserInfo.nickname,
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
@@ -430,8 +449,10 @@ export default {
     this.getWeather();
     this.getForecast();
     this.getRankData();
+
     this.getTodayWalk();
     this.getHealthNews();
+
   },
   computed: {
     isLoginGetters() {
@@ -441,6 +462,7 @@ export default {
       return this.$store.getters.getterLogoutInfo;
     },
     getName() {
+      this.getTodayWalk();
       return this.$store.getters.getLoginUserInfo.nickname;
     },
   },
@@ -459,6 +481,16 @@ export default {
   background: #f6f6f6;
   border-radius: 20px;
 }
+
+.detail-color {
+  font-size: 11pt;
+  color: #6f7789;
+}
+
+.icon-color {
+  color: #ee684a;
+}
+
 .introimg {
   margin-top: 10px;
   width: 120px;
