@@ -155,7 +155,31 @@
       </div>
       <div>
         <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
-        <div class="main-box"></div>
+        <div class="main-box">
+          <div 
+            style="
+              font-size : 14pt;
+              font-weight : bold;
+              padding-top: 10px;
+              margin : 15px;
+              margin-bottom : 10px;
+              ">{{news.title}}</div>         
+          <div style = "
+              font-size : 11pt;
+              margin-left: 25px;
+              margin-right: 15px;
+              ">{{content[0]}}</div>
+          <span style = "
+              font-size : 11pt;
+              margin-left: 25px;
+              margin-right: 15px;
+              margin-bottom: 15px;">{{content[1]}}</span>
+          <el-link @click="newsScript()" target="_blank" type="danger" style="font-size : 15px;  text-decoration:none; margin-left : 100px">
+            더보기</el-link>
+            <!-- <el-link href="news.link" target="_blank" type="danger" style="font-size : 15px;  text-decoration:none; margin-left : 70px">
+            <el-button type="danger" round>더보기</el-button></el-link> -->
+          
+        </div>
       </div>
     </div>
   </div>
@@ -204,6 +228,8 @@ export default {
       m: "00",
       s: "00",
       ranking: [],
+      news: [],
+      content: [],
     };
   },
   mounted() {
@@ -341,6 +367,62 @@ export default {
         console.log(today_walk_time.second, this.h, this.m, this.s);
       }
     },
+    getHealthNews() {
+      console.log("들어옴?");
+      axios
+        .get(
+          "/v1/search/news.json?query="+encodeURI("산책효과"),
+          {
+            headers :{
+              "X-Naver-Client-Id" : "_31rtP0lcAbnIArztmNc",
+              "X-Naver-Client-Secret" : "E3gE4zjbXA"
+            }
+          }
+        )
+        .then((response) => {
+
+          let item = response.data.items[0];
+          console.log(item.title);
+          console.log(item.description);
+          item.title = item.title.replace(/(<([^>]+)>)/ig," ");
+          item.title = item.title.replaceAll("&quot","");
+          item.title = item.title.replaceAll(";"," ");
+          if(item.title.length>20){
+              item.title = item.title.substring(0,20)+"...";
+          }
+
+          
+          item.description = item.description.replaceAll("&quot","");
+          item.description = item.description.replace(/(<([^>]+)>)/ig," ");
+          item.description = item.description.replaceAll(";"," ");
+          // let line1 = item.description.substring(0,20);
+
+          if(item.description.length>20){
+            this.content[0] = item.description.substring(0,20);
+            if(item.description.length>30){
+              this.content[1] = item.description.substring(20,30)+"...";
+            }
+          }
+          
+          // item.description = item.description.substring(0,15)+"\n"+item.description.substring(15);
+          // 정규식 표현으로 태그 제거
+          console.log(item.link);
+          console.log(item.title);
+          console.log(this.content[0]);
+          console.log(this.content[1]);
+          console.log(item.description);
+          // let news = {
+          //   "title" : item.title,
+          //   "link" : item.link,
+          //   "content" : item.description
+          // };
+          this.news = item;
+
+        });
+    },
+    newsScript(){
+      window.open(this.news.link,"_blank");
+    }
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
@@ -349,6 +431,7 @@ export default {
     this.getForecast();
     this.getRankData();
     this.getTodayWalk();
+    this.getHealthNews();
   },
   computed: {
     isLoginGetters() {

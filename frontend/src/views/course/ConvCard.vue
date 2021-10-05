@@ -29,9 +29,7 @@ export default {
       default: "address",
     },
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 

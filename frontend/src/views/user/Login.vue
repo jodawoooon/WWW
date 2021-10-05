@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div>
       <div class="login-content">
         <div style="top-margin: 50px">
@@ -28,7 +27,6 @@
 </template>
 
 <script>
-
 import("@/assets/style/Main.css");
 
 export default {
