@@ -60,8 +60,8 @@ backend
 				└── application-db.yml
 ```
 
-- **application.yaml** (프로젝트 셋팅, 배포 셋팅)
-- **application-db.yaml** (DB 셋팅 정보)
+- **application.yml** (프로젝트 셋팅, 배포 셋팅)
+- **application-db.yml** (DB 셋팅 정보)
 
 # 📢 빌드 및 배포 방법
 
@@ -78,7 +78,7 @@ sudo apt-get install openjdk-11-jdk
 ### 2. Project Git Clone
 
 ```
-git clone https://lab.ssafy.com/s05-bigdata-dist/S05P21A605.git
+git clone [git-clone-link]
 ```
 
 
