@@ -1,3 +1,4 @@
+e
 <template>
   <div>
     <Header :showArrow="false" message="WWW" id="navBar" />
@@ -178,40 +179,47 @@
       </div>
       <div>
         <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
-        <div class="main-box">
-          <div
-            style="
-              font-size: 13pt;
-              font-weight: bold;
-              padding-top: 10px;
-              margin: 15px;
-              margin-bottom: 10px;
-            "
-          >
-            {{ news.title }}
-          </div>
-          <div style="font-size: 11pt; margin-left: 25px; margin-right: 15px">
-            {{ content[0] }}
-          </div>
-          <span
-            style="
-              font-size: 11pt;
-              margin-left: 25px;
-              margin-right: 15px;
-              margin-bottom: 15px;
-            "
-            >{{ content[1] }}</span
-          >
-          <el-link
-            @click="newsScript()"
-            target="_blank"
-            type="danger"
-            style="font-size: 15px; text-decoration: none; margin-left: 100px"
-          >
-            더보기</el-link
-          >
-          <!-- <el-link href="news.link" target="_blank" type="danger" style="font-size : 15px;  text-decoration:none; margin-left : 70px">
-            <el-button type="danger" round>더보기</el-button></el-link> -->
+        <div class="main-box" id="news" style="padding: 10px">
+          <el-row>
+            <div
+              style="
+                font-size: 11pt;
+                font-weight: 600;
+                overflow: hidden;
+                height: 30px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              "
+            >
+              📢 {{ newsTitle }}
+            </div>
+          </el-row>
+          <hr style="opacity: 0.2" />
+          <el-row style="display: flex; align-items: center">
+            <el-col
+              style="
+                width: 80%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding: 1px;
+              "
+            >
+              <div style="font-size: 8pt; margin-top: 10px">
+                {{ newsContent }}
+              </div>
+            </el-col>
+            <el-col style="width: 20%">
+              <el-button
+                @click="newsScript()"
+                type="danger"
+                style="border-radius: 14px; margin-top: 10px; font-size: 8pt"
+                size="mini"
+              >
+                더보기</el-button
+              >
+            </el-col>
+          </el-row>
         </div>
       </div>
     </div>
@@ -259,8 +267,9 @@ export default {
       m: "00",
       s: "00",
       ranking: [],
-      news: [],
-      content: [],
+      newsUrl: "",
+      newsTitle: "",
+      newsContent: "",
     };
   },
   mounted() {
@@ -401,7 +410,7 @@ export default {
       axios
         .get(
           "https://dapi.kakao.com/v2/search/web?query=" +
-            encodeURI("기사산책뉴스효과건강"),
+            encodeURI("기사산책걷기운동"),
           {
             headers: {
               Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
@@ -414,22 +423,29 @@ export default {
           console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
           item.title = item.title.replaceAll("&quot", "");
+          item.title = item.title.replaceAll("&lt", "");
+          item.title = item.title.replaceAll("&#39", "");
+          item.title = item.title.replaceAll("...", "");
           item.title = item.title.replaceAll(";", " ");
-          if (item.title.length > 20) {
-            item.title = item.title.substring(0, 20) + "...";
-          }
-
+          // if (item.title.length > 20) {
+          //   item.title = item.title.substring(0, 20) + "...";
+          // }
+          this.newsTitle = item.title;
           item.contents = item.contents.replaceAll("&quot", "");
           item.contents = item.contents.replace(/(<([^>]+)>)/gi, " ");
+          item.contents = item.contents.replaceAll("&lt", " ");
+          item.contents = item.contents.replaceAll("&#39", " ");
           item.contents = item.contents.replaceAll(";", " ");
+          this.newsContent = item.contents;
+          this.newsUrl = item.url;
           // let line1 = item.description.substring(0,20);
 
-          if (item.contents.length > 20) {
-            this.content[0] = item.contents.substring(0, 20);
-            if (item.description.length > 30) {
-              this.content[1] = item.contents.substring(20, 30) + "...";
-            }
-          }
+          // if (item.contents.length > 20) {
+          //   this.content[0] = item.contents.substring(0, 20);
+          //   if (item.description.length > 30) {
+          //     this.content[1] = item.contents.substring(20, 30) + "...";
+          //   }
+          // }
 
           // item.description = item.description.substring(0,15)+"\n"+item.description.substring(15);
           // 정규식 표현으로 태그 제거
@@ -438,16 +454,10 @@ export default {
           // console.log(this.content[0]);
           // console.log(this.content[1]);
           // console.log(item.contents);
-          let news = {
-            title: item.title,
-            link: item.link,
-            content: item.contents,
-          };
-          this.news = news;
         });
     },
     newsScript() {
-      window.open(this.news.link, "_blank");
+      window.open(this.newsUrl, "_blank");
     },
   },
   created() {
