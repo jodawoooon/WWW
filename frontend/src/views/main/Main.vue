@@ -279,6 +279,7 @@ export default {
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
     this.getTodayWalk();
+    console.log(process.env);
   },
   methods: {
     clickLogin() {
