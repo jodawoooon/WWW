@@ -14,7 +14,7 @@
 
 [4️⃣ 빌드 및 배포 방법](#-빌드-및-배포-방법)
 
-[5️⃣ 외부 TOKEN/KEY](#-외부-TOKEN-KEY)
+[5️⃣ 외부 TOKEN](#-외부-TOKEN)
 
 
 
@@ -159,7 +159,7 @@ sudo servicectl nginx start
 
 
 
-# 📡 외부 TOKEN/KEY
+# 📡 외부 TOKEN
 
 ## 1. Kakao Map API
 
