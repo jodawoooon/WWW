@@ -89,7 +89,7 @@
             <div style="font-size: 20pt; margin-top: 5px">
               <strong>{{ h }}</strong
               >시간 <strong>{{ m }}</strong
-              >분<strong>{{ s }}</strong
+              >분 <strong>{{ s }}</strong
               >초
             </div>
             <el-row
@@ -133,8 +133,10 @@
       <el-divider></el-divider>
       <!-- v-if="recommendList.length!=0" -->
       <div>
-        <p style="font-weight: 700">오늘의 추천 코스 👍</p>
-        <div class="main-box">{{ recommendList }}</div>
+        <p style="font-weight: 700">{{dong}} 인기 코스 👍</p>
+        <div class="main-box">
+          {{ recommendList.recommends }}
+        </div>
       </div>
       <div>
         <p style="font-weight: 700">이번주 걷기왕 👑</p>
@@ -167,10 +169,8 @@
 import axios from "axios";
 import router from "@/router/index.js";
 import mainApi from "@/api/main.js";
-// import courseApi from "@/api/course.js";
 
 import Header from "@/components/common/Header";
-// import CourseCard from "@/views/course/CourseCard";
 import("@/assets/style/Main.css");
 
 export default {
@@ -250,12 +250,13 @@ export default {
               this.si = response.data.documents[0].region_2depth_name;
               this.sigu =
                 response.data.documents[0].region_2depth_name.split(" ")[0];
+              console.log("bbbbbbbb")
+              this.getRecommendData();
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
                 dong: this.dong,
               });
-              this.getRecommendData();
             });
         },
         (err) => {
@@ -310,13 +311,10 @@ export default {
         type: "today",
         sigu: this.sigu,
       };
+      console.log(this.sigu)
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList);
-    },
-    async getRecommendList() {
-      // let data = {
-      //   type: "",
-      // };
+      console.log("adfasdfasd")
+      console.log(this.recommendList.recommends);
     },
     async getRankData() {
       let data = {
@@ -325,7 +323,7 @@ export default {
       this.ranking = await mainApi.getRankData(data, {});
     },
     async getTodayWalk() {
-      if (this.userName != "") {
+      if (this.$store.state.loginUserInfo.nickname != "") {
         var today = new Date();
         var year = today.getFullYear();
         var month = ("0" + (today.getMonth() + 1)).slice(-2);

@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 public class GetRecommendListRes extends BaseResponseBody {
     @ApiModelProperty(name = "추천 리스트", example = "[[],[]]")
-    int[] recommendList;
+    String[] recommendList;
 
-    public static GetRecommendListRes of(Integer statusCode, String message, int[] recommendList){
+    public static GetRecommendListRes of(Integer statusCode, String message, String[] recommendList){
         GetRecommendListRes resbody = new GetRecommendListRes();
         resbody.setStatusCode(statusCode);
         resbody.setMessage(message);
