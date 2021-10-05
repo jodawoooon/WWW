@@ -179,7 +179,7 @@ e
       </div>
 
       <div style="margin-top: 24px">
-        <p style="font-weight: 700">📰 오늘의 건강 뉴스</p>
+        <p style="font-weight: 700">📰 건강 뉴스</p>
         <div class="main-box" id="news" style="padding: 10px">
           <el-row>
             <div
@@ -414,7 +414,7 @@ export default {
       axios
         .get(
           "https://dapi.kakao.com/v2/search/web?query=" +
-            encodeURI("기사 산책 유산소 기자 걷기 운동"),
+            encodeURI("걷기 운동 신체 활동 기자 기사 코로나 일보"),
           {
             headers: {
               Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
@@ -422,7 +422,7 @@ export default {
           }
         )
         .then((response) => {
-          let item = response.data.documents[1];
+          let item = response.data.documents[0];
           console.log(item.title);
           console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
@@ -430,6 +430,7 @@ export default {
           item.title = item.title.replaceAll("&lt", "");
           item.title = item.title.replaceAll("&#39", "");
           item.title = item.title.replaceAll("&gt", "");
+          item.title = item.title.replaceAll("&amp", "");
           item.title = item.title.replaceAll("...", "");
           item.title = item.title.replaceAll(";", " ");
           // if (item.title.length > 20) {
