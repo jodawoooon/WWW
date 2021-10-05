@@ -229,6 +229,7 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    this.getTodayWalk();
   },
   methods: {
     clickLogin() {
@@ -376,6 +377,7 @@ export default {
       return this.$store.getters.getterLogoutInfo;
     },
     getName() {
+      this.getTodayWalk();
       return this.$store.getters.getLoginUserInfo.nickname;
     },
   },
