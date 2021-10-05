@@ -433,17 +433,17 @@ export default {
 
           // item.description = item.description.substring(0,15)+"\n"+item.description.substring(15);
           // 정규식 표현으로 태그 제거
-          console.log(item.link);
-          console.log(item.title);
-          console.log(this.content[0]);
-          console.log(this.content[1]);
-          console.log(item.contents);
-          // let news = {
-          //   "title" : item.title,
-          //   "link" : item.link,
-          //   "content" : item.description
-          // };
-          this.news = item;
+          // console.log(item.link);
+          // console.log(item.title);
+          // console.log(this.content[0]);
+          // console.log(this.content[1]);
+          // console.log(item.contents);
+          let news = {
+            title: item.title,
+            link: item.link,
+            content: item.contents,
+          };
+          this.news = news;
         });
     },
     newsScript() {
