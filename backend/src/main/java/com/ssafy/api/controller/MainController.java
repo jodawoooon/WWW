@@ -54,7 +54,7 @@ public class MainController {
 
     //오늘의 추천 코스>알고리즘 결정 필요
     @GetMapping("/today/{sigu}")
-    public ResponseEntity<GetRecommendListRes> getRecommendList(@RequestBody @PathVariable("dong") String sigu){
+    public ResponseEntity<GetRecommendListRes> getRecommendList(@RequestBody @PathVariable("sigu") String sigu){
         GetRecommendListRes getRecommendListRes = mainService.getRecommendList(sigu);
 
         if(getRecommendListRes!=null) return ResponseEntity.ok(GetRecommendListRes.of(200, "Success",getRecommendListRes.getRecommendList()));
