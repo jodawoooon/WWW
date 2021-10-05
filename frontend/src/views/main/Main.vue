@@ -131,11 +131,21 @@
       </div>
 
       <el-divider></el-divider>
-      <!-- v-if="recommendList.length!=0" -->
-      <div>
+      <!-- -->
+      <div v-if="recommendList.length!=0">
         <p style="font-weight: 700">{{dong}} 인기 코스 👍</p>
-        <div class="main-box">
-          {{ recommendList.recommends }}
+        <div class="main-box" style="display:flex; justify-content:space-between; padding: 0 25px">
+          <div class="bestCourse">
+            <div style="font-weight: 600; font-size: 15pt"> {{ recommendList[1] }} </div>
+            <div class="detail-color" style="margin: 3px 0;">
+              <i class="el-icon-location icon-color"/>
+              {{ recommendList[0] }}
+            </div>
+            <div class="detail-color">{{ recommendList[2] }} | {{recommendList[3]}}</div>
+          </div>
+          <div class="detail-color" style="text-align: center; display: flex; align-items: center">
+            <i class="el-icon-star-on icon-color" style="font-size: 18pt;"/>
+            {{ recommendList[4] }} </div>
         </div>
       </div>
       <div>
@@ -250,8 +260,7 @@ export default {
               this.si = response.data.documents[0].region_2depth_name;
               this.sigu =
                 response.data.documents[0].region_2depth_name.split(" ")[0];
-              console.log("bbbbbbbb")
-              this.getRecommendData();
+              // this.getRecommendData();
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
@@ -314,7 +323,7 @@ export default {
       console.log(this.sigu)
       this.recommendList = await mainApi.getRecommendData(data, {});
       console.log("adfasdfasd")
-      console.log(this.recommendList.recommends);
+      console.log(this.recommendList.recommendList);
     },
     async getRankData() {
       let data = {
@@ -331,7 +340,7 @@ export default {
         var dateString = year + "-" + month + "-" + day;
         let data = {
           type: "todaywalk",
-          userName: this.userName,
+          userName: this.$store.state.loginUserInfo.nickname,
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
@@ -376,6 +385,16 @@ export default {
   background: #f6f6f6;
   border-radius: 20px;
 }
+
+.detail-color{
+  font-size: 11pt;
+  color: #6f7789;
+}
+
+.icon-color {
+  color: #ee684a
+}
+
 .introimg {
   margin-top: 10px;
   width: 120px;

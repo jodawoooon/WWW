@@ -6,10 +6,7 @@ import com.querydsl.core.Tuple;
 import com.ssafy.api.response.main.GetRankRes;
 import com.ssafy.api.response.main.GetRecommendListRes;
 import com.ssafy.api.response.main.TodayWalkTimeRes;
-import com.ssafy.db.entity.Course;
-import com.ssafy.db.entity.CourseFinish;
-import com.ssafy.db.entity.User;
-import com.ssafy.db.entity.Walk;
+import com.ssafy.db.entity.*;
 import com.ssafy.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +31,8 @@ public class MainServiceImpl implements MainService {
     UserRepository userRepository;
     @Autowired
     CourseRepository courseRepository;
+    @Autowired
+    CourseReviewRepository courseReviewRepository;
     @Autowired
     CourseFinishQueryRepository courseFinishQueryRepository;
     @Autowired
@@ -101,12 +100,14 @@ public class MainServiceImpl implements MainService {
                 return resbody;
             }
             Course bestCourse = courseRepository.findByCourseId(bestFinishes.get(0));
+            CourseReview rate = courseReviewRepository.findByCourse_CourseId(bestFinishes.get(0));
 
-            String[] recommends = new String[4];
+            String[] recommends = new String[5];
             recommends[0] = bestCourse.getAddress();
             recommends[1] = bestCourse.getFlagName();
             recommends[2] = bestCourse.getTime();
             recommends[3] = Double.toString(bestCourse.getDistance());
+            recommends[4] = Double.toString(rate.getScore());
 
             GetRecommendListRes resbody = new GetRecommendListRes();
             resbody.setRecommendList(recommends);
