@@ -177,8 +177,8 @@ e
           </div>
         </div>
       </div>
-      <el-divider></el-divider>
-      <div style="margin-top: 20px">
+
+      <div style="margin-top: 24px">
         <p style="font-weight: 700">📰 오늘의 건강 뉴스</p>
         <div class="main-box" id="news" style="padding: 10px">
           <el-row>
