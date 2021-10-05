@@ -341,7 +341,7 @@ export default {
       this.ranking = await mainApi.getRankData(data, {});
     },
     async getTodayWalk() {
-      if (this.getName() != "") {
+      if (this.$store.getters.getLoginUserInfo.nickname != "") {
         var today = new Date();
         var year = today.getFullYear();
         var month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -349,7 +349,7 @@ export default {
         var dateString = year + "-" + month + "-" + day;
         let data = {
           type: "todaywalk",
-          userName: this.getName(),
+          userName: this.$store.getters.getLoginUserInfo.nickname,
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
