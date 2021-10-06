@@ -37,7 +37,7 @@ export default {
     }
   },
   mounted(){
-      this.kakaoUrl="https://kauth.kakao.com/oauth/authorize?client_id="+process.env.VUE_APP_KAKAO_KEY +"%&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code";
+      this.kakaoUrl="https://kauth.kakao.com/oauth/authorize?client_id="+process.env.VUE_APP_KAKAO_KEY +"&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code";
 
   },
   methods: {},
