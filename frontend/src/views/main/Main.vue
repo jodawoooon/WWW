@@ -95,7 +95,7 @@ e
               style="margin-top: 10px; display: flex; justify-content: center"
             >
               <el-button type="danger" @click="startWalk()"
-                >START</el-button
+                >산책하기</el-button
               ></el-row
             >
           </div>
