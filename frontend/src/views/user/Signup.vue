@@ -189,6 +189,12 @@ export default {
                 isLogin : true,
                 isLogout : false
               });
+              this.$store.commit("SET_MORE_USER_INFO",{
+                nickname: data.nickname,
+                sido: data.sido,
+                gugun: data.gugun,
+                dong:data.dong,
+              })
               console.log(result);
                Swal.fire({
                 width: 250,
