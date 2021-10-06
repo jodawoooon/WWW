@@ -136,7 +136,8 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?appkey=%VUE_APP_NEWS_KEY%&autoload=false";
+        "//dapi.kakao.com/v2/maps/sdk.js?appkey="
+        +process.env.VUE_APP_NEWS_KEY+"&autoload=false";
       document.head.appendChild(script);
     }
     console.log(this.prevPage);
