@@ -84,6 +84,7 @@ WWW와 함께 걸어보세요!
 
 #### 2. 개인 산책 기록 분석 및 관리
 ![image](/uploads/d92f398f2f2820c189ac1d8c8fcfb026/image.png)
+![image](/uploads/ada1aeec230af9652a42929ebd859c67/image.png)
 - 사용자의 산책을 추적하여 속도, 거리 기록 저장
 - 관심 코스 등록 및 조회 기능
 - 코스 별 리뷰 기능
