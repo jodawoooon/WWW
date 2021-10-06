@@ -53,7 +53,7 @@
                   @click="startLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
-                  start
+                  START
                 </el-button>
               </div>
               <div v-if="isPause">
@@ -62,7 +62,7 @@
                   @click="watchLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
-                  start
+                  START
                 </el-button>
                 <el-button
                   type="warning"
@@ -75,7 +75,7 @@
                     m-1
                   "
                 >
-                  stop
+                  STOP
                 </el-button>
               </div>
             </section>
@@ -97,7 +97,7 @@
                 @click="stopLocationUpdates"
                 class="btn round btn btn-info btn-icon rounded-circle m-1"
               >
-                pause
+                PAUSE
               </el-button>
 
               <el-button
@@ -105,7 +105,7 @@
                 @click="endLocationUpdates"
                 class="btn round btn btn-secondary btn-icon rounded-circle m-1"
               >
-                stop
+                STOP
               </el-button>
             </section>
           </div>
@@ -136,14 +136,12 @@ export default {
       address: "",
       watchPositionId: null,
       map: null,
-      accumulated_distance: 0, // 총 누적거리
-      accumulated_time: 0, // 총 누적 시간
-      speed: 0, // 현재 속력
-      // speed_now:[],
-      // show_speed:0, // 현재 속력 - 보여주기
-      checkOneKm: 0, //1 km마다 초기화
-      checkSecond: 0, // 1 km마다 초기화
-      avgSpeed: 0, //전체 평균 속력
+      accumulated_distance: 0,
+      accumulated_time: 0,
+      speed: 0,
+      checkOneKm: 0,
+      checkSecond: 0,
+      avgSpeed: 0,
       linePath: [],
       poly: null,
       encoded_polyline: "",
@@ -155,7 +153,8 @@ export default {
       thumbnail: "",
       tempRecords: [],
       stringTempRecords: [],
-      //스톱워치 변수
+
+      //스톱워치
       clock: "00:00:00",
       timeBegan: null,
       timeStopped: null,
@@ -177,7 +176,9 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?appkey=779f3000dd215fa0e783546831836eca&autoload=false";
+        "//dapi.kakao.com/v2/maps/sdk.js?appkey="
+        +process.env.VUE_APP_NEWS_KEY+
+        "&autoload=false";
       document.head.appendChild(script);
       this.resetLocations();
       this.accumulated_distance = 0;
@@ -209,10 +210,6 @@ export default {
         speed: speed.toString(),
       };
       this.stringTempRecords.push(stringTempRecord);
-
-      console.log(tempRecord);
-      console.log(stringTempRecord);
-      console.log(this.accumulated_time);
 
       https
         .post("/main/finishrecord", {
@@ -282,18 +279,8 @@ export default {
     encode_polyline(poly) {
       var path = poly.getPath();
       this.encoded_polyline = kakao.maps.geometry.encoding.encodePath(path);
-      // console.log("this.encoded_polyline")
-      // console.log(this.encoded_polyline)
     },
     drawLines() {
-      // var runningPathCoordinates = [];
-      // for (var i = 0; i < this.linePath.length; i++) {
-      //   runningPathCoordinates.push(
-      //     new google.maps.LatLng(this.linePath[i].lat,this.linePath[i].lng)
-      //   );
-      // }
-      // console.log("drawLines - this.linePath")
-      // console.log(this.linePath)
       this.poly = new kakao.maps.Polyline({
         // path: runningPathCoordinates,
         path: this.linePath,
@@ -303,10 +290,8 @@ export default {
         strokeWeight: 2,
         map: this.map,
       });
-      // console.log("drawLines - this.poly")
-      // console.log(this.poly)
+
       this.poly.setMap(this.map);
-      // this.encode_polyline(this.poly);
     },
     zeroPrefix(num, digit) {
       var zero = "";
@@ -370,15 +355,6 @@ export default {
       );
       this.watchLocationUpdates();
     },
-    clickStar() {
-      if (this.course.isBookmarked) {
-        //axios 북마크 삭제
-      } else {
-        //axios 북마크 등록
-      }
-
-      this.course.isBookmarked = !this.course.isBookmarked;
-    },
     initMap() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -430,19 +406,11 @@ export default {
             this.current.lng
           );
 
-          console.log(runningMarkerPosition);
-
           var marker = new kakao.maps.Marker({
             position: runningMarkerPosition,
             image: markerImage, // 마커이미지 설정
           });
 
-          // var marker = new kakao.maps.Marker({
-          //   map: this.map,
-          //   title: "현재위치",
-          //   position: runningMarkerPosition,
-          //   icon: runningMarker,
-          // });
           marker.setMap(this.map);
 
           this.marker = marker;
@@ -456,7 +424,6 @@ export default {
     },
 
     watchLocationUpdates() {
-      // stopwatch
       if (this.running) return;
 
       if (this.timeBegan === null) {
@@ -485,35 +452,6 @@ export default {
             position.coords.longitude
           );
           this.$store.commit("SET_IS_AGREE");
-          // var gugun = this.gugun;
-          // var currentCity = this.currentCity;
-
-          // // //현재 위도 경도를 주소로 변환
-          // // geocoder.geocode(
-          // //   {
-          // //     latLng: now,
-          // //   },
-          // //   function (results, status) {
-          // //     if (status == kakao.maps.services.Status.OK) {
-          // //       var split_address = results[0].formatted_address.split(" ");
-          // //       currentCity = split_address[2].trim();
-          // //       var cityDuplicate = false;
-          // //       for (var i = 0; i < gugun.length; i++) {
-          // //         if (gugun[i] == currentCity) {
-          // //           // console.log("이미 존재해요");
-          // //           cityDuplicate = true;
-          // //         }
-          // //       }
-          // //       if (currentCity != "" && !cityDuplicate) {
-          // //         gugun.push(currentCity);
-          // //       }
-          // //     } else {
-          // //       console.log(status);
-          // //     }
-          // //   }
-          // // );
-          // // this.gugun = gugun;
-
           axios
             .get(
               "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x=" +
@@ -535,7 +473,7 @@ export default {
             this.previous.lat = this.current.lat;
             this.previous.lng = this.current.lng;
 
-            //이제 런닝 시작이면
+            //런닝 시작
             var currentLatLng = new kakao.maps.LatLng(
               this.current.lat,
               this.current.lng
@@ -543,15 +481,12 @@ export default {
             this.linePath.push(currentLatLng);
           } else {
             var distance = this.computeDistance(this.previous, this.current);
-
-            // console.log("watchposition 이동거리" + distance);
-            // console.log("watchposition 걸린시간" + this.checkSecond);
             var threshold = 0.001;
             this.previous.lat = this.current.lat;
             this.previous.lng = this.current.lng;
 
             if (distance > threshold) {
-              // 일정속도 이상으로 뛸때만 기록.
+              // 일정속도 이상
               this.accumulated_distance += distance;
               this.checkOneKm += distance;
 
@@ -563,8 +498,7 @@ export default {
               this.drawLines();
             }
             if (this.checkOneKm >= 1) {
-              //1km 도달시 마다
-              // console.log("최근 1km당 스피드 = " + this.speed);
+              //1km 도달
               this.savePosition();
               this.checkOneKm -= 1;
               this.checkSecond = 0;
@@ -596,7 +530,6 @@ export default {
 
       // 지도 중심을 이동 시킵니다
       this.map.setCenter(moveLatLon);
-      console.log(data);
     },
   },
 };

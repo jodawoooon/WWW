@@ -70,7 +70,7 @@
       >
         <el-divider />
         <div class="block" style="margin-bottom: 20px">
-          <h5>거리</h5>
+          <h5>코스 길이</h5>
           <el-slider
             v-model="filterDist"
             range
