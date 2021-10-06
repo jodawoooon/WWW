@@ -21,7 +21,8 @@ public class CourseFinishQueryRepository {
         return queryFactory
                 .select(courseFinish.course.courseId.as("course"))
                 .from(courseFinish)
-                .join(courseFinish.course,course)
+                .innerJoin(courseFinish.course,course)
+                .on(courseFinish.course.eq(course))
                 .where(course.address.contains(sigu))
                 .groupBy(courseFinish.course)
                 .orderBy(courseFinish.course.count().desc())
