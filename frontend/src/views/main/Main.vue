@@ -325,25 +325,24 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res);
           this.$store.commit("SET_CUR_COURSE", {
-            id: this.$props.courseId,
+            id: res.data.coursId,
             title:
-              this.$props.title != this.$props.name
-                ? this.$props.title + "-" + this.$props.name
-                : this.$props.title,
-            address: this.$props.address,
-            lat: this.$props.lat,
-            lng: this.$props.lng,
-            score: this.$props.score,
-            distance: this.$props.km,
-            time: this.$props.min,
-            kcal: this.$props.kcal,
-            detail: this.$props.detail,
+              res.data.courseFlagName != res.data.courseName
+                ? res.data.courseFlagName + "-" + res.data.courseName
+                : res.data.courseFlagName,
+            address: res.data.address,
+            lat: res.data.latitude,
+            lng: res.data.longitude,
+            score: res.data.score,
+            distance: res.data.courseLength,
+            time: res.data.time,
+            detail: res.data.detail,
             cafe: res.data.cafeList,
             conv: res.data.convList,
             isBookmarked: res.data.myLike,
           });
-          console.log(this.$props.courseId + " " + this.$props.address);
         });
       router.push("/course/detail");
     },
