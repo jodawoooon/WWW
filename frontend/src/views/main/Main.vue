@@ -131,7 +131,7 @@ e
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList==null" @click="goDetail()">
+      <div v-if="recommendList!=null" @click="goDetail()">
         <p style="font-weight: 700">👍 {{ sigu }} 인기 코스</p>
         <div
           class="main-box"
