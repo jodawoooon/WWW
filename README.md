@@ -39,6 +39,7 @@
 <br><br>
 
 ### 📌 핵심 기능
+![image](/uploads/fc0f910f6d589ba09d4725ce043a3c37/image.png)
 
 #### 1. 우리동네 산책로 정보 제공
 
@@ -54,22 +55,33 @@
 - 사용자의 산책을 추적하여 속도, 거리 기록 저장
 - 주, 월별 산책 기록 분석 (누적, 평균 산책 시간, 소모 칼로리 및 이전 기록과 비교 분석)
 
-#### 3. 날씨, 미세먼지, 코로나 지수 등 외출에 필요한 환경정보 제공
+#### 3. 날씨, 인기 코스, 건강 뉴스, 랭킹 시스템, 등 산책 관련 정보 제공
 
-#### 4. 사용자별 '오늘의 산책코스' 추천 기능
+<br><br>
+
+
+
+### 🔨 기술 스택
+![image](/uploads/9ab226dc4e12f6e6d5532dbf4fa89049/image.png)
+<br><br>
+
+
+
+### 📕 서버 아키텍처
+![image](/uploads/b0d8cc7bdf2c262f07428318191e34fb/image.png)
+<br><br>
+
 
 <br><br>
 
 ### 💎 기능명세서
 https://docs.google.com/spreadsheets/u/1/d/19Pb-d5bscMnr2dc-7nmCO7X8Nj2EPDKWBpAYYuhqqzU/edit#gid=0
 
-![image](/uploads/5528ada7fbde7706bd70ee9dde11dd08/image.png)
 <br><br>
 
 ### 📖 와이어프레임
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 
-![image](/uploads/a000c423df7df284a3211ea4f8191dd8/image.png)
 
 <br><br>
 
@@ -81,16 +93,16 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 
 ### 🎨 목업
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
-![산책](/uploads/7a8f3619fb4ba78c3355c37ce1ada43d/산책.png)
 <br><br>
 
 ### 🎨 스토리보드
-![산책__2_](/uploads/9d7e4531c06d43208c14232f5aaadfa2/산책__2_.png)
+https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445
 <br><br>
 
 ### API 명세서
 https://www.notion.so/API-27908e2c72a944fbaf8a377399b34859
 <br><br>
 
-### 팀 노션
+### 팀 소개
+![image](/uploads/9e8178416d4ef6c9935bca1e46601b0d/image.png)  
 [🔗 노션 링크](https://www.notion.so/A605-5da3fd96c78a4c5580bbbb800a4c41bc)
