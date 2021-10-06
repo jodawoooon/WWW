@@ -81,9 +81,6 @@ import myCourseApi from "@/api/mycourse.js";
 import ReviewCard from "@/views/mypage/ReviewCard";
 import CourseCard from "@/views/course/CourseCard";
 
-//import router from "@/router/index.js";
-import axios from "@/utils/axios.js";
-
 export default {
   name: "MyCourse",
   components: {
@@ -104,33 +101,8 @@ export default {
     this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
-    console.log(process.env);
-  },
-  created() {
-    this.getRecentCourse(this.userId);
   },
   methods: {
-    sendReview(id) {
-      axios
-        .post("/review/", {
-          courseId: id,
-          score: this.rating,
-          userId: this.userId,
-        })
-        .then((response) => {
-          this.rating = 1;
-          this.dialogVisible = false;
-          console.log(response);
-        });
-    },
-    clickReview(id) {
-      this.curID = id;
-      this.dialogVisible = true;
-    },
-    setRating(rating) {
-      console.log(rating);
-    },
-
     async getWishCourse(userId) {
       let data = {
         type: "wish",
