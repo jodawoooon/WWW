@@ -131,7 +131,7 @@ e
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList!=null" @click="goDetail()">
+      <div v-if="recommendList.recommendList!=null" @click="goDetail()">
         <p style="font-weight: 700">👍 {{ sigu }} 인기 코스</p>
         <div
           class="main-box"
@@ -139,14 +139,14 @@ e
         >
           <div class="bestCourse">
             <div style="font-weight: 600; font-size: 15pt">
-              {{ recommendList[1] }}
+              {{ recommendList.recommendList[1] }}
             </div>
             <div class="detail-color" style="margin: 3px 0">
               <i class="el-icon-location icon-color" />
-              {{ recommendList[0] }}
+              {{ recommendList.recommendList[0] }}
             </div>
             <div class="detail-color">
-              {{ recommendList[2] }} | {{ recommendList[3] }}
+              {{ recommendList.recommendList[2] }} | {{ recommendList.recommendList[3] }}
             </div>
           </div>
           <div
@@ -154,7 +154,7 @@ e
             style="text-align: center; display: flex; align-items: center"
           >
             <i class="el-icon-star-on icon-color" style="font-size: 18pt" />
-            {{ recommendList[4] }}
+            {{ recommendList.recommendList[4] }}
           </div>
         </div>
       </div>
@@ -419,7 +419,7 @@ export default {
         sigu: this.sigu,
       };
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList);
+      console.log(this.recommendList.recommendList);
     },
     async getRankData() {
       let data = {
