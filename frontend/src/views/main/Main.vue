@@ -386,9 +386,8 @@ export default {
         type: "today",
         sigu: this.sigu,
       };
-      console.log(this.sigu);
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList.recommendList);
+      console.log(this.recommendList);
     },
     async getRankData() {
       let data = {
