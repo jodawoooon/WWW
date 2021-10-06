@@ -17,7 +17,10 @@ e
             <i class="el-icon-location" style="color: #ee684a" />
             {{ si }} {{ dong }}
           </div>
-          <div style="display: flex; justify-content: center">
+          <div
+            v-if="today != ''"
+            style="display: flex; justify-content: center"
+          >
             <div
               class="dong_status"
               style="background-color: rgb(72, 146, 241, 30%)"
@@ -79,7 +82,30 @@ e
               </el-row>
             </div>
           </div>
-
+          <div
+            v-if="today == ''"
+            style="display: flex; justify-content: center"
+          >
+            <div
+              class="dong_status"
+              style="
+                background-color: rgb(72, 146, 241, 30%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <div style="margin-top: 5px">
+                날씨 정보를 불러오고 있습니다 ... 🌠
+                <pulse-loader
+                  style="margin-top: 15px"
+                  :loading="toady"
+                  :color="'#FFFFFF'"
+                  :size="'10px'"
+                ></pulse-loader>
+              </div>
+            </div>
+          </div>
           <div
             style="text-align: center; margin-top: 20px"
             v-if="isLoginGetters"
@@ -131,7 +157,7 @@ e
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList.recommendList!=null" @click="goDetail()">
+      <div v-if="recommendList.recommendList != null" @click="goDetail()">
         <p style="font-weight: 700">👍 {{ sigu }} 인기 코스</p>
         <div
           class="main-box"
@@ -146,7 +172,8 @@ e
               {{ recommendList.recommendList[0] }}
             </div>
             <div class="detail-color">
-              {{ recommendList.recommendList[2] }} | {{ recommendList.recommendList[3] }}km
+              {{ recommendList.recommendList[2] }} |
+              {{ recommendList.recommendList[3] }}km
             </div>
           </div>
           <div
@@ -234,17 +261,19 @@ e
 import axios from "axios";
 import router from "@/router/index.js";
 import mainApi from "@/api/main.js";
-
 import Header from "@/components/common/Header";
 import("@/assets/style/Main.css");
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 export default {
   name: "Main",
   components: {
     Header,
+    PulseLoader,
   },
   data() {
     return {
+      isLoading: true,
       mention: [
         "환영합니다 오늘도 화이팅🙌 ",
         "산책 할 준비 되셨나요? 🏃‍♂️",
