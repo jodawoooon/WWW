@@ -5,8 +5,8 @@
       <div class="main-top">
         <div style="margin-top: 20px">
           <span v-if="isLoginGetters">
-            <span style="font-weight: 700">{{ getName }}님!</span>
-            {{ mention[Math.floor(Math.random() * 4)] }}</span
+            <span style="font-weight: 700">{{ getName }}님!</span> 환영합니다
+            오늘도 화이팅🙌</span
           >
           <span v-if="isLogoutGetters">
             <span style="font-weight: 700">WWW</span>에 오신 것을 환영해요!
@@ -44,35 +44,33 @@
                     {{ today.split("-")[2] }}일 🌈</span
                   >
 
-                  <div style="height: 60px; overflow: auto; margin-top: 2px">
+                  <div style="height: 60px; overflow: auto">
                     <div v-for="(weather, idx) in weatherList" v-bind:key="idx">
-                      <div v-if="idx < 5">
-                        <div style="line-height: 3px">
-                          <img
-                            style="
-                              width: 25px;
-                              margin-right: 5px;
-                              vertical-align: middle;
-                            "
-                            :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
-                          />
-                          <span style="font-size: 2px; margin-right: 3px"
-                            >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
-                              weather.dt_txt.split(" ")[0].split("-")[2]
-                            }}</span
-                          >
-                          <span style="font-size: 8pt"
-                            ><strong>{{
-                              weather.dt_txt.split(" ")[1].split(":")[0]
-                            }}</strong
-                            >시
-                            <strong style="font-size: 10pt; margin-left: 2px"
-                              >{{
-                                (weather.main.temp - 273.15).toFixed(1)
-                              }}°C</strong
-                            ></span
-                          >
-                        </div>
+                      <div style="line-height: 3px">
+                        <img
+                          style="
+                            width: 25px;
+                            margin-right: 5px;
+                            vertical-align: middle;
+                          "
+                          :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
+                        />
+                        <span style="font-size: 2px; margin-right: 3px"
+                          >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
+                            weather.dt_txt.split(" ")[0].split("-")[2]
+                          }}</span
+                        >
+                        <span style="font-size: 8pt"
+                          ><strong>{{
+                            weather.dt_txt.split(" ")[1].split(":")[0]
+                          }}</strong
+                          >시
+                          <strong style="font-size: 10pt; margin-left: 2px"
+                            >{{
+                              (weather.main.temp - 273.15).toFixed(1)
+                            }}°C</strong
+                          ></span
+                        >
                       </div>
                     </div>
                   </div>
@@ -85,7 +83,7 @@
             style="text-align: center; margin-top: 20px"
             v-if="isLoginGetters"
           >
-            <p style="font-size: 9pt">⏱ 오늘 걸은 시간 ⏱</p>
+            <p style="font-size: 9pt">⏱ 오늘 걸은 시간</p>
             <div style="font-size: 20pt; margin-top: 5px">
               <strong>{{ h }}</strong
               >시간 <strong>{{ m }}</strong
@@ -132,20 +130,31 @@
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList.length!=0">
-        <p style="font-weight: 700">{{dong}} 인기 코스 👍</p>
-        <div class="main-box" style="display:flex; justify-content:space-between; padding: 0 25px">
+      <div v-if="recommendList.length != 0">
+        <p style="font-weight: 700">{{ dong }} 인기 코스 👍</p>
+        <div
+          class="main-box"
+          style="display: flex; justify-content: space-between; padding: 0 25px"
+        >
           <div class="bestCourse">
-            <div style="font-weight: 600; font-size: 15pt"> {{ recommendList[1] }} </div>
-            <div class="detail-color" style="margin: 3px 0;">
-              <i class="el-icon-location icon-color"/>
+            <div style="font-weight: 600; font-size: 15pt">
+              {{ recommendList[1] }}
+            </div>
+            <div class="detail-color" style="margin: 3px 0">
+              <i class="el-icon-location icon-color" />
               {{ recommendList[0] }}
             </div>
-            <div class="detail-color">{{ recommendList[2] }} | {{recommendList[3]}}</div>
+            <div class="detail-color">
+              {{ recommendList[2] }} | {{ recommendList[3] }}
+            </div>
           </div>
-          <div class="detail-color" style="text-align: center; display: flex; align-items: center">
-            <i class="el-icon-star-on icon-color" style="font-size: 18pt;"/>
-            {{ recommendList[4] }} </div>
+          <div
+            class="detail-color"
+            style="text-align: center; display: flex; align-items: center"
+          >
+            <i class="el-icon-star-on icon-color" style="font-size: 18pt" />
+            {{ recommendList[4] }}
+          </div>
         </div>
       </div>
       <div>
@@ -211,7 +220,7 @@ export default {
 
       userName: this.$store.getters.getLoginUserInfo.nickname,
 
-      recommendList: [],
+      recommendList: ["경기 고양시 일산3동","호수공원 둘레길","2시간","5km","4.5"],
       h: "00",
       m: "00",
       s: "00",
@@ -220,6 +229,7 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    this.getTodayWalk();
   },
   methods: {
     clickLogin() {
@@ -320,9 +330,8 @@ export default {
         type: "today",
         sigu: this.sigu,
       };
-      console.log(this.sigu)
+      console.log(this.sigu);
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log("adfasdfasd")
       console.log(this.recommendList.recommendList);
     },
     async getRankData() {
@@ -332,7 +341,7 @@ export default {
       this.ranking = await mainApi.getRankData(data, {});
     },
     async getTodayWalk() {
-      if (this.$store.state.loginUserInfo.nickname != "") {
+      if (this.$store.getters.getLoginUserInfo.nickname != "") {
         var today = new Date();
         var year = today.getFullYear();
         var month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -340,14 +349,14 @@ export default {
         var dateString = year + "-" + month + "-" + day;
         let data = {
           type: "todaywalk",
-          userName: this.$store.state.loginUserInfo.nickname,
+          userName: this.$store.getters.getLoginUserInfo.nickname,
           date: dateString,
         };
         const today_walk_time = await mainApi.getTodayWalk(data, {});
-        this.h = parseInt(today_walk_time.second/3600);
-        this.m = parseInt((today_walk_time.second%3600)/60);
-        this.s = today_walk_time.second%60;
-        console.log(today_walk_time.second, this.h, this.m, this.s)
+        this.h = parseInt(today_walk_time.second / 3600);
+        this.m = parseInt((today_walk_time.second % 3600) / 60);
+        this.s = today_walk_time.second % 60;
+        console.log(today_walk_time.second, this.h, this.m, this.s);
       }
     },
   },
@@ -357,7 +366,6 @@ export default {
     this.getWeather();
     this.getForecast();
     this.getRankData();
-    this.getTodayWalk();
   },
   computed: {
     isLoginGetters() {
@@ -367,6 +375,7 @@ export default {
       return this.$store.getters.getterLogoutInfo;
     },
     getName() {
+      this.getTodayWalk();
       return this.$store.getters.getLoginUserInfo.nickname;
     },
   },
@@ -386,13 +395,13 @@ export default {
   border-radius: 20px;
 }
 
-.detail-color{
+.detail-color {
   font-size: 11pt;
   color: #6f7789;
 }
 
 .icon-color {
-  color: #ee684a
+  color: #ee684a;
 }
 
 .introimg {
