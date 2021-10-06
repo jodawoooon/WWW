@@ -74,6 +74,29 @@ WWW와 함께 걸어보세요!
 
 <br><br>
 
+### 🛠 개발 환경
+
+- Server : AWS EC2
+  - Ubuntu 20.04.1
+
+<br>
+
+- Backend
+  - Java : Java 1.11.0
+  - Framework : SpringBoot 2.4.5
+  - ORM : JPA(Hibernate)
+  - Nginx : 1.18.0 (Ubuntu)
+  - IDE : Intellij 2021.1.3 / Visual Studio Code 1.59
+  - Dependency tool : gradle-6.7
+  - Database : MariaDB-10.3.31
+
+<br>
+
+- Frontend
+  - HTML5, CSS3, Javascript(Es6)
+  - Vue : 2.6.11
+
+<br><br>
 
 
 ### 🔨 기술 스택
