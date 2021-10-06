@@ -56,10 +56,10 @@ export default {
   font-weight: bold;
 }
 .logo {
-  margin-top: 60px;
+  margin-top: 80px;
   height: 200px;
 }
 .kakao {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 </style>
