@@ -266,7 +266,7 @@ export default {
 
       userName: this.$store.getters.getLoginUserInfo.nickname,
 
-      recommendList: ["경기 고양시 일산3동","호수공원 둘레길","2시간","5km","4.5"],
+      recommendList: [],
       h: "00",
       m: "00",
       s: "00",
