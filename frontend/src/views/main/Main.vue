@@ -131,8 +131,8 @@ e
 
       <el-divider></el-divider>
       <!-- -->
-      <div v-if="recommendList.length != 0">
-        <p style="font-weight: 700">{{ sigu }} 인기 코스 👍</p>
+      <div v-if="recommendList.length != 0" @click="goDetail()">
+        <p style="font-weight: 700">👍 {{ sigu }} 인기 코스</p>
         <div
           class="main-box"
           style="display: flex; justify-content: space-between; padding: 0 25px"
@@ -286,6 +286,38 @@ export default {
     this.getHealthNews();
   },
   methods: {
+    // 산책로 세부 정보를 가져오기
+    async goDetail() {
+      await axios
+        .get("/api/course/", {
+          params: {
+            courseId: this.recommendList[5],
+            userId: this.$store.getters.getLoginUserInfo.userId,
+          },
+        })
+        .then((res) => {
+          this.$store.commit("SET_CUR_COURSE", {
+            id: this.$props.courseId,
+            title:
+              this.$props.title != this.$props.name
+                ? this.$props.title + "-" + this.$props.name
+                : this.$props.title,
+            address: this.$props.address,
+            lat: this.$props.lat,
+            lng: this.$props.lng,
+            score: this.$props.score,
+            distance: this.$props.km,
+            time: this.$props.min,
+            kcal: this.$props.kcal,
+            detail: this.$props.detail,
+            cafe: res.data.cafeList,
+            conv: res.data.convList,
+            isBookmarked: res.data.myLike,
+          });
+          console.log(this.$props.courseId + " " + this.$props.address);
+        });
+      router.push("/course/detail");
+    },
     clickLogin() {
       router.push("/login");
     },
