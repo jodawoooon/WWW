@@ -9,7 +9,14 @@
           centered
           fixed-tabs
           slider-color="black"
-          style="position: fixed; z-index: 99"
+          style="
+            max-width: 425px;
+            position: fixed;
+            z-index: 99;
+            left: 0;
+            margin: 0 auto;
+            right: 0;
+          "
         >
           <v-tab
             v-on:click="getRecentCourse(userId)"
