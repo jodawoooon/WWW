@@ -146,7 +146,7 @@ e
               {{ recommendList.recommendList[0] }}
             </div>
             <div class="detail-color">
-              {{ recommendList.recommendList[2] }} | {{ recommendList.recommendList[3] }}
+              {{ recommendList.recommendList[2] }} | {{ recommendList.recommendList[3] }}km
             </div>
           </div>
           <div
@@ -419,7 +419,7 @@ export default {
         sigu: this.sigu,
       };
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList.recommendList);
+      console.log(this.recommendList);
     },
     async getRankData() {
       let data = {
