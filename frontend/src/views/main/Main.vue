@@ -1,3 +1,4 @@
+e
 <template>
   <div>
     <Header :showArrow="false" message="WWW" id="navBar" />
@@ -94,7 +95,7 @@
               style="margin-top: 10px; display: flex; justify-content: center"
             >
               <el-button type="danger" @click="startWalk()"
-                >START</el-button
+                >산책하기</el-button
               ></el-row
             >
           </div>
@@ -158,7 +159,7 @@
         </div>
       </div>
       <div>
-        <p style="font-weight: 700">이번주 걷기왕 👑</p>
+        <p style="font-weight: 700">🏆 이번주 걷기왕</p>
         <div
           class="main-box"
           style="
@@ -176,9 +177,54 @@
           </div>
         </div>
       </div>
-      <div>
-        <p style="font-weight: 700">오늘의 건강 뉴스 📰</p>
-        <div class="main-box"></div>
+
+      <div style="margin-top: 24px">
+        <p style="font-weight: 700">📰 건강 뉴스</p>
+        <div class="main-box" id="news" style="padding: 10px">
+          <el-row>
+            <div
+              style="
+                font-size: 11pt;
+                font-weight: 600;
+                overflow: hidden;
+                padding: 4px;
+                height: 30px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              "
+            >
+              {{ newsTitle }}
+            </div>
+          </el-row>
+          <hr style="opacity: 0.1" />
+          <el-row style="display: flex; align-items: center">
+            <el-col
+              :span="19"
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                padding: 1px;
+                font-size: 8pt;
+                margin-top: 10px;
+              "
+            >
+              {{ newsContent }}
+            </el-col>
+            <el-col :span="5">
+              <el-button
+                @click="newsScript()"
+                type="danger"
+                style="border-radius: 14px; margin-top: 10px; font-size: 8pt"
+                size="mini"
+              >
+                더보기</el-button
+              >
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
   </div>
@@ -225,11 +271,19 @@ export default {
       m: "00",
       s: "00",
       ranking: [],
+      newsUrl: "",
+      newsTitle: "",
+      newsContent: "",
     };
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    // this.geofind();
+    // this.getWeather();
+    // this.getForecast();
+    this.getRankData();
     this.getTodayWalk();
+    this.getHealthNews();
   },
   methods: {
     clickLogin() {
@@ -252,6 +306,8 @@ export default {
         (pos) => {
           this.lat = pos.coords.latitude;
           this.lng = pos.coords.longitude;
+          this.getWeather();
+          this.getForecast();
           this.$store.commit("SET_IS_AGREE");
           axios
             .get(
@@ -289,9 +345,9 @@ export default {
       axios
         .get(
           "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-            this.$store.state.location.lat +
+            this.lat +
             "&lon=" +
-            this.$store.state.location.lng +
+            this.lng +
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
@@ -305,9 +361,9 @@ export default {
       await axios
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
-            this.$store.state.location.lat +
+            this.lat +
             "&lon=" +
-            this.$store.state.location.lng +
+            this.lng +
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
@@ -359,13 +415,71 @@ export default {
         console.log(today_walk_time.second, this.h, this.m, this.s);
       }
     },
+    getHealthNews() {
+      axios
+        .get(
+          "https://dapi.kakao.com/v2/search/web?query=" +
+            encodeURI("걷기 운동 신체 활동 기자 기사 코로나 일보"),
+          {
+            headers: {
+              Authorization: "KakaoAK bacd72f58ac01490602415c683ad8c05",
+            },
+          }
+        )
+        .then((response) => {
+          let item = response.data.documents[0];
+          console.log(item.title);
+          console.log(item.contents);
+          item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
+          item.title = item.title.replaceAll("&quot", "");
+          item.title = item.title.replaceAll("&lt", "");
+          item.title = item.title.replaceAll("&#39", "");
+          item.title = item.title.replaceAll("&gt", "");
+          item.title = item.title.replaceAll("&amp", "");
+          item.title = item.title.replaceAll("...", "");
+          item.title = item.title.replaceAll(";", " ");
+          // if (item.title.length > 20) {
+          //   item.title = item.title.substring(0, 20) + "...";
+          // }
+          this.newsTitle = item.title;
+          item.contents = item.contents.replaceAll("&quot", "");
+          item.contents = item.contents.replace(/(<([^>]+)>)/gi, " ");
+          item.contents = item.contents.replaceAll("&lt", " ");
+          item.contents = item.contents.replaceAll("&#39", " ");
+          item.contents = item.contents.replaceAll(";", " ");
+          this.newsContent = item.contents;
+          this.newsUrl = item.url;
+          // let line1 = item.description.substring(0,20);
+
+          // if (item.contents.length > 20) {
+          //   this.content[0] = item.contents.substring(0, 20);
+          //   if (item.description.length > 30) {
+          //     this.content[1] = item.contents.substring(20, 30) + "...";
+          //   }
+          // }
+
+          // item.description = item.description.substring(0,15)+"\n"+item.description.substring(15);
+          // 정규식 표현으로 태그 제거
+          // console.log(item.link);
+          // console.log(item.title);
+          // console.log(this.content[0]);
+          // console.log(this.content[1]);
+          // console.log(item.contents);
+        });
+    },
+    newsScript() {
+      window.open(this.newsUrl, "_blank");
+    },
   },
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
     this.getWeather();
     this.getForecast();
-    this.getRankData();
+    // this.getRankData();
+
+    // this.getTodayWalk();
+    // this.getHealthNews();
   },
   computed: {
     isLoginGetters() {

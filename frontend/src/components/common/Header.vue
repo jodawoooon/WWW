@@ -47,7 +47,7 @@
 
 import router from "@/router/index.js";
 import axios from "@/utils/axios.js";
-import VueCookies from 'vue-cookies';
+import VueCookies from "vue-cookies";
 
 export default {
   name: "Header",
@@ -66,48 +66,45 @@ export default {
       router.push("/login");
     },
     logout() {
-
-      axios
-        .get("/kakao/logout")
-        .then((result)=>{
-          VueCookies.remove("userId")
-          VueCookies.remove("accessToken")
-          console.log(result)
-          this.$store.commit("SET_USER_INFO", {
-            userId: "",
-            name : "",
-          });
-          this.$store.commit("SET_MORE_USER_INFO", {
-            nickname: "",
-            sido : "",
-            gugun : "",
-            dong: ""
-          });
-          this.$store.commit("SET_IS_LOGIN", {
-            isLogin : false,
-            isLogout :true
-          });
-          this.$store.commit("SET_USER_TOKEN", {
-            accessToken : "",
-            refreshToken : "",
-            accessTokenExpire : "",
-            refreshTokenExpire : ""
-          });
-        })
+      axios.get("/kakao/logout").then((result) => {
+        VueCookies.remove("userId");
+        VueCookies.remove("accessToken");
+        console.log(result);
+        this.$store.commit("SET_USER_INFO", {
+          userId: "",
+          name: "",
+        });
+        this.$store.commit("SET_MORE_USER_INFO", {
+          nickname: "",
+          sido: "",
+          gugun: "",
+          dong: "",
+        });
+        this.$store.commit("SET_IS_LOGIN", {
+          isLogin: false,
+          isLogout: true,
+        });
+        this.$store.commit("SET_USER_TOKEN", {
+          accessToken: "",
+          refreshToken: "",
+          accessTokenExpire: "",
+          refreshTokenExpire: "",
+        });
+      });
       router.push("/index");
     },
     goBack(back) {
       router.push(back);
     },
   },
-  computed:{
-    isLoginGetters(){
+  computed: {
+    isLoginGetters() {
       return this.$store.getters.getterLoginInfo;
     },
-    isLogoutGetters(){
+    isLogoutGetters() {
       return this.$store.getters.getterLogoutInfo;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -141,5 +138,4 @@ export default {
 .el-button {
   border: 0px;
 }
-
 </style>

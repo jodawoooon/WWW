@@ -26,7 +26,7 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 
 Vue.use(VueCookies);
-Vue.$cookies.config("7d");
+Vue.$cookies.config("12h");
 
 new Vue({
   router,

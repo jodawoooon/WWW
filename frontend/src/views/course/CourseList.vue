@@ -3,7 +3,7 @@
     <!-- 여기서 코스 리스트 가져와서 CourseCard에 props로 넘겨주기-->
     <div v-if="!showNearby">
       <span style="font-weight: 700">{{ filter.dong }}</span> 일대의 산책로
-      코스입니다.
+      코스입니다.<br /><br />
     </div>
     <div v-if="showNearby">
       <span style="font-weight: 700">{{ filter.dong }}</span
@@ -18,7 +18,7 @@
         :address="course.address"
         :km="course.courseLength"
         :min="course.time"
-        :kcal="Math.round((course.timeInt * 60) * 0.06 * 10) / 10"
+        :kcal="Math.round(course.timeInt * 60 * 0.06 * 10) / 10"
         :lat="course.latitude.toString()"
         :lng="course.longitude.toString()"
         :score="course.score"

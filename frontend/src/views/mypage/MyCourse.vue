@@ -2,14 +2,14 @@
   <div id="main">
     <Header :showArrow="false" message="나의 산책 목록" id="navBar" />
     <div id="space"></div>
-    <v-app style="height:50px;">
-      <v-card >
+    <v-app style="height: 50px">
+      <v-card>
         <v-tabs
           background-color="white"
           centered
           fixed-tabs
           slider-color="black"
-          style="position:fixed;z-index:99;"
+          style="position: fixed; z-index: 99"
         >
           <v-tab
             v-on:click="getRecentCourse(userId)"
@@ -104,7 +104,7 @@ export default {
     this.$store.commit("SET_PREV_PAGE", "/user/mycourse");
     this.getRecentCourse(this.userId);
     this.$store.commit("SET_IS_NOT_INDEX");
-    console.log(this.userId);
+    console.log(process.env);
   },
   created() {
     this.getRecentCourse(this.userId);
@@ -177,7 +177,7 @@ export default {
   background: #ffffff;
 }
 
-.v-application--wrap{
+.v-application--wrap {
   max-height: 425px;
   min-height: 50px;
 }
