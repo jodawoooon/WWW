@@ -94,24 +94,34 @@ public class MainServiceImpl implements MainService {
         try{
             // 다른 사용자가 많이 산책한 코스
             List<Integer> bestFinishes = courseFinishQueryRepository.findTop5CourseByCnt(sigu);
+
             if(bestFinishes.size()==0){
                 GetRecommendListRes resbody = new GetRecommendListRes();
                 resbody.setRecommendList(null);
                 return resbody;
             }
             Course bestCourse = courseRepository.findByCourseId(bestFinishes.get(0));
-            CourseReview rate = courseReviewRepository.findByCourse_CourseId(bestFinishes.get(0));
-
-            String[] recommends = new String[5];
+            String[] recommends = new String[6];
             recommends[0] = bestCourse.getAddress();
             recommends[1] = bestCourse.getFlagName();
             recommends[2] = bestCourse.getTime();
             recommends[3] = Double.toString(bestCourse.getDistance());
-            recommends[4] = Double.toString(rate.getScore());
+            recommends[5] = Integer.toString(bestFinishes.get(0));
+            try{
+                CourseReview rate = courseReviewRepository.findByCourse_CourseId(bestFinishes.get(0));
+                System.out.println(rate);
+                recommends[4] = Double.toString(rate.getScore());
 
-            GetRecommendListRes resbody = new GetRecommendListRes();
-            resbody.setRecommendList(recommends);
-            return resbody;
+                GetRecommendListRes resbody = new GetRecommendListRes();
+                resbody.setRecommendList(recommends);
+                return resbody;
+            }catch (Exception e) {
+                recommends[4] = "-";
+
+                GetRecommendListRes resbody = new GetRecommendListRes();
+                resbody.setRecommendList(recommends);
+                return resbody;
+            }
         }catch (Exception e){
             System.out.println(e);
             return null;
