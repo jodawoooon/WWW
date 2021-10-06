@@ -53,7 +53,7 @@
                   @click="startLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
-                  start
+                  START
                 </el-button>
               </div>
               <div v-if="isPause">
@@ -62,7 +62,7 @@
                   @click="watchLocationUpdates"
                   class="btn round btn btn-dark btn-icon rounded-circle m-1"
                 >
-                  start
+                  START
                 </el-button>
                 <el-button
                   type="warning"
@@ -75,7 +75,7 @@
                     m-1
                   "
                 >
-                  stop
+                  STOP
                 </el-button>
               </div>
             </section>
@@ -97,7 +97,7 @@
                 @click="stopLocationUpdates"
                 class="btn round btn btn-info btn-icon rounded-circle m-1"
               >
-                pause
+                PAUSE
               </el-button>
 
               <el-button
@@ -105,7 +105,7 @@
                 @click="endLocationUpdates"
                 class="btn round btn btn-secondary btn-icon rounded-circle m-1"
               >
-                stop
+                STOP
               </el-button>
             </section>
           </div>
