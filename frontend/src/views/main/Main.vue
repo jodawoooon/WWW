@@ -131,7 +131,7 @@
       <el-divider></el-divider>
       <!-- -->
       <div v-if="recommendList.length != 0">
-        <p style="font-weight: 700">{{ dong }} 인기 코스 👍</p>
+        <p style="font-weight: 700">{{ sigu }} 인기 코스 👍</p>
         <div
           class="main-box"
           style="display: flex; justify-content: space-between; padding: 0 25px"
