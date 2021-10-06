@@ -358,7 +358,7 @@ export default {
               this.si = response.data.documents[0].region_2depth_name;
               this.sigu =
                 response.data.documents[0].region_2depth_name.split(" ")[0];
-              // this.getRecommendData();
+              this.getRecommendData();
               this.$store.commit("SET_USER_LOCATION", {
                 lat: this.lat,
                 lng: this.lng,
