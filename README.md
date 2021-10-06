@@ -90,7 +90,7 @@ WWW와 함께 걸어보세요!
 - 주, 월별 산책 기록 분석 (누적, 평균 산책 시간, 소모 칼로리 및 이전 기록과 비교 분석)
 
 #### 3. 날씨, 인기 코스, 건강 뉴스, 랭킹 시스템, 등 산책 관련 정보 제공
-![image](/uploads/8e78d5d537ad519a7ac1b17ec8b0fd73/image.png)
+![image](/uploads/07bd28f81d14fed07e6bb89f1696927e/image.png)
 
 <br><br>
 
