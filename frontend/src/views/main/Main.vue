@@ -322,11 +322,11 @@ export default {
   methods: {
     // 산책로 세부 정보를 가져오기
     async goDetail() {
-      console.log(this.recommendList[5]);
+      console.log(this.recommendList);
       await axios
         .get("/api/course/", {
           params: {
-            courseId: parseInt(this.recommendList[5]),
+            courseId: parseInt(this.recommendList.recommendList[5]),
             userId: this.$store.getters.getLoginUserInfo.userId,
           },
         })
