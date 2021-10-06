@@ -161,7 +161,12 @@ e
         <p style="font-weight: 700">👍 {{ sigu }} 인기 코스</p>
         <div
           class="main-box"
-          style="display: flex; justify-content: space-between; padding: 0 25px"
+          style="
+            display: flex;
+            justify-content: space-between;
+            padding: 0 25px;
+            margin-bottom: 25px;
+          "
         >
           <div class="bestCourse">
             <div style="font-weight: 600; font-size: 15pt">
