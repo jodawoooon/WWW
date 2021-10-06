@@ -24,12 +24,16 @@ WWW와 함께 걸어보세요!
    <br>
    - [📑 타겟 및 목표](#-타겟-및-목표)
    - [📑 개발 환경](#-개발-환경)
+   - [📑 핵심 기능](#-핵심-기능)
    - [📑 기술 스택](#-기술-스택)
    - [📑 서버 아키텍처](#-서버-아키텍처)
-   - [📑 ERD](#-erd)
+   - [📑 ERD Diagram](#-erd-diagram)
    - [📑 와이어프레임](#-와이어프레임)
    - [📑 목업](#-목업)
    - [📑 기능명세서](#-기능명세서)
+   - [📑 스토리보드](#-스토리보드)
+   - [📑 API 명세서](#-api-명세서)
+   - [📑 팀 소개](#-팀-소개)
      <br>
 <br><br>
 
@@ -133,14 +137,14 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
 <br><br>
 
-### 🎨 스토리보드
+### 🎬 스토리보드
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445
 <br><br>
 
-### API 명세서
+### 📬 API 명세서
 https://www.notion.so/API-27908e2c72a944fbaf8a377399b34859
 <br><br>
 
-### 팀 소개
+### 📢 팀 소개
 ![image](/uploads/9e8178416d4ef6c9935bca1e46601b0d/image.png)  
 [🔗 노션 링크](https://www.notion.so/A605-5da3fd96c78a4c5580bbbb800a4c41bc)
