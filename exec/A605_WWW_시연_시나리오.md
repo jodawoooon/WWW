@@ -24,7 +24,7 @@
 
 ## 1️⃣ 메인 페이지
 
-<img src="img/Untitled.png" style="max-width: 360px"><img src="img/Untitled%201.png" style="max-width: 360px"><img src="img/Untitled%202.png" style="max-width: 360px">
+<img src="img/Untitled.png" width="360"><img src="img/Untitled%201.png" width="360"><img src="img/Untitled%202.png" width="360">
 
 - 로그인 전
     - 메인 화면으로 접속 시 로그인 버튼과 함께 날씨, 이번주 랭킹, 오늘의 건강 뉴스만을 확인할 수 있습니다.
@@ -39,7 +39,7 @@
 
 ## 2️⃣ 로그인 및 회원가입 페이지
 
-<img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B81.png" style="max-width: 360px"><img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B82.png" style="max-width: 360px"><img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B83.png" style="max-width: 360px">
+<img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B81.png" width="360"><img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B82.png" width="360"><img src="img/%EB%A1%9C%EA%B7%B8%EC%9D%B83.png" width="360">
 
 카카오 계정을 이용해서 로그인할 수 있습니다.
 
@@ -49,7 +49,7 @@
 
 ## 3️⃣ 실시간 기록 페이지
 
-<img src="img/Untitled%203.png" style="max-width: 360px"><img src="img/Untitled%204.png" style="max-width: 360px"><img src="img/Untitled%205.png" style="max-width: 360px">
+<img src="img/Untitled%203.png" width="360"><img src="img/Untitled%204.png" width="360"><img src="img/Untitled%205.png" width="360">
 
 - 로그인 전
     - 페이지에 접속하려고 하면 로그인 회원만 이용가능하다는 알림이 표시됩니다.
@@ -61,7 +61,7 @@
 
 ## 4️⃣ 산책 목록 페이지
 
-<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EB%8F%99_%EA%B2%80%EC%83%89).png" style="max-width: 360px"><img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EA%B7%BC%EC%B2%98_10km_%EA%B2%80%EC%83%89).png" style="max-width: 360px">
+<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EB%8F%99_%EA%B2%80%EC%83%89).png" width="360"><img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EA%B7%BC%EC%B2%98_10km_%EA%B2%80%EC%83%89).png" width="360">
 
 GPS 현재 위치를 기준으로 산책로 목록을 조회하는 페이지입니다.
 
@@ -77,7 +77,7 @@ GPS 현재 위치를 기준으로 산책로 목록을 조회하는 페이지입�
 - 주소
 - 코스 길이 | 완주 시간 | 소모 칼로리
 
-<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%ED%95%84%ED%84%B0_%EA%B2%80%EC%83%89).png" style="max-width: 360px">
+<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%ED%95%84%ED%84%B0_%EA%B2%80%EC%83%89).png" width="360">
 
 필터 검색 조건으로 "가까운 순 / 인기 순 / 코스 길이 / 시간"을 지정할 수 있습니다.
 
@@ -88,7 +88,7 @@ GPS 현재 위치를 기준으로 산책로 목록을 조회하는 페이지입�
 
 
 
-<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%8B%9C_%ED%99%94%EB%A9%B4).png" style="max-width: 360px">
+<img src="img/%EC%82%B0%EC%B1%85_%EB%AA%A9%EB%A1%9D(%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%8B%9C_%ED%99%94%EB%A9%B4).png" width="360">
 
 로그인 한 회원은 산책 목록에서 별을 눌러 관심 코스를 지정할 수 있습니다.
 
@@ -98,7 +98,7 @@ GPS 현재 위치를 기준으로 산책로 목록을 조회하는 페이지입�
 
 ## 5️⃣ 산책 상세 페이지
 
-<img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B81.png" style="max-width: 360px"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B82.png" style="max-width: 360px"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B83.png" style="max-width: 360px"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B84.png" style="max-width: 360px">
+<img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B81.png" width="360"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B82.png" width="360"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B83.png" width="360"><img src="img/%EC%82%B0%EC%B1%85%EB%A1%9C_%EC%83%81%EC%84%B84.png" width="360">
 
 목록에서 선택한 산책로의 상세 정보를 나타내는 페이지입니다.
 
@@ -117,7 +117,7 @@ START 버튼을 누르면 산책 기록 페이지로 이동합니다.
 
 ## 6️⃣ 산책로 분석 페이지
 
-<img src="img/Untitled%206.png"><img src="img/Untitled%207.png" style="max-width: 360px">
+<img src="img/Untitled%206.png"><img src="img/Untitled%207.png" width="360">
 
 로그인한 사용자의 산책 기록을 나타내는 화면입니다.
 
@@ -131,7 +131,7 @@ START 버튼을 누르면 산책 기록 페이지로 이동합니다.
 
 ## 7️⃣ 최근코스/관심코스 페이지
 
-<img src="img/Untitled%208.png"><img src="img/Untitled%209.png" style="max-width: 360px">
+<img src="img/Untitled%208.png"><img src="img/Untitled%209.png" width="360">
 
 사용자가 산책한 코스들을 최근 순으로 정렬한 페이지입니다.
 
@@ -139,7 +139,7 @@ START 버튼을 누르면 산책 기록 페이지로 이동합니다.
 - 별점은 반개씩 선택하여 리뷰를 남길 수 있습니다.
 - 리뷰를 작성한 코스는 코스에 리뷰를 남긴 사용자들의 점수를 평균 내어 나타냅니다.
 
-<img src="img/Untitled%2010.png" style="max-width: 360px">
+<img src="img/Untitled%2010.png" width="360">
 
 관심 있는 산책로 코스를 모아두는 페이지입니다.
 
