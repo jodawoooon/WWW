@@ -278,9 +278,12 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
+    // this.geofind();
+    // this.getWeather();
+    // this.getForecast();
+    this.getRankData();
     this.getTodayWalk();
-    this.getForecast();
-    console.log(process.env);
+    this.getHealthNews();
   },
   methods: {
     clickLogin() {
@@ -303,6 +306,8 @@ export default {
         (pos) => {
           this.lat = pos.coords.latitude;
           this.lng = pos.coords.longitude;
+          this.getWeather();
+          this.getForecast();
           this.$store.commit("SET_IS_AGREE");
           axios
             .get(
@@ -340,9 +345,9 @@ export default {
       axios
         .get(
           "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-            this.$store.state.location.lat +
+            this.lat +
             "&lon=" +
-            this.$store.state.location.lng +
+            this.lng +
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
@@ -356,9 +361,9 @@ export default {
       await axios
         .get(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
-            this.$store.state.location.lat +
+            this.lat +
             "&lon=" +
-            this.$store.state.location.lng +
+            this.lng +
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
@@ -412,7 +417,6 @@ export default {
       }
     },
     getHealthNews() {
-      console.log("들어옴?");
       axios
         .get(
           "https://dapi.kakao.com/v2/search/web?query=" +
@@ -473,10 +477,10 @@ export default {
     this.geofind();
     this.getWeather();
     this.getForecast();
-    this.getRankData();
+    // this.getRankData();
 
-    this.getTodayWalk();
-    this.getHealthNews();
+    // this.getTodayWalk();
+    // this.getHealthNews();
   },
   computed: {
     isLoginGetters() {
