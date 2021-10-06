@@ -410,6 +410,7 @@ export default {
         )
         .then((response) => {
           let item = response.data.documents[0];
+          console.log(item);
           console.log(item.title);
           console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
