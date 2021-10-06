@@ -101,11 +101,12 @@ public class MainServiceImpl implements MainService {
                 return resbody;
             }
             Course bestCourse = courseRepository.findByCourseId(bestFinishes.get(0));
-            String[] recommends = new String[5];
+            String[] recommends = new String[6];
             recommends[0] = bestCourse.getAddress();
             recommends[1] = bestCourse.getFlagName();
             recommends[2] = bestCourse.getTime();
             recommends[3] = Double.toString(bestCourse.getDistance());
+            recommends[5] = Integer.toString(bestFinishes.get(0));
             try{
                 CourseReview rate = courseReviewRepository.findByCourse_CourseId(bestFinishes.get(0));
                 System.out.println(rate);
