@@ -108,9 +108,8 @@ export default {
         type: "wish",
         userId: userId,
       };
-      this.wishCourse = await myCourseApi.getCourseData(data, {});
       this.isRecent = false;
-      console.log(this.wishCourse);
+      this.wishCourse = await myCourseApi.getCourseData(data, {});
     },
     async getRecentCourse(userId) {
       let data = {
@@ -119,7 +118,6 @@ export default {
       };
       this.isRecent = true;
       this.recentCourse = await myCourseApi.getCourseData(data, {});
-      console.log(this.recentCourse);
     },
     timeText(time) {
       var t = parseInt(time);
