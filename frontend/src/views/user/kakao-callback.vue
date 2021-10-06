@@ -48,31 +48,30 @@ export default {
         });
         axios
           .get("/info/present/" + this.userInfo.userId)
-          .then((result) => {
+          .then((result)=>{
             console.log(result);
-            VueCookies.set(
-              "accessToken",
-              this.tokens.accessToken,
-              this.tokens.accessTokenExpire
-            );
+            VueCookies.set("accessToken", this.tokens.accessToken)
             console.log(this.$store.state.loginUserInfo);
-            VueCookies.set("userId", this.$store.state.loginUserInfo.userId);
-            axios.get("/info/" + this.userInfo.userId).then((res) => {
-              console.log(res);
-              this.$store.state.loginUserInfo.nickname = res.data.user.nickname;
-              this.$store.state.loginUserInfo.sido = res.data.user.city;
-              this.$store.state.loginUserInfo.gugun = res.data.user.gu;
-              this.$store.state.loginUserInfo.dong = res.data.user.dong;
-            });
-            this.$router.push({ name: "Main" });
-            console.log(this.$store.state.loginUserInfo);
+            VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
+            axios
+              .get("/info/" + this.userInfo.userId)
+              .then((res) =>{
+                console.log(res);
+                this.$store.state.loginUserInfo.nickname = res.data.user.nickname;
+                this.$store.state.loginUserInfo.sido = res.data.user.city;
+                this.$store.state.loginUserInfo.gugun = res.data.user.gu;
+                this.$store.state.loginUserInfo.dong = res.data.user.dong;
+              })
+              this.$router.push({name: "Main"});
+              console.log(this.$store.state.loginUserInfo);
+            })
+            .catch((err)=>{
+              console.log(err);
+              this.$router.push({name: "Signup"});
+              console.log(this.$store.state.loginUserInfo);
           })
-          .catch((err) => {
-            console.log(err);
-            this.$router.push({ name: "Signup" });
-            console.log(this.$store.state.loginUserInfo);
-          });
-      });
+                
+        })
     },
     getToken() {
       axios.get("/kakao/oauth?code=" + this.code).then((result) => {

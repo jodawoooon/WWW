@@ -110,7 +110,8 @@
 
 <script>
 import axios from "@/utils/axios.js";
-import VueCookies from "vue-cookies";
+import VueCookies from 'vue-cookies';
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -169,39 +170,40 @@ export default {
         }
       });
     },
-    register(data) {
-      this.userInfo.userId = this.$store.state.loginUserInfo.userId;
-      this.userInfo.name = this.$store.state.loginUserInfo.name;
-      this.userInfo.nickname = data.nickname;
-      this.userInfo.city = data.sido;
-      this.userInfo.gu = data.gugun;
-      this.userInfo.dong = data.dong;
-      this.userInfo.refreshToken = this.$store.state.tokens.refreshToken;
-      this.userInfo.refreshTokenExpire =
-        this.$store.state.tokens.refreshTokenExpire;
+      register(data){
+        this.userInfo.userId = this.$store.state.loginUserInfo.userId;
+        this.userInfo.name = this.$store.state.loginUserInfo.name;
+        this.userInfo.nickname = data.nickname;
+        this.userInfo.city = data.sido;
+        this.userInfo.gu = data.gugun;
+        this.userInfo.dong = data.dong;
+        this.userInfo.refreshToken = this.$store.state.tokens.refreshToken;
+        this.userInfo.refreshTokenExpire = this.$store.state.tokens.refreshTokenExpire;
 
-      axios
-        .post("/info/register", this.userInfo)
-        .then((result) => {
-          VueCookies.set(
-            "accessToken",
-            this.$store.state.tokens.accessToken,
-            this.$store.state.tokens.accessTokenExpire
-          );
-          VueCookies.set("userId", this.$store.state.loginUserInfo.userId);
-          this.$store.commit("SET_IS_LOGIN", {
-            isLogin: true,
-            isLogout: false,
-          });
-          console.log(result);
-          alert("회원가입 완료");
-          this.$router.push({ name: "Main" });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        axios
+          .post("/info/register", this.userInfo)
+          .then((result)=>{
+              VueCookies.set("accessToken", this.$store.state.tokens.accessToken, this.$store.state.tokens.accessTokenExpire)
+              VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
+              this.$store.commit("SET_IS_LOGIN", {
+                isLogin : true,
+                isLogout : false
+              });
+              console.log(result);
+               Swal.fire({
+                width: 250,
+                titleSize: 10,
+                title:
+                  "회원가입이 정상적으로 완료되었습니다.👼",
+              });
+              this.$router.push({name: "Main"});
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+      }
     },
-  },
+
   created() {
     this.getSidoList();
   },
