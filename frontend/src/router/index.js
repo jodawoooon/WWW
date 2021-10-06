@@ -62,7 +62,11 @@ const routes = [
   { path: "/user/mycourse", component: MyCourse, meta: { requiresAuth: true } },
 
   // 산책 기록 페이지
-  { path: "/record", component: Record, meta: { requiresLocation: true } },
+  {
+    path: "/record",
+    component: Record,
+    meta: { requiresAuthandLocation: true },
+  },
   // Redirect
   { path: "/kakao/callback", component: KakaoCallback },
 
@@ -90,7 +94,6 @@ export default router;
 router.beforeEach(function (to, from, next) {
   if (to.matched.some((record) => record.meta.requiresLocation)) {
     // 위치정보 동의가 필요한 페이지라면
-    console.log(store.getters.getIsAgree);
     if (!store.getters.getIsAgree) {
       // 동의 받았는지 확인한다.
       Swal.fire({
@@ -119,6 +122,34 @@ router.beforeEach(function (to, from, next) {
       next({ path: "/login" });
     } else {
       next();
+    }
+  } else if (to.matched.some((record) => record.meta.requiresAuthandLocation)) {
+    //로그인과 위치가 모두 필요한 페이지라면
+
+    if (
+      store.getters.getLoginUserInfo.userId === null ||
+      store.getters.getLoginUserInfo.userId === undefined ||
+      store.getters.getLoginUserInfo.userId == ""
+    ) {
+      // 확인한다.
+      Swal.fire({
+        width: 250,
+        titleSize: 10,
+        title: "로그인 회원만 <br/> 이용 가능합니다🔐",
+      });
+      next({ path: "/login" });
+    } else {
+      if (!store.getters.getIsAgree) {
+        // 동의 받았는지 확인한다.
+        Swal.fire({
+          width: 250,
+          titleSize: 10,
+          title: "위치 정보 수집을 허용하셔야 <br/> 서비스 이용이 가능합니다🏃‍♂️",
+        });
+        next({ path: "/index" });
+      } else {
+        next();
+      }
     }
   } else {
     next();
