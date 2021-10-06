@@ -176,8 +176,8 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?appkey="
-        +process.env.VUE_APP_NEWS_KEY+
+        "//dapi.kakao.com/v2/maps/sdk.js?appkey=" +
+        process.env.VUE_APP_NEWS_KEY +
         "&autoload=false";
       document.head.appendChild(script);
       this.resetLocations();
@@ -217,7 +217,7 @@ export default {
           courseId: this.course.id,
           distance: this.accumulated_distance,
           time: this.accumulated_time,
-          calorie: Math.round(this.accumulated_time * 60 * 0.06 * 10) / 10,
+          calorie: this.accumulated_time * 0.06,
         })
         .then((response) => {
           console.log(response);
