@@ -326,7 +326,7 @@ export default {
       await axios
         .get("/api/course/", {
           params: {
-            courseId: this.recommendList[5],
+            courseId: parseInt(this.recommendList[5]),
             userId: this.$store.getters.getLoginUserInfo.userId,
           },
         })
