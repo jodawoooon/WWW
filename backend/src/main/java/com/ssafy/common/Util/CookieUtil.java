@@ -14,7 +14,6 @@ public class CookieUtil {
         token.setHttpOnly(true);
         token.setMaxAge(cookieExpire.intValue());
         token.setPath("/");
-        System.out.println("cookie success!");
         return token;
     }
 

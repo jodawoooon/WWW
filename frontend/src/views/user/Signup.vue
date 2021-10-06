@@ -90,6 +90,7 @@
 <script>
 import axios from "@/utils/axios.js";
 import VueCookies from 'vue-cookies';
+import Swal from "sweetalert2";
 
  export default {
     data() {
@@ -174,7 +175,12 @@ import VueCookies from 'vue-cookies';
                 isLogout : false
               });
               console.log(result);
-              alert("회원가입 완료")
+               Swal.fire({
+                width: 250,
+                titleSize: 10,
+                title:
+                  "회원가입이 정상적으로 완료되었습니다.👼",
+              });
               this.$router.push({name: "Main"});
           })
           .catch((err)=>{

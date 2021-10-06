@@ -49,7 +49,7 @@ export default {
                 .get("/info/present/" + this.userInfo.userId)
                 .then((result)=>{
                     console.log(result);
-                    VueCookies.set("accessToken", this.tokens.accessToken, this.tokens.accessTokenExpire)
+                    VueCookies.set("accessToken", this.tokens.accessToken)
                     console.log(this.$store.state.loginUserInfo);
                     VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
                     axios
