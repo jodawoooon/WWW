@@ -333,7 +333,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$store.commit("SET_CUR_COURSE", {
-            id: res.data.coursId,
+            id: res.data.courseId,
             title:
               res.data.courseFlagName != res.data.courseName
                 ? res.data.courseFlagName + "-" + res.data.courseName
