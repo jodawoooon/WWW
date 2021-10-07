@@ -75,53 +75,18 @@ for b in dong.index:
             cox.append(convs[i][a]['x'])
             coy.append(convs[i][a]['y'])
 
-    # for i in range(1, len(convs)):
-    #     for a in range(len(convs[i])):
-    #         for key, value in convs[i][a].items():
-    #             if key == 'address_name' or key == 'category_group_name' or key == 'distance' or key == 'place_name' or key == 'place_url' or key == 'road_address_name' or key == 'x' or key == 'y':
-    #                 cox.append(key+" : "+value)
-        # corX.append(convs[i][a]['category_group_name'])
-        # corX.append(convs[i][a]['distance'])
-        # corX.append(convs[i][a]['place_name'])
-        # corX.append(convs[i][a]['place_url'])
-        # corX.append(convs[i][a]['road_address_name'])
-        # corX.append(convs[i][a]['x'])
-        # corX.append(convs[i][a]['y'])
-
-        # f.write('{'+str(cnt)+" ")
-        # for key, value in convs[i][a].items():
-        #     f.write(key+" : "+value+" ")
-
-        # f.write('}')
-        # cnt += 1
-        # f.write('{'+convs[i][a]['address_name']+',')
-        # f.write(convs[i][a]['category_group_name']+',')
-        # f.write(convs[i][a]['distance']+',')
-        # f.write(convs[i][a]['place_url']+',')
-        # f.write(convs[i][a]['road_address_name']+',')
-        # f.write(convs[i][a]['x']+',')
-        # f.write(convs[i][a]['y']+'}')
-
-    # 계속 리스트에 저장
-    # newInfo = []
-    # newInfo = list(set(cox))
-    # for i in newInfo:
-    #     print(i)
+    
     addr_name += list((address_name))
     plc_name += list((place_name))
     corX += list((cox))
     corY += list((coy))
-    # f.write(corX)
-# f.close()
-# print(cnt)
+    
 # 빈 데이터 프레임 생성해서 column에 저장
 place = pd.DataFrame()
 place['address'] = addr_name
 place['place'] = plc_name
 place['X'] = corX
 place['Y'] = corY
-# place['info'] = corX
-
 
 # csv 파일로 내보내기
 place.to_csv('C:/Users/multicampus/Desktop/전국카페데이터.csv', encoding='CP949')
