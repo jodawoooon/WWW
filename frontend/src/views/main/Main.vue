@@ -99,7 +99,7 @@ e
                 날씨 정보를 불러오고 있습니다 ... 🌠
                 <pulse-loader
                   style="margin-top: 15px"
-                  :loading="toady"
+                  :loading="today"
                   :color="'#FFFFFF'"
                   :size="'10px'"
                 ></pulse-loader>
@@ -508,8 +508,8 @@ export default {
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
-    this.getWeather();
-    this.getForecast();
+    // this.getWeather();
+    // this.getForecast();
   },
   computed: {
     isLoginGetters() {
