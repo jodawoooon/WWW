@@ -93,7 +93,6 @@ public class InfoServiceImpl implements InfoService {
         // redis에 refreshToken 저장
         redisService.setDataExpire(userId,refreshToken,refreshTokenExpire);
 
-
         userRepository.save(user);
     }
 }
