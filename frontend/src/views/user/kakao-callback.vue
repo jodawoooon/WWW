@@ -47,8 +47,7 @@ export default {
         });
         axios
           .get("/info/present/" + this.userInfo.userId)
-          .then((result)=>{
-            console.log(result);
+          .then(()=>{
             VueCookies.set("accessToken", this.tokens.accessToken)
             VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
             axios
@@ -61,8 +60,7 @@ export default {
               })
               this.$router.push({name: "Main"});
             })
-            .catch((err)=>{
-              console.log(err);
+            .catch(()=>{
               this.$router.push({name: "Signup"});
           })
                 
