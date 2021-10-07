@@ -141,21 +141,18 @@ export default {
     getSidoList() {
       axios.get("/info/sido").then((res) => {
         console.log(res.data);
-        //this.$store.commit("SET_SIDO_LIST", res.data);
         this.sidoList = res.data.sidoList;
       });
     },
     getGugunList(sidoCode) {
       axios.get("/info/gugun/" + sidoCode).then((res) => {
         console.log(res);
-        //this.$store.commit("SET_GUGUN_LIST",res.data);
         this.gugunList = res.data.gugunList;
         this.form.gugun = "";
       });
     },
     getDongList(gugunCode) {
       axios.get("/info/dong/" + gugunCode).then((res) => {
-        //this.$store.commit("SET_DONG_LIST",res.data);
         this.dongList = res.data.dongList;
         this.form.dong = "";
       });

@@ -52,12 +52,6 @@ export default {
       );
     },
   },
-  // created() {
-  //   this.geofind();
-  // },
-  // mounted() {
-  //   this.geofind();
-  // },
   computed: {
     ...mapGetters(["getIsIndex"]),
     requireCurPage: function () {

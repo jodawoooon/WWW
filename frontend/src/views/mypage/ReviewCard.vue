@@ -205,18 +205,16 @@ export default {
   },
   methods: {
     sendReview(id) {
-      console.log("send");
       axios
         .post("/review/", {
           courseId: id,
           score: this.rating,
           userId: this.userId,
         })
-        .then((response) => {
+        .then(() => {
           this.rating = 1;
           this.dialogVisible = false;
           this.$emit("refresh-recent-course", this.userId);
-          console.log(response);
         });
     },
     // 산책로 세부 정보를 가져오기
@@ -247,12 +245,8 @@ export default {
             conv: res.data.convList,
             isBookmarked: res.data.myLike,
           });
-          console.log(this.$props.courseId + " " + this.$props.address);
         });
       router.push("/course/detail");
-    },
-    setRating(rating) {
-      console.log(rating);
     },
     clickBox(id) {
       this.curID = id;

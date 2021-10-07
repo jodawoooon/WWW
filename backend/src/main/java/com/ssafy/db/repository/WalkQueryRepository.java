@@ -28,7 +28,7 @@ public class WalkQueryRepository {
                 .from(walk)
                 .join(walk.user, user)
                 .groupBy(user.userId)
-                .orderBy(walk.distance.sum().asc())
+                .orderBy(walk.distance.sum().desc())
                 .limit(3)
                 .fetch();
     }
