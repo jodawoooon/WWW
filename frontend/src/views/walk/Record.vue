@@ -218,9 +218,6 @@ export default {
           distance: this.accumulated_distance,
           time: this.accumulated_time,
           calorie: this.accumulated_time * 0.06,
-        })
-        .then((response) => {
-          console.log(response);
         });
     },
     endLocationUpdates() {
@@ -409,8 +406,7 @@ export default {
 
           this.marker = marker;
         },
-        (err) => {
-          console.log(err);
+        () => {
           this.$store.commit("SET_IS_NOT_AGREE");
           router.push("/index");
         }
@@ -499,8 +495,7 @@ export default {
             }
           }
         },
-        (error) => {
-          console.log(error.message);
+        () => {
           this.$store.commit("SET_IS_NOT_AGREE");
           router.push("/index");
         },
@@ -513,9 +508,6 @@ export default {
       );
       this.map = map;
       this.cur_marker = marker;
-    },
-    handleClick(tab, event) {
-      console.log(tab, event);
     },
     moveMap(data) {
       //

@@ -66,10 +66,9 @@ export default {
       router.push("/login");
     },
     logout() {
-      axios.get("/kakao/logout").then((result) => {
+      axios.get("/kakao/logout").then(() => {
         VueCookies.remove("userId");
         VueCookies.remove("accessToken");
-        console.log(result);
         this.$store.commit("SET_USER_INFO", {
           userId: "",
           name: "",
