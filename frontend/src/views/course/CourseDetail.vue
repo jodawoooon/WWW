@@ -140,11 +140,9 @@ export default {
         +process.env.VUE_APP_NEWS_KEY+"&autoload=false";
       document.head.appendChild(script);
     }
-    console.log(this.prevPage);
   },
   created() {
     this.course = this.$store.getters.getCourseDetail;
-    console.log(this.course);
     this.getCourseDetail(this.userId, this.course.id);
   },
   methods: {
@@ -203,9 +201,6 @@ export default {
       var zoomControl = new kakao.maps.ZoomControl();
       this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     moveMap(data) {
       //
       // 이동할 위도 경도 위치를 생성합니다
@@ -213,7 +208,6 @@ export default {
 
       // 지도 중심을 이동 시킵니다
       this.map.setCenter(moveLatLon);
-      console.log(moveLatLon);
       //Map 현재위치 마커
       var convMarkerSrc = require("@/assets/location.png");
       var convMarkerSize = new kakao.maps.Size(30, 30);
@@ -228,8 +222,6 @@ export default {
         data.latitude,
         data.longitude
       );
-
-      console.log(convMarkerPosition);
 
       if (this.marker != null) {
         this.marker.setPosition(convMarkerPosition);
@@ -262,7 +254,6 @@ export default {
       };
       await courseApi.getCourseData(data, {}).then((response) => {
         this.courseDetail = response;
-        console.log(response);
       });
     },
   },
