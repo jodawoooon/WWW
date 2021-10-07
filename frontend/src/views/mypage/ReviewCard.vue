@@ -49,7 +49,7 @@
         center
         :show-close="false"
       >
-        <div style="text-align: center">
+        <div style="text-align: center; display: flex; justify-content: center">
           <star-rating
             :increment="0.5"
             v-model="rating"
