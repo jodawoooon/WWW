@@ -62,8 +62,7 @@ export default {
 
       // get position
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          console.log(pos);
+        () => {
           this.$store.commit("SET_IS_AGREE");
           router.push("/main");
         },
