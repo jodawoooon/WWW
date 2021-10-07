@@ -48,24 +48,19 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new AuthorizationServiceException("로그인이 필요합니다!");
         }
 
-        System.out.println("userId: " + userId + " " + accessToken);
         KakaoAPI kakaoAPI = new KakaoAPI();
-        System.out.println(redisService);
         String refreshToken = redisService.getData(userId);
-        System.out.println("redis get token : " + refreshToken);
 
         if(refreshToken == null){
             throw new AuthorizationServiceException("로그인이 필요합니다!");
         }
 
         int responseCode = kakaoAPI.checkAccessToken(accessToken, refreshToken); // 갱신 여부 체크
-        System.out.println("WebMvcConfig-ResponseCode : " + responseCode + " " + accessToken + " " + refreshToken);
 
         // accessToken이 만료되어 401 Error 발생
         if(responseCode == 401){
             // 새로운 토큰 갱신
             HashMap<String, Object> Token = kakaoAPI.renewAccessToken(refreshToken);
-            System.out.println(Token);
             String newAceessToken = (String) Token.get("accessToken");
             Long newAceessTokenExpire = Long.parseLong((String) Token.get("accessTokenExpire"));
 

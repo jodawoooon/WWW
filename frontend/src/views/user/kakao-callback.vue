@@ -35,9 +35,9 @@ export default {
     },
     login() {
       axios.post("/kakao/login", this.tokens).then((result) => {
+        console.log(result);
         this.userInfo.userId = result.data.user.userId;
         this.userInfo.name = result.data.user.name;
-        console.log(result);
         this.$store.commit("SET_USER_INFO", {
           userId: result.data.user.userId,
           name: result.data.user.name,
@@ -51,7 +51,6 @@ export default {
           .then((result)=>{
             console.log(result);
             VueCookies.set("accessToken", this.tokens.accessToken)
-            console.log(this.$store.state.loginUserInfo);
             VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
             axios
               .get("/info/" + this.userInfo.userId)
@@ -63,12 +62,10 @@ export default {
                 this.$store.state.loginUserInfo.dong = res.data.user.dong;
               })
               this.$router.push({name: "Main"});
-              console.log(this.$store.state.loginUserInfo);
             })
             .catch((err)=>{
               console.log(err);
               this.$router.push({name: "Signup"});
-              console.log(this.$store.state.loginUserInfo);
           })
                 
         })
@@ -87,8 +84,6 @@ export default {
           refreshToken: result.data.user.refreshToken,
           refreshTokenExpire: result.data.user.refreshTokenExpire,
         });
-        console.log(2);
-
         this.login();
       });
     },

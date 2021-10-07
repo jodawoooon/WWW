@@ -11,16 +11,13 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 public class RedisService {
-    //public final static long TOKEN_VALIDATION_SECOND = 1000L * 10;
     public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;     // 2주
 
     private final RedisTemplate redisTemplate;
 
     private final StringRedisTemplate stringRedisTemplate;
 
-
     public String getData(String key){
-        System.out.println("key: " + key);
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         return valueOperations.get(key);
     }
@@ -28,7 +25,6 @@ public class RedisService {
     public void setData(String key, String value){
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         valueOperations.set(key,value);
-        // values.set(name, age, Duration.ofMinutes(1)); // 1분 뒤 메모리에서 삭제된다.
     }
 
     public void setDataExpire(String key,String value,long duration){
