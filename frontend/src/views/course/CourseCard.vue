@@ -125,7 +125,6 @@ export default {
             conv: res.data.convList,
             isBookmarked: res.data.myLike,
           });
-          console.log(this.$props.courseId + " " + this.$props.address);
         });
       router.push("/course/detail");
     },
@@ -156,7 +155,6 @@ export default {
         })
         .then(() => {
           if (this.$props.isWish) {
-            console.log("refresh WishCourse");
             this.$emit(
               "refresh-wish-course",
               this.$store.getters.getLoginUserInfo.userId

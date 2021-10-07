@@ -158,7 +158,6 @@ router.beforeEach(function (to, from, next) {
 
 // URL이 변경된 후, 현재 Path를 저장하는 함수
 router.afterEach((to) => {
-  console.log(to.path);
 
   if (to.path == "/index") {
     store.commit("SET_IS_INDEX");
