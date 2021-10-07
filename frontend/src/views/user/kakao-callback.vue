@@ -35,7 +35,6 @@ export default {
     },
     login() {
       axios.post("/kakao/login", this.tokens).then((result) => {
-        console.log(result);
         this.userInfo.userId = result.data.user.userId;
         this.userInfo.name = result.data.user.name;
         this.$store.commit("SET_USER_INFO", {
@@ -55,7 +54,6 @@ export default {
             axios
               .get("/info/" + this.userInfo.userId)
               .then((res) =>{
-                console.log(res);
                 this.$store.state.loginUserInfo.nickname = res.data.user.nickname;
                 this.$store.state.loginUserInfo.sido = res.data.user.city;
                 this.$store.state.loginUserInfo.gugun = res.data.user.gu;
@@ -72,12 +70,10 @@ export default {
     },
     getToken() {
       axios.get("/kakao/oauth?code=" + this.code).then((result) => {
-        console.log(result);
         this.tokens.accessToken = result.data.user.accessToken;
         this.tokens.accessTokenExpire = result.data.user.accessTokenExpire;
         this.tokens.refreshToken = result.data.user.refreshToken;
         this.tokens.refreshTokenExpire = result.data.user.refreshTokenExpire;
-        console.log(this.tokens);
         this.$store.commit("SET_USER_TOKEN", {
           accessToken: result.data.user.accessToken,
           accessTokenExpire: result.data.user.accessTokenExpire,

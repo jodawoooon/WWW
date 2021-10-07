@@ -140,13 +140,11 @@ export default {
   methods: {
     getSidoList() {
       axios.get("/info/sido").then((res) => {
-        console.log(res.data);
         this.sidoList = res.data.sidoList;
       });
     },
     getGugunList(sidoCode) {
       axios.get("/info/gugun/" + sidoCode).then((res) => {
-        console.log(res);
         this.gugunList = res.data.gugunList;
         this.form.gugun = "";
       });
@@ -162,7 +160,6 @@ export default {
         if (valid) {
           this.register(this.form);
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

@@ -254,7 +254,6 @@ export default {
       navigator.geolocation.clearWatch(this.watchPositionId);
       this.drawLines();
     },
-    // encode_polyline(latLng, poly) {
     computeDistance(startCoords, destCoords) {
       var startLatRads = this.degreesToRadians(startCoords.lat);
       var startLongRads = this.degreesToRadians(startCoords.lng);
@@ -282,7 +281,6 @@ export default {
     },
     drawLines() {
       this.poly = new kakao.maps.Polyline({
-        // path: runningPathCoordinates,
         path: this.linePath,
         geodesic: true,
         strokeColor: "#ff0000",
@@ -321,10 +319,6 @@ export default {
         (currentTime - this.timeBegan - this.stoppedDuration) /
         1000
       ).toFixed(0);
-      // var time_now = ((currentTime- this.timeBegan-this.stoppedDuration)/1000).toFixed(0)
-
-      // this.accumulated_time += 1;
-      // this.checkSecond += 1;
       this.accumulated_time = realTime;
       this.checkSecond = realTime;
     },
