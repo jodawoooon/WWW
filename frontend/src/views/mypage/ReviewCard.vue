@@ -139,7 +139,7 @@
 import router from "@/router/index.js";
 import axios from "@/utils/axios.js";
 import StarRating from "vue-star-rating";
-// import myCourseApi from "@/api/mycourse.js";
+
 export default {
   name: "CourseCard",
   components: {
