@@ -36,18 +36,4 @@ public class CourseLikeQueryRepository {
                 .where(courseLike.user.userId.eq(userId))
                 .fetch();
     }
-
-    //좋아요가 가장 많은 5개
-//    public List<Integer> findTop5CourseByLike(String sigu){
-//        return queryFactory
-//                .select(courseLike.course.courseId.as("course"))
-//                .from(courseLike)
-//                .join(courseLike.course,course)
-//                .where(course.address.contains(sigu))
-//                .groupBy(courseLike.course)
-//                .orderBy(courseLike.course.count().desc())
-//                .limit(5)
-//                .fetch();
-//    }
-
 }

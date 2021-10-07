@@ -52,7 +52,7 @@ public class MainController {
         return ResponseEntity.status(401).body(BaseResponseBody.of(401,"Failed"));
     }
 
-    //오늘의 추천 코스>알고리즘 결정 필요
+    //오늘의 추천 코스
     @GetMapping("/today/{sigu}")
     public ResponseEntity<GetRecommendListRes> getRecommendList(@RequestBody @PathVariable("sigu") String sigu){
         GetRecommendListRes getRecommendListRes = mainService.getRecommendList(sigu);
