@@ -304,7 +304,7 @@ export default {
       h: "00",
       m: "00",
       s: "00",
-      ranking: [],
+      ranking: { ranking:[], },
       newsUrl: "",
       newsTitle: "",
       newsContent: "",
