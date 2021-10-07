@@ -1,5 +1,6 @@
 package com.ssafy.db.repository;
 
+import com.ssafy.db.entity.Course;
 import com.ssafy.db.entity.CourseFinish;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.key.CoursePK;
@@ -10,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CourseFinishRepository extends JpaRepository<CourseFinish, CoursePK> {
+    CourseFinish findByCourseAndUser(Course course, User user);
+    CourseFinish findByCourse(Course course);
 
     // 사용자가 완주한 코스 전체 리스트
     public List<CourseFinish> findByUser(User user);

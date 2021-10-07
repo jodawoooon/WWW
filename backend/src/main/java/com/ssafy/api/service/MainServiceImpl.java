@@ -82,9 +82,25 @@ public class MainServiceImpl implements MainService {
             Walk walk = new Walk(0,user,course,distance,time,calorie);
             CourseFinish courseFinish = new CourseFinish(user,course);
             walkRepository.save(walk);
+
+            try{
+                if(courseId==0){
+                    return true;
+                }
+                CourseFinish finishes = courseFinishRepository.findByCourseAndUser(course,user);
+                if(finishes.getCourse() == course){
+                    LocalDateTime date = LocalDateTime.now();
+                    finishes.setDate(date);
+                    return true;
+                }
+            }catch (Exception e){
+                courseFinishRepository.save(courseFinish);
+                return true;
+            }
             courseFinishRepository.save(courseFinish);
             return true;
         }catch (Exception e){
+            System.out.println(e);
             return false;
         }
     }
