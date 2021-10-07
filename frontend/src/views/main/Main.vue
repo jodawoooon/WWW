@@ -312,9 +312,6 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
-    // this.geofind();
-    // this.getWeather();
-    // this.getForecast();
     this.getRankData();
     this.getTodayWalk();
     this.getHealthNews();
@@ -331,7 +328,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           this.$store.commit("SET_CUR_COURSE", {
             id: res.data.courseId,
             title:
@@ -400,8 +396,7 @@ export default {
               });
             });
         },
-        (err) => {
-          console.log(err);
+        () => {
           this.$store.commit("SET_IS_NOT_AGREE");
           router.push("/index");
         }
@@ -417,7 +412,6 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
           this.today = response.data.list[0].dt_txt.split(" ")[0];
           this.weatherList = response.data.list;
         });
@@ -433,7 +427,6 @@ export default {
             "&appid=51f278e92de05bac589367d013849016"
         )
         .then((response) => {
-          console.log(response);
           const temp = response.data.main.temp - 273.15;
           const minTemp = response.data.main.temp_min - 273.15;
           const maxTemp = response.data.main.temp_max - 273.15;
@@ -453,7 +446,6 @@ export default {
         sigu: this.sigu,
       };
       this.recommendList = await mainApi.getRecommendData(data, {});
-      console.log(this.recommendList);
     },
     async getRankData() {
       let data = {
@@ -477,7 +469,6 @@ export default {
         this.h = parseInt(today_walk_time.second / 3600);
         this.m = parseInt((today_walk_time.second % 3600) / 60);
         this.s = today_walk_time.second % 60;
-        console.log(today_walk_time.second, this.h, this.m, this.s);
       }
     },
     getHealthNews() {
@@ -501,7 +492,6 @@ export default {
           item.title = item.title.replaceAll("&amp", "");
           item.title = item.title.replaceAll("...", "");
           item.title = item.title.replaceAll(";", " ");
-
           this.newsTitle = item.title;
           item.contents = item.contents.replaceAll("&quot", "");
           item.contents = item.contents.replace(/(<([^>]+)>)/gi, " ");
@@ -521,7 +511,6 @@ export default {
     this.geofind();
     this.getWeather();
     this.getForecast();
-
   },
   computed: {
     isLoginGetters() {
