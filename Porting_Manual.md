@@ -14,7 +14,7 @@
 
 [4️⃣ 빌드 및 배포 방법](#-빌드-및-배포-방법)
 
-[5️⃣ 외부 API 토큰](#-외부-API-토큰)
+[5️⃣ 필요 환경 변수](#-필요-환경-변수)
 
 
 
@@ -22,7 +22,6 @@
 
 - Server : AWS EC2
   - Ubuntu 20.04.1
-  - Docker 20.10.8
 - Backend
   - Java : Java 1.11.0
   - Framework : SpringBoot 2.4.5
@@ -51,6 +50,11 @@
 
 # 🔑 프로퍼티 정보
 
+```
+frontend
+└── .env
+```
+
 ```bash
 backend
 └── src
@@ -60,8 +64,9 @@ backend
 				└── application-db.yml
 ```
 
-- **application.yml** (프로젝트 셋팅, 배포 셋팅)
-- **application-db.yml** (DB 셋팅 정보)
+- **.env** (Frontend 프로젝트 설정)
+- **application.yml** (Backend 프로젝트 설정, 배포 설정)
+- **application-db.yml** (DB 설정)
 
 # 📢 빌드 및 배포 방법
 
@@ -159,12 +164,18 @@ sudo servicectl nginx start
 
 
 
-# 📡 외부 API 토큰
+# 📡 필요 환경 변수
 
-## 1. Kakao Map API
+## 1. Frontend
 
-- 
+![image](https://user-images.githubusercontent.com/19733033/136149418-b4be7f7d-922f-47a5-91df-e828d6ec4e55.png)
 
-## 2. ???
+- frontend/.env 파일 작성
 
-- 
+
+
+## 2. Backend
+
+![image](https://user-images.githubusercontent.com/19733033/136149748-61fb806e-3ec0-45eb-afa0-df09d1f2719d.png)
+
+- backend/src/main/resources/application-db.yml 파일 작성

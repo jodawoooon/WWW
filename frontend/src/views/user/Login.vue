@@ -13,9 +13,7 @@
 
       <img class="logo" src="@/assets/test.png" />
       <div>
-        <a
-          :href="kakaoUrl"
-        >
+        <a :href="kakaoUrl">
           <!-- <a
           href="https://kauth.kakao.com/oauth/authorize?client_id=1e31c0b3e807829e950f0236c26efec6&redirect_uri=http://localhost:8080/kakao/callback&response_type=code"
         > -->
@@ -31,14 +29,16 @@ import("@/assets/style/Main.css");
 
 export default {
   name: "Login",
-  data(){
-    return{
-      kakaoUrl:"",
-    }
+  data() {
+    return {
+      kakaoUrl: "",
+    };
   },
-  mounted(){
-      this.kakaoUrl="https://kauth.kakao.com/oauth/authorize?client_id="+process.env.VUE_APP_KAKAO_KEY +"&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code";
-
+  mounted() {
+    this.kakaoUrl =
+      "https://kauth.kakao.com/oauth/authorize?client_id=" +
+      process.env.VUE_APP_KAKAO_KEY +
+      "&redirect_uri=https://j5a605.p.ssafy.io/kakao/callback&response_type=code";
   },
   methods: {},
 };
@@ -56,10 +56,10 @@ export default {
   font-weight: bold;
 }
 .logo {
-  margin-top: 10%;
+  margin-top: 80px;
   height: 200px;
 }
 .kakao {
-  margin-top: 10%;
+  margin-top: 50px;
 }
 </style>

@@ -59,7 +59,7 @@ e
                           "
                           :src="`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`"
                         />
-                        <span style="font-size: 2px; margin-right: 3px"
+                        <span style="font-size: 7px; margin-right: 3px"
                           >{{ weather.dt_txt.split(" ")[0].split("-")[1] }}-{{
                             weather.dt_txt.split(" ")[0].split("-")[2]
                           }}</span
@@ -333,7 +333,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.$store.commit("SET_CUR_COURSE", {
-            id: res.data.coursId,
+            id: res.data.courseId,
             title:
               res.data.courseFlagName != res.data.courseName
                 ? res.data.courseFlagName + "-" + res.data.courseName
