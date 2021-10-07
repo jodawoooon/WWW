@@ -312,7 +312,7 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_IS_NOT_INDEX");
-    this.getRankData();
+    
     this.getTodayWalk();
     this.getHealthNews();
   },
@@ -510,6 +510,7 @@ export default {
     this.geofind();
     this.getWeather();
     this.getForecast();
+    this.getRankData();
   },
   computed: {
     isLoginGetters() {
