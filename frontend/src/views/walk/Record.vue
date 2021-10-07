@@ -223,7 +223,7 @@ export default {
     endLocationUpdates() {
       this.stopLocationUpdates();
       Swal.fire({
-        width: 250,
+        width: 270,
         title: "산책 기록이 저장되었습니다 📬",
       });
       this.speed = (this.accumulated_distance * 1000) / this.accumulated_time;
