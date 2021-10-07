@@ -75,7 +75,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   max-width: 425px;
-  max-width: 850px;
+  max-height: 850px;
   left: 0;
   margin: 0 auto;
   right: 0;
