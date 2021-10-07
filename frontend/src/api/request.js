@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const requestGet = async (url, headers) => {
   try {
-    console.log(url);
     const response = await axios.get(url, { headers });
     if (response.status === 200) {
       return response.data;

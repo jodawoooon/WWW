@@ -202,7 +202,6 @@ export default {
       this.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     },
     moveMap(data) {
-      //
       // 이동할 위도 경도 위치를 생성합니다
       var moveLatLon = new kakao.maps.LatLng(data.latitude, data.longitude);
 
@@ -235,12 +234,6 @@ export default {
         this.marker = marker;
       }
 
-      // var marker = new kakao.maps.Marker({
-      //   map: this.map,
-      //   title: "현재위치",
-      //   position: runningMarkerPosition,
-      //   icon: runningMarker,
-      // });
     },
     startWalk() {
       router.push("/record");

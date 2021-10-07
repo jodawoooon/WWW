@@ -68,7 +68,6 @@ export default {
           router.push("/main");
         },
         (err) => {
-          console.log("fail");
           Swal.fire({
             width: 250,
             titleSize: 10,

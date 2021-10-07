@@ -99,7 +99,7 @@ e
                 날씨 정보를 불러오고 있습니다 ... 🌠
                 <pulse-loader
                   style="margin-top: 15px"
-                  :loading="toady"
+                  :loading="today"
                   :color="'#FFFFFF'"
                   :size="'10px'"
                 ></pulse-loader>
@@ -304,7 +304,7 @@ export default {
       h: "00",
       m: "00",
       s: "00",
-      ranking: [],
+      ranking: { ranking:[], },
       newsUrl: "",
       newsTitle: "",
       newsContent: "",
@@ -508,9 +508,6 @@ export default {
   created() {
     this.$store.commit("SET_CUR_PAGE", "Main");
     this.geofind();
-    this.getWeather();
-    this.getForecast();
-    this.getRankData();
   },
   computed: {
     isLoginGetters() {
