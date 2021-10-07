@@ -139,7 +139,6 @@ export default {
     this.$store.commit("SET_IS_NOT_INDEX");
   },
   created() {
-    // this.userId = "test"; // for test
     this.curType = "week";
     this.init(this.curType);
   },

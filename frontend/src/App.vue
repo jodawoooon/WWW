@@ -33,7 +33,6 @@ export default {
   methods: {
     geofind() {
       if (!("geolocation" in navigator)) {
-        console.log("TEST");
         return;
       }
       // get position
@@ -43,7 +42,6 @@ export default {
           this.lng = pos.coords.longitude;
         },
         (err) => {
-          console.log("fail");
           this.dialogVisible = true;
           this.$store.commit("SET_IS_NOT_AGREE");
           router.push("/index");
@@ -55,7 +53,6 @@ export default {
   computed: {
     ...mapGetters(["getIsIndex"]),
     requireCurPage: function () {
-      console.log(this.$store.getters.getIsIndex);
       return this.$store.getters.getIsIndex;
     },
   },

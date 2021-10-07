@@ -24,7 +24,6 @@ export const userApi = {
       url += `returnType=${data.returnType}`;
     }
     return requestGet(url, headers);
-    // return requestGet(SERVER.URL + SERVER.ROUTES.users + `/${data.type}` +`?userId=${data.userId}`, headers);
   },
 };
 export default userApi;

@@ -176,7 +176,7 @@ export default {
 
         axios
           .post("/info/register", this.userInfo)
-          .then((result)=>{
+          .then(()=>{
               VueCookies.set("accessToken", this.$store.state.tokens.accessToken, this.$store.state.tokens.accessTokenExpire)
               VueCookies.set("userId",this.$store.state.loginUserInfo.userId)
               this.$store.commit("SET_IS_LOGIN", {
@@ -189,7 +189,6 @@ export default {
                 gugun: data.gugun,
                 dong:data.dong,
               })
-              console.log(result);
                Swal.fire({
                 width: 250,
                 titleSize: 10,
@@ -197,9 +196,6 @@ export default {
                   "회원가입이 정상적으로 완료되었습니다.👼",
               });
               this.$router.push({name: "Main"});
-          })
-          .catch((err)=>{
-            console.log(err);
           })
       }
     },
