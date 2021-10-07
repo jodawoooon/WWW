@@ -190,8 +190,7 @@ export default {
                 dong:data.dong,
               })
                Swal.fire({
-                width: 250,
-                titleSize: 10,
+                width: 270,
                 title:
                   "회원가입이 정상적으로 완료되었습니다.👼",
               });
