@@ -319,7 +319,6 @@ export default {
   methods: {
     // 산책로 세부 정보를 가져오기
     async goDetail() {
-      console.log(this.recommendList);
       await axios
         .get("/api/course/", {
           params: {
