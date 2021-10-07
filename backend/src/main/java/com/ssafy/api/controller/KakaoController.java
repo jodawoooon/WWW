@@ -53,12 +53,9 @@ public class KakaoController {
         // Token 정보를 <String, 객체>로 생성
         String accessToken = (String) Token.get("accessToken");
         String refreshToken = (String) Token.get("refreshToken");
-        Long accessTokenExpire = Long.parseLong(Token.get("accessTokenExpire").toString());
         Long refreshTokenExpire = Long.parseLong(Token.get("refreshTokenExpire").toString());
 
         HashMap<String, Object> userInfo = kakaoAPI.getUserInfo(accessToken);
-
-        System.out.println("login Controller : " + userInfo);
 
         // 해당 회원이 존재하는지 확인
         String userId = (String) userInfo.get("userId");
@@ -69,7 +66,6 @@ public class KakaoController {
             // redis에 refreshToken 저장
             redisService.setDataExpire(userId,refreshToken,refreshTokenExpire);
         }
-
 
         return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", userInfo));
     }
@@ -86,7 +82,6 @@ public class KakaoController {
     public ResponseEntity<String> logout(@CookieValue(value = "accessToken", required = false) Cookie access_Token, @CookieValue(value = "userId", required = false) Cookie userId) {
         if (access_Token == null)
             return ResponseEntity.ok("토큰이 유효하지 않습니다.");
-        System.out.println("logout accessToken : " + access_Token.getValue());
         kakaoAPI.Logout(access_Token.getValue());
         userService.deleteRefreshToken(userId.getValue());
         return ResponseEntity.ok("로그아웃 되었습니다.");
