@@ -493,9 +493,6 @@ export default {
         )
         .then((response) => {
           let item = response.data.documents[0];
-          console.log(item);
-          console.log(item.title);
-          console.log(item.contents);
           item.title = item.title.replace(/(<([^>]+)>)/gi, " ");
           item.title = item.title.replaceAll("&quot", "");
           item.title = item.title.replaceAll("&lt", "");
@@ -504,9 +501,7 @@ export default {
           item.title = item.title.replaceAll("&amp", "");
           item.title = item.title.replaceAll("...", "");
           item.title = item.title.replaceAll(";", " ");
-          // if (item.title.length > 20) {
-          //   item.title = item.title.substring(0, 20) + "...";
-          // }
+
           this.newsTitle = item.title;
           item.contents = item.contents.replaceAll("&quot", "");
           item.contents = item.contents.replace(/(<([^>]+)>)/gi, " ");
@@ -515,22 +510,6 @@ export default {
           item.contents = item.contents.replaceAll(";", " ");
           this.newsContent = item.contents;
           this.newsUrl = item.url;
-          // let line1 = item.description.substring(0,20);
-
-          // if (item.contents.length > 20) {
-          //   this.content[0] = item.contents.substring(0, 20);
-          //   if (item.description.length > 30) {
-          //     this.content[1] = item.contents.substring(20, 30) + "...";
-          //   }
-          // }
-
-          // item.description = item.description.substring(0,15)+"\n"+item.description.substring(15);
-          // 정규식 표현으로 태그 제거
-          // console.log(item.link);
-          // console.log(item.title);
-          // console.log(this.content[0]);
-          // console.log(this.content[1]);
-          // console.log(item.contents);
         });
     },
     newsScript() {
@@ -542,10 +521,7 @@ export default {
     this.geofind();
     this.getWeather();
     this.getForecast();
-    // this.getRankData();
 
-    // this.getTodayWalk();
-    // this.getHealthNews();
   },
   computed: {
     isLoginGetters() {
