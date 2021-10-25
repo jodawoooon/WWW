@@ -3,9 +3,7 @@
 > 서울 6반 5팀 A605 ✨  
 > 조다운 김규일 김지현 박종대 이현건 최혜원  
 
-<center> ![image](/uploads/47a2df3c5274437584c61aa982428de3/image.png) </center>
-
-
+![image](https://user-images.githubusercontent.com/38212743/138669899-a8b7c28e-cb7b-4831-8606-133a2e515895.png)
 <br>
 
 ### https://j5a605.p.ssafy.io/
@@ -72,27 +70,26 @@ WWW와 함께 걸어보세요!
 <br><br>
 
 ### 📌 핵심 기능
-![image](/uploads/fc0f910f6d589ba09d4725ce043a3c37/image.png)
+![image](https://user-images.githubusercontent.com/38212743/138669965-babc62e5-58ab-4c78-9fc6-54e164281dab.png)
 
 #### 1. 우리동네 산책로 정보 제공
-![image](/uploads/0fa71f1dbc66d041507376b29c89fba2/image.png)
-![image](/uploads/6e31270844c4ad9412e651e96dc5a040/image.png)
+![image](https://user-images.githubusercontent.com/38212743/138669988-7107af4f-51fe-4578-8f6d-2eb306bf340b.png)
 - 지역별 산책로 상세 정보 제공(소요 시간, 거리, 위치 등)
 - 자체 리뷰 서비스를 이용한 각 산책로별 평점 정보 제공
 - 산책로를 기준으로 주변 가까운 편의시설 정보 제공
 - 사용자 선호에 따른 산책로 검색필터 기능 제공
 
 #### 2. 개인 산책 기록 분석 및 관리
-![image](/uploads/d92f398f2f2820c189ac1d8c8fcfb026/image.png)
-![image](/uploads/ada1aeec230af9652a42929ebd859c67/image.png)
+![image](https://user-images.githubusercontent.com/38212743/138670028-f1f2d5af-6083-4ee4-b044-7d02545eb863.png)
+![산책기록녹화320](https://user-images.githubusercontent.com/38212743/138670048-26eb219b-d3bc-4b57-aaaf-821cc01b31d3.gif)
+
 - 사용자의 산책을 추적하여 속도, 거리 기록 저장
 - 관심 코스 등록 및 조회 기능
 - 코스 별 리뷰 기능
 - 주, 월별 산책 기록 분석 (누적, 평균 산책 시간, 소모 칼로리 및 이전 기록과 비교 분석)
 
 #### 3. 날씨, 인기 코스, 건강 뉴스, 랭킹 시스템, 등 산책 관련 정보 제공
-![image](/uploads/07bd28f81d14fed07e6bb89f1696927e/image.png)
-
+![image](https://user-images.githubusercontent.com/38212743/138670121-18f79e14-46ca-41a0-b47e-c88d526a8115.png)
 <br><br>
 
 ### 📌 구현 기능
@@ -123,6 +120,8 @@ WWW와 함께 걸어보세요!
          - 유저들의 랭킹을 제공하여 서비스의 재미 요소를 더했습니다.
         - 건강 관련 뉴스를 제공하여 사용자 친화적인 기능을 더했습니다.
 
+![image](https://user-images.githubusercontent.com/38212743/138670324-7fb610aa-4554-46d2-9f1c-2ae6e33c43df.png)
+
 <br><br>
 
 ### 🛠 개발 환경
@@ -147,17 +146,19 @@ WWW와 함께 걸어보세요!
   - HTML5, CSS3, Javascript(Es6)
   - Vue : 2.6.11
 
+
+
 <br><br>
 
 
 ### 🔨 기술 스택
-![image](/uploads/9ab226dc4e12f6e6d5532dbf4fa89049/image.png)
+![image](https://user-images.githubusercontent.com/38212743/138670145-3a16eedd-c4de-435a-8b48-f549bb72a73b.png)
 <br><br>
 
 
 
 ### 📕 서버 아키텍처
-![image](/uploads/b0d8cc7bdf2c262f07428318191e34fb/image.png)
+![image](https://user-images.githubusercontent.com/38212743/138670219-c12fd860-b682-43fe-9f9f-b616bdda3a7e.png)
 <br><br>
 
 
@@ -175,8 +176,7 @@ https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%
 <br><br>
 
 ### 📌 ERD Diagram
-![image](/uploads/a9c481c22ad27c2490e9a04bffec3a1c/image.png)
-
+![image](https://user-images.githubusercontent.com/38212743/138670441-09648ecd-9878-4918-9406-139ee43a320f.png)
 <br><br>
 
 
@@ -193,7 +193,7 @@ https://www.notion.so/API-27908e2c72a944fbaf8a377399b34859
 <br><br>
 
 ### 📢 팀 소개
-![image](/uploads/9e8178416d4ef6c9935bca1e46601b0d/image.png)  
+![image](https://user-images.githubusercontent.com/38212743/138670367-5334a45d-f083-49d3-8601-28936bea09dc.png)
 [🔗 노션 링크](https://www.notion.so/A605-5da3fd96c78a4c5580bbbb800a4c41bc)
 
 <br><br>
