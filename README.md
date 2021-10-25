@@ -6,7 +6,9 @@
 ![image](https://user-images.githubusercontent.com/38212743/138669899-a8b7c28e-cb7b-4831-8606-133a2e515895.png)
 <br>
 
-### https://j5a605.p.ssafy.io/
+### 🎁 URL : https://j5a605.p.ssafy.io/
+
+### 🎞 UCC : https://youtu.be/rtSYMApmKVI
 
 <center> 누구든지, 언제, 어디서나
 사회적 거리를 유지하고
