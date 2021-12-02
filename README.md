@@ -2,7 +2,8 @@
 
 > 서울 6반 5팀 A605 ✨  
 > 조다운 김규일 김지현 박종대 이현건 최혜원  
-> 
+
+
 SSAFY 특화프로젝트 최우수상 🥇
 
 ![image](https://user-images.githubusercontent.com/38212743/138669899-a8b7c28e-cb7b-4831-8606-133a2e515895.png)
@@ -177,39 +178,46 @@ WWW와 함께 걸어보세요!
 <br><br>
 
 ### 💎 기능명세서
-https://docs.google.com/spreadsheets/u/1/d/19Pb-d5bscMnr2dc-7nmCO7X8Nj2EPDKWBpAYYuhqqzU/edit#gid=0
+
+[🔗 보러가기](https://docs.google.com/spreadsheets/u/1/d/19Pb-d5bscMnr2dc-7nmCO7X8Nj2EPDKWBpAYYuhqqzU/edit#gid=0)
 
 <br><br>
 
 ### 📖 와이어프레임
-https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
+
+[🔗 보러가기](https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524)
 
 
 <br><br>
 
 ### 📌 ERD Diagram
+
 ![image](https://user-images.githubusercontent.com/38212743/138670441-09648ecd-9878-4918-9406-139ee43a320f.png)
+
 <br><br>
 
-
 ### 🎨 목업
-https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524
+
+[🔗 보러가기](https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=31%3A524)
+
 <br><br>
 
 ### 🎬 스토리보드
-https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445
+
+[🔗 보러가기](https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445)
+
 <br><br>
 
 ### 📬 API 명세서
-https://www.notion.so/API-27908e2c72a944fbaf8a377399b34859
+
+[🔗 보러가기](https://www.notion.so/API-27908e2c72a944fbaf8a377399b34859)
+
 <br><br>
 
 ### 📢 팀 소개
+
 ![image](https://user-images.githubusercontent.com/38212743/138670367-5334a45d-f083-49d3-8601-28936bea09dc.png)
 [🔗 노션 링크](https://www.notion.so/A605-5da3fd96c78a4c5580bbbb800a4c41bc)
 
 <br><br>
 
-### 테스트 계정 정보
-    ID : doglivetest@kakao.com
-    PW : ssafy123
