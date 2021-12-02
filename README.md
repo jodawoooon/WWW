@@ -2,13 +2,21 @@
 
 > 서울 6반 5팀 A605 ✨  
 > 조다운 김규일 김지현 박종대 이현건 최혜원  
+> 
+SSAFY 특화프로젝트 최우수상 🥇
 
 ![image](https://user-images.githubusercontent.com/38212743/138669899-a8b7c28e-cb7b-4831-8606-133a2e515895.png)
-<br>
 
-### 🎁 URL : https://j5a605.p.ssafy.io/
+<br><br>
 
-### 🎞 UCC : https://youtu.be/rtSYMApmKVI
+
+### [🎞 서비스 소개 - UCC 보러가기](https://youtu.be/rtSYMApmKVI)
+
+### [🕶 직접 실행해보기! 포팅 매뉴얼 보러가기](https://github.com/WWW-2021/WWW/blob/develop/exec/A605_WWW_%ED%8F%AC%ED%8C%85_%EB%A7%A4%EB%89%B4%EC%96%BC.md)
+
+### [🎡시연 시나리오](https://github.com/WWW-2021/WWW/blob/develop/exec/A605_WWW_%EC%8B%9C%EC%97%B0_%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.md)
+
+<br><br>
 
 <center> 누구든지, 언제, 어디서나
 사회적 거리를 유지하고
